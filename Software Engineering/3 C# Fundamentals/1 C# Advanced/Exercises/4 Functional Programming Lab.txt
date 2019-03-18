@@ -1,0 +1,112 @@
+// 01. Sort Even Numbers
+using System;
+using System.Linq;
+
+public class StartUp
+{
+    static void Main()
+    {
+        var numbers = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).Where(n => n % 2 == 0).OrderBy(n => n).ToArray();
+        Console.WriteLine(string.Join(", ", numbers));
+    }
+}
+
+// 02. Sum Numbers
+using System;
+using System.Linq;
+
+public class StartUp
+{
+    static void Main()
+    {
+        var numbers = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+        Console.WriteLine(numbers.Length);
+        Console.WriteLine(numbers.Sum());
+    }
+}
+
+// 03. Count Uppercase Words
+using System;
+using System.Linq;
+
+public class StartUp
+{
+    static void Main()
+    {
+        var inputStr = Console.ReadLine();
+        var wordArr = inputStr.Trim().Split().Where(w => char.IsUpper(w[0])).ToArray();
+        Console.WriteLine(string.Join("\n", wordArr));
+    }
+}
+
+// 04. Add VAT
+using System;
+using System.Linq;
+
+public class StartUp
+{
+    static void Main()
+    {
+        var nums = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(double.Parse).ToArray();
+        foreach (var num in nums)
+        {
+            Console.WriteLine($"{(num*1.2):F2}");
+        }
+    }
+}
+
+// 05. Filter By Age
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class StartUp
+{
+    static void Main()
+    {
+        var n = int.Parse(Console.ReadLine());
+        var dicOfPeople = new Dictionary<string, int>();
+        for (int i = 0; i < n; i++)
+        {
+            var tokens = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+            var name = tokens[0];
+            var age = int.Parse(tokens[1]);
+            //check dic neccessary??
+            dicOfPeople.Add(name, age);
+        }
+        var condition = Console.ReadLine();
+        var ageThreshold = int.Parse(Console.ReadLine());
+        var format = Console.ReadLine();
+        var sortedDic = new Dictionary<string, int>();
+        switch (condition)
+        {
+            case "older":
+                sortedDic = dicOfPeople.Where(p => p.Value >= ageThreshold).ToDictionary(p => p.Key, p=> p.Value);
+                break;
+            case "younger":
+                sortedDic = dicOfPeople.Where(p => p.Value < ageThreshold).ToDictionary(p => p.Key, p => p.Value);
+                break;
+        }
+        switch (format)
+        {
+            case "name":
+                foreach (var person in sortedDic)
+                {
+                    Console.WriteLine(person.Key);
+                }
+                break;
+            case "age":
+                foreach (var person in sortedDic)
+                {
+                    Console.WriteLine(person.Value);
+                }
+                break;
+            case "name age":
+                foreach (var person in sortedDic)
+                {
+                    Console.WriteLine(person.Key + " - " + person.Value);
+                }
+                break;
+        }
+    }
+}

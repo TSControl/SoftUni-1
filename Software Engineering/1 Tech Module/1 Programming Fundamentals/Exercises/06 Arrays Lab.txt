@@ -1,0 +1,263 @@
+//01. Day of Week
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var daysWeek = new string[7];
+            daysWeek[0]= "Monday";
+            daysWeek[1]= "Tuesday";
+            daysWeek[2]= "Wednesday";
+            daysWeek[3]= "Thursday";
+            daysWeek[4]= "Friday";
+            daysWeek[5]= "Saturday";
+            daysWeek[6]= "Sunday";
+            var i = int.Parse(Console.ReadLine());
+            if (i>=1 && i<=7)
+            {
+                Console.WriteLine(daysWeek[i-1]);
+            }
+            else
+            {
+                Console.WriteLine("Invalid Day !");
+            }
+            
+        }
+    }
+}
+
+//02. Reverse Array of Integers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var n = int.Parse(Console.ReadLine());
+            int[] numbers = new int[n];
+            for (int i =0; i<=n-1; i++)
+            {
+                numbers[i] = int.Parse(Console.ReadLine());
+            }
+            for (int i=n-1; i>=0; i--)
+            {
+                Console.Write($"{numbers[i]} ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+//03. Last K Numbers Sums
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var n = long.Parse(Console.ReadLine());
+            var k = long.Parse(Console.ReadLine());
+            long[] numbers = new long[n];
+            numbers[0] = 1;
+            for (long i = 1; i < n; i++)
+            {
+                for (long j = i - 1; j >= i - k && j >= 0; j--)
+                {
+                    numbers[i] += numbers[j];
+                }
+            }
+            for (long i = 0; i < n; i++)
+            {
+                Console.Write($"{numbers[i]} ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+//04. Triple Sum
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str = Console.ReadLine();
+            string[] numbers = str.Split(' ');
+            long[] arr = new long[numbers.Length];
+            string text = null;
+            for (long i = 0; i < numbers.Length; i++)
+            {
+                arr[i] = long.Parse(numbers[i]);
+            }
+            for (long i = 0; i < numbers.Length - 1; i++)
+            {
+                for (long j = i + 1; j < numbers.Length; j++)
+                {
+                    for (long k = 0; k < numbers.Length; k++)
+                    {
+                        if (arr[i] + arr[j] == arr[k])
+                        {
+                            text += $"{arr[i]} + {arr[j]} == {arr[k]}\n";
+                            break;
+                        }
+                    }
+                }
+            }
+            if (text == null)
+            {
+                Console.WriteLine("No");
+            }
+            else
+            {
+                Console.Write(text);
+            }
+        }
+    }
+}
+
+//05. Rounding Numbers
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str = Console.ReadLine();
+            string[] numbers = str.Split(' ');
+            double[] arr = new double[numbers.Length];
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                arr[i] = double.Parse(numbers[i]);
+            }
+            for (int i = 0; i<numbers.Length; i++)
+            {
+
+                Console.WriteLine("{0} => {1}", arr[i], Math.Round(arr[i], 0, MidpointRounding.AwayFromZero));
+            }
+        }
+    }
+}
+
+//06. Reverse Array of Strings
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            string[] words = input.Split(' ');
+            for (int i = words.Length-1; i>-1; i--)
+            {
+                Console.Write(words[i] + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+//07. Sum Arrays
+using System;
+using System.Linq;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums1 = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var nums2 = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var resultArr = new int[Math.Max(nums1.Length, nums2.Length)];
+            for (int i = 0; i<resultArr.Length; i++)
+            {
+                resultArr[i] = nums1[i%nums1.Length] + nums2[i%nums2.Length];
+            }
+            Console.WriteLine(String.Join(" ", resultArr ));
+
+
+
+
+        }
+    }
+}
+
+//08. Condense Array to Number
+using System;
+using System.Linq;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var condensed = new int[nums.Length - 1];
+            for (int j = 0; j<nums.Length-1; j++)
+            {
+                for (int i = 0; i < condensed.Length-j; i++)
+                {
+                    condensed[i] = nums[i] + nums[i + 1];
+                }
+                for (int i = 0; i < nums.Length - 1-j; i++)
+                {
+                    nums[i] = condensed[i];
+                }
+            }
+            Console.WriteLine(nums[0]);
+            
+        }
+        
+    }
+}
+
+//09. Extract Middle Elements
+using System;
+using System.Linq;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            if (nums.Length==1)
+            {
+                Console.WriteLine($"{{ {nums[0]} }}");
+            }
+            else if (nums.Length%2==0)
+            {
+                Console.WriteLine($"{{ {nums[nums.Length/2-1]}, {nums[nums.Length / 2]} }}");
+            }
+            else
+            {
+                Console.WriteLine($"{{ {nums[nums.Length / 2 - 1]}, {nums[nums.Length / 2]},{nums[nums.Length / 2 + 1]} }}");
+            }
+        }
+        
+    }
+}

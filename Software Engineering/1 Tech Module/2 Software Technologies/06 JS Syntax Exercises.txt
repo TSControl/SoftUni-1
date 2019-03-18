@@ -1,0 +1,197 @@
+// 01. Multiply a Number by 2 
+function firstGrade(n) {
+    return +n * 2;
+}
+
+// 02. Multiply Two Numbers
+function firstGrade(arr) {
+    let x = +arr[0];
+    let y = +arr[1];
+
+    let result = x * y;
+    
+    console.log(result);
+}
+
+// 03. Multiply / Divide a Number 
+function firstGrade(arr) {
+    let n = +arr[0];
+    let x = +arr[1];
+
+    let result = 0;
+
+    if (x >= n)
+        result = n * x;
+    else
+        result = n / x;
+
+    return result;
+}
+
+// 04. Product of 3 Numbers
+function firstGrade(arr) {
+    let x = +arr[0];
+    let y = +arr[1];
+    let z = +arr[2];
+
+    let negativeCount = 0;
+
+    if (x === 0 || y === 0 || z === 0)
+        return "Positive";
+        
+    if (x < 0)
+        negativeCount++;
+
+    if (y < 0)
+        negativeCount++;
+
+    if (z < 0)
+        negativeCount++;
+
+    if (negativeCount % 2 == 1)
+        return "Negative";
+    else
+        return "Positive";
+}
+
+// 05. Print Numbers from 1 to N 
+function printNums(n) {
+    for (let i = 1; i <= +n; i++)
+        console.log(i);
+}
+
+//06. Loop Numbers from N to 1
+function printNums(n) {
+    for (let i = 1; i <= +n; i++)
+        console.log(n - i + 1);
+}
+
+// 07. Print Lines
+function printLines(input) {
+    let i = 0;
+    while (input[i] != "Stop")
+        console.log(input[i++]);
+}
+
+// 08. Print Numbers in Reversed Order 
+function printLines(arr) {
+    arr.reverse();
+    for (let n of arr)
+        console.log(n);
+}
+
+// 09. Set Values to Indexes in Array
+function setValues(strArr) {
+    let n = +strArr.shift();
+    let arr = '0'.repeat(n).split('').map(Number);
+
+    for (let str of strArr) {
+        let nums = str.split(' - ').map(Number);
+        let index = nums[0];
+        let value = nums[1];
+
+        arr[index] = value;
+    }
+
+    arr.forEach(el => console.log(el));
+}
+
+// 10. Add / Remove Elements
+function modifyArr(strArr) {
+    let arr = [];
+
+    for (let str of strArr) {
+        let tokens = str.split(' ');
+        let command = tokens[0];
+        let argument = +tokens[1];
+
+        switch (command) {
+            case 'add':
+            arr.push(argument);
+            break;
+            case 'remove':
+            if (argument < 0 || argument > arr.length - 1)
+                continue;
+
+            arr.splice(argument, 1);
+        }
+    }
+
+    arr.forEach(el => console.log(el));
+}
+
+// 11. Working with Key-Value Pairs
+function mapValues(strArr) {
+    let lastKey = strArr.pop();
+    let map = new Map();
+
+    for (let str of strArr) {
+        let tokens = str.split(' ');
+        let key = tokens[0];
+        let value = tokens[1];
+
+        map.set(key, value);
+    }
+
+    console.log(`${map.has(lastKey) ? map.get(lastKey) : 'None'}`);
+}
+
+// 12. Multiple Values for a Key
+function mapValues(strArr) {
+    let lastKey = strArr.pop();
+    let map = new Map();
+
+    for (let str of strArr) {
+        let tokens = str.split(' ');
+        let key = tokens[0];
+        let value = tokens[1];
+
+        if (!map.has(key))
+            map.set(key, [value]);
+        else
+            map.get(key).push(value);
+    }
+
+    console.log(`${map.has(lastKey) ? map.get(lastKey).join('\n') : 'None'}`);
+}
+
+// 13. Storing Objects
+function storeObjects(strArr) {
+    let objArr = [];
+
+    for (let str of strArr) {
+        let tokens = str.split(' -> ');
+        let name = tokens[0];
+        let age = tokens[1];
+        let grade = tokens[2];
+
+        objArr.push({name: name, age: age, grade: grade});
+    }
+
+    objArr.forEach(o => console.log(`Name: ${o.name}\nAge: ${o.age}\nGrade: ${o.grade}`));
+}
+
+// 14. Parse JSON Objects
+function parseJsonObjs(arr) {
+    arr = arr.map(JSON.parse);
+
+    arr.forEach(o => console.log(`Name: ${o.name}\nAge: ${o.age}\nDate: ${o.date}`));
+}
+
+// 15. Turn Object into JSON String
+function stringify(arr) {
+    let obj = {};
+
+    for (let str of arr) {
+        let tokens = str.split(' -> ');
+        let key = tokens[0];
+        let value = tokens[1];
+
+        if (!isNaN(value))
+            value = +value;
+
+        obj[key] = value;
+    }
+
+    console.log(JSON.stringify(obj));
+}

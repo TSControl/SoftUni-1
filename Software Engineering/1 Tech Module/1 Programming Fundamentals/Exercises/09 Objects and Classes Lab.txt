@@ -1,0 +1,262 @@
+//01. Day of Week
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            DateTime date = DateTime.ParseExact(input, "d-M-yyyy", CultureInfo.InvariantCulture);
+            Console.WriteLine(date.DayOfWeek);
+        }
+    }
+}
+
+//02. Randomize Words
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine().Split(' ').ToList();
+            var rnd = new Random();
+            for (int i = 0; i < input.Count; i++)
+            {
+                int j = rnd.Next(input.Count);
+                if (i != j)
+                {
+
+                    var old = input[i];
+                    input[i] = input[j];
+                    input[j] = old;
+                }
+            }
+            Console.WriteLine(string.Join("\r\n", input));
+        }
+    }
+}
+
+//03. Big Factorial
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            long n = long.Parse(Console.ReadLine());
+            BigInteger fac = 1;
+            for (long i = 2; i<=n; i++)
+            {
+                fac *= i;
+            }
+            Console.WriteLine(fac);
+        }
+    }
+}
+
+//04. Distance between Points
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var n1 = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var n2 = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            double output = Math.Sqrt(Math.Pow(n1[0] - n2[0], 2)+ Math.Pow(n1[1] - n2[1], 2));
+            Console.WriteLine("{0:F3}", output);
+        }
+    }
+}
+
+//05. Closest Two Points
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var n = int.Parse(Console.ReadLine());
+            var listX = new List<int> ();
+            var listY = new List<int>();
+            int minX1 = 0;
+            int minX2 = 0;
+            int minY1 = 0;
+
+            int minY2 = 0;
+
+            for (int i = 1; i<n+1; i++)
+            {
+                var arr = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                listX.Add(arr[0]);
+                listY.Add(arr[1]);
+            }
+            var listDistances = new List<double>();
+            double listDistancesMin = 9999999999999999999999999d;
+            //double listDistancesMin = double.MaxValue();
+            for (int i = 0; i<listX.Count-1; i++)
+            {
+                for (int j = i+1; j<listX.Count;j++)
+                {
+                    
+                    if (listDistances.Count>=1)
+                    {
+                        listDistancesMin = listDistances.Min();
+                    }
+                    
+                    listDistances.Add(DistanceBetweenTwoPoints(listX[i], listY[i], listX[j], listY[j]));
+                    if (listDistances[listDistances.Count-1]<listDistancesMin)
+                    {
+                        minX1 = listX[i];
+                        minY1 = listY[i];
+                        minX2 = listX[j];
+                        minY2 = listY[j];
+                    }
+                }
+            }
+            Console.WriteLine("{0:F3}", DistanceBetweenTwoPoints(minX1, minY1, minX2, minY2));
+            Console.WriteLine($"({minX1}, {minY1})\n({minX2}, {minY2})");
+        }
+        static double DistanceBetweenTwoPoints(int x1, int y1, int x2, int y2)
+        {
+            double distance = Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
+            return distance;
+        }
+    }
+}
+
+//06. Rectangle Position
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var smallRec = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            var bigRec = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            int smallX1 = smallRec[0];
+            int smallY1 = smallRec[1];
+            int smallX2 = smallX1 + smallRec[2];
+            int smallY2 = smallY1 + smallRec[3];
+            int bigX1 = bigRec[0];
+            int bigY1 = bigRec[1];
+            int bigX2 = bigX1 + bigRec[2];
+            int bigY2 = bigY1 + bigRec[3];
+            int maxX = Math.Max(bigX1, bigX2);
+            int maxY = Math.Max(bigY1, bigY2);
+            int minX = Math.Min(bigX1, bigX2);
+            int minY = Math.Min(bigY1, bigY2);
+            if (smallX1 >= minX && smallX2>=minX && smallX1<=maxX && smallX2<=maxX && smallY1 >= minY && smallY2 >= minY && smallY1 <= maxY && smallY2 <= maxY)
+            {
+                Console.WriteLine("Inside");
+            }
+            else
+            {
+                Console.WriteLine("Not inside");
+            }
+        }
+    }
+}
+
+//07. Sales Report
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        class Sale
+        {
+            public string Town { get; set; }
+            public string Product { get; set; }
+            public decimal Price { get; set; }
+            public decimal Quantity { get; set; }
+            //public double Sales => this.Price * this.Quantity;
+        }
+        static void Main(string[] args)
+        {
+            var sales = new List<Sale>();
+            int n = int.Parse(Console.ReadLine());
+            for (int i =0; i<n; i++)
+            {
+                var tokens = Console.ReadLine().Split().ToArray();
+                var town = tokens[0];
+                var product = tokens[1];
+                var price = decimal.Parse(tokens[2]);
+                var quantity = decimal.Parse(tokens[3]);
+                var sale = new Sale()
+                {
+                    Town = town,
+                    Product=product,
+                    Price=price,
+                    Quantity = quantity
+                };
+                sales.Add(sale);
+            }
+            //lets try this shit
+            //var sortedArray = sales.Distinct().OrderBy(p=>p.Town).ToArray();
+            var salesByTown = new SortedDictionary<string, decimal>();
+            foreach (var sale in sales)
+            {
+                if (!salesByTown.ContainsKey(sale.Town))
+                    salesByTown[sale.Town] = 0;
+                salesByTown[sale.Town] += sale.Price * sale.Quantity;
+            }
+            foreach (var kvp in salesByTown)
+            {
+                Console.WriteLine("{0} -> {1:F2}", kvp.Key, kvp.Value);
+            }
+        }
+    }
+}

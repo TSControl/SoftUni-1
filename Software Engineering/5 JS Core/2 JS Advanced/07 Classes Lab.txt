@@ -1,0 +1,134 @@
+// 01. Rectangle Class
+class Rectangle {
+    constructor(width, height, color) {
+        this.width = width;
+        this.height = height;
+        this.color = color;
+    }
+
+    calcArea() {
+        return this.width * this.height;
+    }
+}
+
+// 02. Person Class
+class Person {
+    constructor(firstName, lastName, age, email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+    }
+
+    toString() {
+        return `${this.firstName} ${this.lastName} (age: ${this.age}, email: ${this.email})`;
+    }
+}
+
+// 03. Get Persons
+function solve() {
+    class Person {
+        constructor(firstName, lastName, age, email) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.age = age;
+            this.email = email;
+        }
+
+        toString() {
+            return `${this.firstName} ${this.lastName} (age: ${this.age}, email: ${this.email})`;
+        }
+    }
+
+    let people = [];
+    let maria = new Person('Maria', 'Petrova', 22, 'mp@yahoo.com');
+    let softuni = new Person('SoftUni');
+    let stephan = new Person('Stephan', 'Nikolov', 25);
+    let peter = new Person('Peter', 'Kolev', 24, 'ptr@gmail.com');
+    people.push(maria, softuni, stephan, peter);
+
+    return people;
+}
+
+// 04. Circle
+class Circle {
+    constructor(radius) {
+        this.radius = radius;
+    }
+
+    get diameter() {
+        return 2 * this.radius;
+    }
+
+    set diameter(val) {
+        this.radius = val / 2;
+    }
+
+    get area() {
+        return Math.PI * this.radius * this.radius;
+    }
+}
+
+// 05. Point Distance
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    static distance(point1, point2) {
+        return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
+    }
+}
+
+// 06. Cards
+// let result = //DONT SUBMIT THIS ROW TO JUDGE
+(function () {
+    let validFaces = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+
+    Suits = {
+        SPADES: '♠',
+        HEARTS: '♥',
+        DIAMONDS: '♦',
+        CLUBS: '♣'
+    }
+
+    class Card {
+        constructor(face, suit) {
+            this._suit = null;
+            this._face = null;
+
+            this.face = face;
+            this.suit = suit;
+        }
+
+        get suit() {
+            return this._suit;
+        }
+
+        set suit(val) {
+        if (! Object.keys(Suits).map(k => Suits[k]).includes(val))
+            throw new Error("Invalid card suite: " + val);
+
+            this._suit = val;
+        }
+
+        get face() {
+            return this._face;
+        }
+
+        set face(val) {
+            if (!validFaces.includes(val))
+                throw new Error(`Invalid card face: ${val}`);
+
+            this._face = val;
+        }
+    }
+
+
+
+    return {
+        Suits: Suits,
+        Card: Card
+    }
+}());

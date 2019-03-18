@@ -1,0 +1,102 @@
+//01. Hello, PHP!
+<?php
+print "Hello, PHP!";
+?>
+
+//02. Numbers 1 to 20
+<ul>
+    <?php
+    for ($i = 1; $i <= 20; $i++) {
+        if ($i % 2 == 0)
+            $color = 'green';
+        else $color ='blue';
+        echo "\t<li><span style='color:$color'> $i</span></li>\n";
+    } ?>
+</ul>
+
+//03. Color Palette
+<ul>
+    <?php
+    for ($i = 0; $i <=255; $i+=51) {
+        for ($j = 0; $j <=255; $j+=51) {
+            for ($k = 0; $k <=255; $k+=51){
+                $color = "rgb($i, $j, $k)";
+                echo "<div style='background:$color'>$color</div>\n";
+            }}} ?>
+</ul>
+
+//04. Hello, Person!
+<?php
+if (isset($_GET['person'])) {
+    $person = htmlspecialchars($_GET['person']);
+    echo "Hello, $person!";
+} else {
+    ?>
+    <form>
+        Name: <input type="text" name="person" />
+        <input type="submit" />
+    </form>
+<?php } ?>
+
+//05. Dump a HTTP GET Request
+<?php var_dump($_GET); ?>
+
+//06. Sum Two Numbers
+<?php
+    if(isset($_GET['num1']) && isset($_GET['num2'])){
+       $num1 = intval($_GET['num1']);
+       $num2 = intval($_GET['num2']);
+       $sum = $num1 + $num2;
+       echo "$num1 + $num2 = $sum";
+    }
+?>
+
+//07. Celsius - Fahrenheit
+<?php
+function celsiusToFahrenheit(float $celsius) : float
+{
+    return $celsius * 1.8 + 32;
+}
+
+function fahrenheitToCelsius(float $fahrenheit) : float
+{
+    return ($fahrenheit - 32) / 1.8;
+}
+
+$msgAfterCelsius = "";
+if(isset($_GET['cel'])){
+    $cel = floatval($_GET['cel']);
+    $fah = celsiusToFahrenheit($cel);
+    echo $smgAfterCelsius = "$cel &deg;C = $fah &deg;F";
+}
+
+$msgAfterFahrenheit = "";
+if(isset($_GET['fah'])) {
+    $fah = floatval($_GET['fah']);
+    $cel = fahrenheitToCelsius($fah);
+    echo $smgAfterFahrenheit = "$fah &deg;F = $cel &deg;C";
+}
+?>
+
+//08. Sort Lines
+<?php $sortedLines = "";
+if (isset($_GET['lines'])) {
+    $lines = explode("\n", $_GET['lines']);
+    $lines = array_map('trim', $lines);
+    sort($lines, SORT_STRING);
+    $sortedLines = implode("\n", $lines);
+} ?>
+<?= $sortedLines ?>
+
+//09. Capital-Case Words
+<?php
+if (isset($_GET['text'])) {
+    $text = $_GET['text'];
+    preg_match_all('/\w+/', $text, $words);
+    $words = $words[0];
+    $upperWords = array_filter($words, function($word){
+        return strtoupper($word) == $word;
+    });
+    echo implode(', ', $upperWords);
+}
+?>

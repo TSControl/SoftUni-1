@@ -1,0 +1,230 @@
+// 01. Coffee Machine
+function problem(strArr) {
+    let income = 0;
+    let pricesDic = {
+        "coffee caffeine": 0.80,
+        "coffee decaf": 0.90,
+        "tea": 0.80
+    }
+
+    for (let str of strArr) {
+        let totalPrice = 0;
+        let tokens = str.split(", ");
+        let coinsInserted = +tokens[0];
+        let drinkType = tokens[1];
+        let sugarQuantity = +tokens[tokens.length - 1];
+        switch (drinkType.toLowerCase()) {
+            case "coffee":
+            let coffeeType = tokens[2];
+
+            if (coffeeType === "caffeine") {
+                totalPrice += pricesDic["coffee caffeine"];
+                drinkType += "coffee caffeine";
+                if (tokens.length === 5)
+                    totalPrice += Math.round(pricesDic["coffee caffeine"]) / 10;
+            } else if (coffeeType === "decaf") {
+                totalPrice += pricesDic["coffee decaf"];
+                if (tokens.length === 5)
+                    totalPrice += Math.round(pricesDic["coffee decaf"]) / 10;
+                drinkType += "coffee decaf";
+            }
+            break;
+
+            case "tea":
+            totalPrice += pricesDic["tea"];
+            drinkType += "tea";
+            if (tokens.length === 4)
+                totalPrice += Math.round(pricesDic["tea"]) / 10;
+            break;
+        }
+
+        if (sugarQuantity !== 0)
+            totalPrice += 0.10;
+
+        let change = coinsInserted - totalPrice;
+
+        drinkType = drinkType.startsWith("coffee") ? "coffee" : "tea"; 
+        
+        if (change >= 0) {
+            console.log(`You ordered ${drinkType}. Price: ${totalPrice.toFixed(2)}$ Change: ${change.toFixed(2)}$`);
+            income += totalPrice;
+        }
+        else
+            console.log(`Not enough money for ${drinkType}. Need ${(-change).toFixed(2)}$ more.`);
+    }
+
+    console.log(`Income Report: ${income.toFixed(2)}$`);
+}
+
+// 02. ATM Machine
+function processTransactions(arrOfArrs) {
+    let totalCash = 0;
+    let banknotes = [];
+
+    for (let arr of arrOfArrs) {
+        if (arr.length === 1) {
+            let banknoteValue = +arr[0];
+            let banknoteCount = banknotes.filter(b => b === banknoteValue).length;
+
+            console.log(`Service Report: Banknotes from ${banknoteValue.toFixed(0)}$: ${banknoteCount}.`)
+        } else if (arr.length === 2) {
+            let clientBalance = +arr[0];
+            let moneyToWithraw = +arr[1];
+
+            if (clientBalance < moneyToWithraw)
+                console.log(`Not enough money in your account. Account balance: ${clientBalance.toFixed(0)}$.`);
+            else if (moneyToWithraw > totalCash) {
+                console.log("ATM machine is out of order!");
+            } else {
+                banknotes = banknotes.sort((a, b) => b - a);
+                let moneyLeftToWithraw = moneyToWithraw;
+
+                for (let i = 0; i < banknotes.length; i++) {
+                    if (banknotes[i] <= moneyLeftToWithraw) {
+                        moneyLeftToWithraw -= banknotes[i];
+                        banknotes.splice(i--, 1);
+                    }
+
+                    if (moneyLeftToWithraw === 0)
+                        break;
+                }
+
+                totalCash -= moneyToWithraw;
+
+                console.log(`You get ${moneyToWithraw.toFixed(0)}$. Account balance: ${(clientBalance - moneyToWithraw).toFixed(0)}$. Thank you!`);
+            }
+        } else if (arr.length > 2) {
+            banknotes = banknotes.concat(arr);
+            let insertedCash = arr.reduce((acc, el) => el + acc);
+            totalCash += insertedCash;
+
+            console.log(`Service Report: ${insertedCash.toFixed(0)}$ inserted. Current balance: ${totalCash.toFixed(0)}$.`);
+        }
+    }
+}
+
+// 03. Tickets Scan
+function scanTickets(str, informationStr) {
+    let threeNameRegex = /\s[A-Z][a-zA-Z]*-[A-Z][a-zA-Z]*\.-([A-Z][a-zA-Z]*)\s/gm;
+    let twoNameRegex = /\s[A-Z][a-zA-Z]*-[A-Z][a-zA-Z]*\s/gm;
+    let airportRegex = /\s[A-Z]{3}\/[A-Z]{3}\s/gm;
+    let flightNumberRegex = /\s[A-Z]{1,3}[0-9]{1,5}\s/gm;
+    let companyRegex = /-\s[A-Z][a-zA-Z]*\*[A-Z][a-zA-Z]*\s/gm;
+
+    let twoNamesIsMatch = str.match(twoNameRegex);
+    let threeNamesIsMatch = str.match(threeNameRegex);
+    let names = "";
+    if (twoNamesIsMatch)
+        names = twoNamesIsMatch[0].substring(1, twoNamesIsMatch[0].length - 1).split("-").join(" ");
+    if (threeNamesIsMatch)
+        names = threeNamesIsMatch[0].substring(1, threeNamesIsMatch[0].length - 1).split("-").join(" ");
+
+    let flightNumberIsMatch = str.match(flightNumberRegex);
+    let flightNumber = "";
+    if (flightNumberIsMatch)
+        flightNumber = flightNumberIsMatch[0].substring(1, flightNumberIsMatch[0].length - 1);
+    let airportMatches = str.match(airportRegex);
+    let airports = airportMatches[0].trim().split("/");
+    
+    let companyName = "";
+    let companyNameIsMatch = str.match(companyRegex);
+    if (companyNameIsMatch)
+        companyName = companyNameIsMatch[0].substring(2, companyNameIsMatch[0].length - 1).split("*").join(" ");
+
+    switch (informationStr.toLowerCase()) {
+        case "name":
+        console.log(`Mr/Ms, ${names}, have a nice flight!`);
+        break;
+        case "flight":
+        console.log(`Your flight number ${flightNumber} is from ${airports[0]} to ${airports[1]}.`);
+        break;
+        case "company":
+        console.log(`Have a nice flight with ${companyName}.`);
+        break;
+        case "all":
+        console.log(`Mr/Ms, ${names}, your flight number ${flightNumber} is from ${airports[0]} to ${airports[1]}. Have a nice flight with ${companyName}.`)
+        break;
+    }
+}
+
+// 04. Warehouse Machine
+function manageWarehouse(strArr) {
+    let map = new Map();
+    function sortCoffeesByQuantity(name1, name2, brand) {
+        let quantity1 = map.get(brand).get(name1)[1];
+        let quantity2 = map.get(brand).get(name2)[1];
+        if (quantity1 > quantity2)
+            return -1;
+        else if (quantity1 < quantity2)
+            return 1;
+        else
+            return 0;
+    }
+    for (let str of strArr) {
+        let tokens = str.split(", ");
+        let command = tokens[0].toUpperCase();
+        let brand = "";
+        let name = "";
+        let expireDate = "";
+        let quantity = 0;
+
+        if (tokens.length > 1) {
+            brand = tokens[1];
+            name = tokens[2];
+            expireDate = tokens[3];
+            quantity = +tokens[4];
+        }
+
+        switch (command) {
+            case "IN":
+            if (!map.has(brand)) {
+                map.set(brand, new Map());
+                map.get(brand).set(name, [expireDate, quantity]);
+                continue;
+            }
+
+            if (!map.get(brand).has(name)) {
+                map.get(brand).set(name, [expireDate, quantity]);
+                continue;
+            }
+
+            let oldExpireDate = map.get(brand).get(name)[0];
+            if (expireDate.localeCompare(oldExpireDate) === 1)
+                map.get(brand).set(name, [expireDate, quantity]);
+            else if (expireDate.localeCompare(oldExpireDate) === 0) {
+                let oldQuantity = map.get(brand).get(name)[1];
+                map.get(brand).set(name, [expireDate, oldQuantity + quantity]);
+            }
+            break;
+            case "OUT":
+            if (map.has(brand) && map.get(brand).has(name)) {
+                let expireDateInStorage = map.get(brand).get(name)[0];
+                if (expireDateInStorage >= expireDate) {
+                    let oldQuantity = map.get(brand).get(name)[1];
+                    if (oldQuantity - quantity >= 0 && oldQuantity > 0)
+                        map.get(brand).set(name, [expireDateInStorage, oldQuantity - quantity]);
+                }
+            }
+            break;
+            case "REPORT":
+            console.log(">>>>> REPORT! <<<<<");
+            for (let brand of map.keys()) {
+                console.log(`Brand: ${brand}:`);
+                for (let name of map.get(brand).keys())
+                    console.log(`-> ${name} -> ${map.get(brand).get(name)[0]} -> ${map.get(brand).get(name)[1]}.`);
+            }
+            break;
+            case "INSPECTION":
+            console.log(">>>>> INSPECTION! <<<<<");
+            for (let brand of [...map.keys()].sort((a, b) => a.localeCompare(b))) {
+                console.log(`Brand: ${brand}:`);
+                for (let name of [...map.get(brand).keys()].sort((name1, name2) => sortCoffeesByQuantity(name1, name2, brand))) {
+                    let quantityToPrint = map.get(brand).get(name)[1];
+                    if (quantityToPrint > 0)
+                    console.log(`-> ${name} -> ${map.get(brand).get(name)[0]} -> ${quantityToPrint}.`);
+                }
+            }
+            break;
+        }
+    }
+}

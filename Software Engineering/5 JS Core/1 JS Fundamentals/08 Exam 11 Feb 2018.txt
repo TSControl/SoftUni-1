@@ -1,0 +1,213 @@
+// 01. Bitcoin Mining
+function calculateProfit(strArr) {
+    let numArr = strArr.map(Number);
+    let boughtBitcoins = 0;
+    let dayFirstPurchase = -1;
+    let moneyLeft = 0;
+    let lvPerGGold = 67.51;
+    let lvPerBitcoin = 11949.16;
+
+    for (let i in numArr) {
+        let newMoney = numArr[i] * lvPerGGold;
+        if (i % 3 == 2)
+            newMoney *= 0.7;
+        moneyLeft += newMoney;
+
+        if (moneyLeft >= lvPerBitcoin) {
+            if (dayFirstPurchase === -1)
+                dayFirstPurchase = +i + 1;
+
+            let bitcoinCount = Math.floor(moneyLeft / lvPerBitcoin);
+            moneyLeft -= bitcoinCount * lvPerBitcoin;
+            boughtBitcoins += bitcoinCount;
+        }
+    }
+
+    console.log(`Bought bitcoins: ${boughtBitcoins}`);
+
+    if (dayFirstPurchase !== -1)
+        console.log(`Day of the first purchased bitcoin: ${dayFirstPurchase}`);
+        
+    console.log(`Left money: ${moneyLeft.toFixed(2)} lv.`);
+}
+
+// 02. Air Pollution
+function polluteAir(matrixArr, arr) {
+    let matrix = [];
+    for (let rowStr of matrixArr) {
+        let nums = rowStr.split(" ").map(Number);
+        matrix.push([...nums]);
+    }
+
+    for (let commandTokens of arr) {
+        let tokens = commandTokens.split(" ");
+        let command = tokens[0];
+        let index = +tokens[1];
+
+        switch (command) {
+            case "breeze":
+            matrix[index] = matrix[index].map(e => Math.max(0, e - 15));
+            break;
+            case "gale":
+            for (let row = 0; row < 5; row++)
+                matrix[row][index] = Math.max(matrix[row][index] - 20, 0);
+            break;
+            case "smog":
+            for (let r in matrix) {
+                for (let c in matrix[r])
+                    matrix[r][c] += index;
+            }
+            break;
+        }
+    }
+
+    let pollutedCoordinates = [];
+    for (let row in matrix) {
+        for (let col in matrix[row]) {
+            if (matrix[row][col] >= 50)
+                pollutedCoordinates.push(`[${row}-${col}]`);
+        }
+    }
+
+    if (pollutedCoordinates.length === 0)
+        console.log("No polluted areas");
+    else
+        console.log(`Polluted areas: ${pollutedCoordinates.join(", ")}`);
+}
+
+// 03. Survey Parser
+function parseSurvey(str) {
+    let surveyRegex = /<svg>.*<\/svg>/gm;
+    if (!str.match(surveyRegex)) {
+        console.log('No survey found');
+        return;
+    }
+
+    let sectionsRegex = /<svg>.*?<cat>[\s\S]*?<text>[\s\S]*?\[([\s\S]+)\][\s\S]*?<\/text>[\s\S]*?<\/cat>[\s\S]*?<cat>([\s\S]+)<\/cat><\/svg>/gm;
+    let match = sectionsRegex.exec(str);
+    if (!match) {
+        console.log('Invalid format');
+        return;
+    }
+
+    let label = match[1];
+    let ratingsXml = match[2];
+    let voteSum = 0;
+    let voteCount = 0;
+
+    let voteMatches = ratingsXml.match(/<g><val>([1-9|10]+)<\/val>([1-9]*[0-9]+)<\/g>/gm);
+    for (let voteMatch of voteMatches) {
+        let vote = /<val>([1-9|10]+)<\/val>([1-9]*[0-9]+)/gm.exec(voteMatch);
+        let rating = +vote[1];
+        let count = +vote[2];
+
+        voteSum += rating * count;
+        voteCount += count;
+    }
+
+    if (voteCount === 0) {
+        console.log(`${label}: `);
+        return;
+    }
+
+    let totalAverage = ((voteSum * 100/ voteCount).toFixed(0)) / 100;
+
+    console.log(`${label}: ${totalAverage}`);
+}
+
+// 04. Game of Epicness
+function printWinner(objArr, matrix) {
+    function sortingKingdomsArr(arr1, arr2) {
+        let arr1Wins = arr1[1][0];
+        let arr2Wins = arr2[1][0];
+        let arr1Losses = arr1[1][1];
+        let arr2Losses = arr2[1][1];
+
+        if (arr1Wins > arr2Wins)
+            return -1;
+        else if (arr1Wins < arr2Wins)
+            return 1;
+        else {
+            if (arr1Losses > arr2Losses)
+            return 1;
+        else if (arr1Losses < arr2Losses)
+            return -1;
+        else
+            return arr1[0].localeCompare(arr2[0]);
+        }
+    }
+
+    let map = new Map();
+    let trackingMap = new Map();
+
+    for (let obj of objArr) {
+        let kingdom = obj.kingdom;
+        let general = obj.general;
+        let army = obj.army;
+
+        if (!map.has(kingdom))
+            map.set(kingdom, new Map());
+
+        if (!map.get(kingdom).has(general))
+            map.get(kingdom).set(general, army);
+        else {
+            let oldValue = map.get(kingdom).get(general);
+            map.get(kingdom).set(general, army + oldValue);
+        }
+
+        if (!trackingMap.has(kingdom))
+            trackingMap.set(kingdom, new Map());
+        if (!trackingMap.get(kingdom).has(general))
+            trackingMap.get(kingdom).set(general, [0, 0]);
+    }
+
+    for ([attackingKingdom, attackingGeneral, defendingKingdom, defendingGeneral] of matrix) {
+        if (attackingKingdom === defendingKingdom)
+            continue;
+
+        let attackingArmy = map.get(attackingKingdom).get(attackingGeneral);
+        let defendingArmy = map.get(defendingKingdom).get(defendingGeneral);
+        let attackerWins = trackingMap.get(attackingKingdom).get(attackingGeneral)[0];
+        let attackerLoses = trackingMap.get(attackingKingdom).get(attackingGeneral)[1];
+        let defenderWins = trackingMap.get(defendingKingdom).get(defendingGeneral)[0];
+        let defenderLoses = trackingMap.get(defendingKingdom).get(defendingGeneral)[1];
+
+        if (attackingArmy > defendingArmy) {
+            map.get(attackingKingdom).set(attackingGeneral, Math.floor(attackingArmy * 1.1));
+            map.get(defendingKingdom).set(defendingGeneral, Math.floor(defendingArmy * 0.9));
+
+            trackingMap.get(attackingKingdom).set(attackingGeneral, [attackerWins + 1, attackerLoses]);
+            trackingMap.get(defendingKingdom).set(defendingGeneral, [defenderWins, defenderLoses + 1]);
+        } else if (attackingArmy < defendingArmy) {
+            map.get(attackingKingdom).set(attackingGeneral, Math.floor(attackingArmy * 0.9));
+            map.get(defendingKingdom).set(defendingGeneral, Math.floor(defendingArmy * 1.1));
+
+            trackingMap.get(attackingKingdom).set(attackingGeneral, [attackerWins, attackerLoses + 1]);
+            trackingMap.get(defendingKingdom).set(defendingGeneral, [defenderWins + 1, defenderLoses]);
+        }
+    }
+    let kingdoms = [...trackingMap.keys()];
+    let kingdomTotalWinsAndLossesMap = new Map();
+    for (let kingdom of kingdoms) {
+        if (!kingdomTotalWinsAndLossesMap.has(kingdom))
+            kingdomTotalWinsAndLossesMap.set(kingdom, [0, 0]);
+        let kvps = trackingMap.get(kingdom);
+        for (let general of kvps.keys()) {
+            [wins, losses] = trackingMap.get(kingdom).get(general);
+            [oldWins, oldLosses] = kingdomTotalWinsAndLossesMap.get(kingdom);
+            kingdomTotalWinsAndLossesMap.set(kingdom, [oldWins + wins, oldLosses + losses]);
+        }
+    }
+    let kingdomTotalWinsAndLossesArr = [...kingdomTotalWinsAndLossesMap];
+    kingdomTotalWinsAndLossesArr.sort(sortingKingdomsArr);
+    let winnerKingdomName = kingdomTotalWinsAndLossesArr[0][0];
+    console.log(`Winner: ${winnerKingdomName}`);
+    let generalKvps = [...map.get(winnerKingdomName)];
+    generalKvps.sort((a1, a2) => a2[1] - a1[1]);
+    for (let generalKvp of generalKvps) {
+        console.log(`/\\general: ${generalKvp[0]}`);
+        console.log(`---army: ${generalKvp[1]}`);
+        console.log(`---wins: ${trackingMap.get(winnerKingdomName).get(generalKvp[0])[0]}`);
+        console.log(`---losses: ${trackingMap.get(winnerKingdomName).get(generalKvp[0])[1]}`);
+    }
+}

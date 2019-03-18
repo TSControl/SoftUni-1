@@ -1,0 +1,24 @@
+CREATE PROC dbo.usp_AssignEmployeeToReport
+@employeeId INT, 
+@reportId INT
+AS
+BEGIN
+	BEGIN TRANSACTION
+	UPDATE Reports 
+	SET EmployeeId = @employeeId
+	WHERE Id = @reportId
+
+IF @@ROWCOUNT <> 1
+		BEGIN
+			ROLLBACK
+			RAISERROR('Employee doesn''t belong to the appropriate department!', 16, 1)
+			RETURN
+		END
+	COMMIT
+END
+
+
+
+
+EXEC usp_AssignEmployeeToReport 17, 2;
+SELECT EmployeeId FROM Reports WHERE id = 2

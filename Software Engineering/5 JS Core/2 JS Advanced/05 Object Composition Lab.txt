@@ -1,0 +1,132 @@
+// 01. Order Rectangles
+function order(args) {
+    args = args.map(d => {
+        let obj = {
+            width: d[0],
+            height: d[1],
+            area: () => obj.width * obj.height,
+            compareTo: function (other) {
+                return obj.area() === other.area() ? other.width - obj.width : other.area() - obj.area();
+            }
+        };
+
+        return obj;
+    });
+
+    return args.sort((o1, o2) => o1.compareTo(o2));
+}
+
+// 02. Fibonacci
+function getFibonator() {
+    let n0 = 0;
+    let n1 = 1;
+
+    return function () {
+        let n2 = n0 + n1;
+
+        n0 = n1;
+        n1 = n2;
+
+        return n0;
+    };
+}
+
+// 03. List Processor
+function solve(commands) {
+    let functionsObj = (() => {
+        let strArr = [];
+
+        return {
+            add: function (str) {
+                strArr.push(str)
+            },
+            remove: function (str) {
+                strArr = strArr.filter(e => e !== str)
+            },
+            print: function () {
+                console.log(strArr.join(','))
+            }
+        }
+    })();
+
+    for (let commandTokens of commands) {
+        let [command, argument] = commandTokens.split(' ');
+
+        functionsObj[command](argument);
+    }
+}
+
+// 04. Cars
+function solve(strArr) {
+    let objs = {};
+
+    for (let str of strArr) {
+        let tokens = str.split(' ');
+        let command = tokens[0];
+        let name = tokens[1];
+
+        if (command === "create") {
+            if (tokens.length === 2) {
+                objs[name] = {};
+            } else {
+                let parentName = tokens[3];
+                let parentObj = objs[parentName];
+                let obj = Object.create(parentObj);
+
+                objs[name] = obj;
+            }
+        } else if (command === "set") {
+            let obj = objs[name];
+
+            obj[tokens[2]] = tokens[3];
+        } else if (command === "print") {
+            let outputToJoin = [];
+            let obj = objs[name];
+            let keys = Object.keys(obj);
+
+            for (const key of keys) {
+                outputToJoin.push(`${key}:${obj[key]}`)
+            }
+
+            let proto = Object.getPrototypeOf(obj);
+            while (proto !== null && proto !== undefined) {
+                for (const key of Object.keys(proto)) {
+                    outputToJoin.push(`${key}:${obj[key]}`);
+                }
+
+                proto = Object.getPrototypeOf(proto);
+            }
+
+            console.log(outputToJoin.join(", "));
+        }
+    }
+}
+
+// 05. Sum
+function returnObj() {
+    return (function () { 
+        let element1, element2, element3;
+
+        return {
+            init: function (selector1, selector2, resultSelector) {
+                element1 = $(selector1);
+                element2 = $(selector2);
+                element3 = $(resultSelector);
+            },
+            add: function () {
+                let n1 = Number($(element1).val());
+                let n2 = Number($(element2).val());
+                let sum = n1 + n2;
+
+                $(element3).val(sum);
+            },
+            subtract: function () {
+                let n1 = Number($(element1).val());
+                let n2 = Number($(element2).val());
+                let sum = n1 - n2;
+
+                $(element3).val(sum);
+            }
+        }
+    })();
+}

@@ -1,0 +1,260 @@
+!!! C# CODE SUBMITTIONS !!!
+
+// 01. Groups of Equal Sum
+using System;
+
+class StartUp
+{
+	static void Main(string[] args)
+	{
+		var a = int.Parse(Console.ReadLine());
+		var b = int.Parse(Console.ReadLine());
+		var c = int.Parse(Console.ReadLine());
+		var d = int.Parse(Console.ReadLine());
+
+		if (a + b == c + d)
+		{
+			Console.WriteLine("Yes");
+			Console.WriteLine(a + b);
+		}
+		else if (a + c == b + d)
+		{
+			Console.WriteLine("Yes");
+			Console.WriteLine(a + c);
+		}
+		else if (a + d == b + c)
+		{
+			Console.WriteLine("Yes");
+			Console.WriteLine(a + d);
+		}
+		else if (a + b + c == d)
+		{
+			Console.WriteLine("Yes");
+			Console.WriteLine(a + b + c);
+		}
+		else if (a + b + d == c)
+		{
+			Console.WriteLine("Yes");
+			Console.WriteLine(a + b + d);
+		}
+		else if (b + c + d == a)
+		{
+			Console.WriteLine("Yes");
+			Console.WriteLine(b + c + d);
+		}
+		else if (a + c + d == b)
+		{
+			Console.WriteLine("Yes");
+			Console.WriteLine(a + c + d);
+		}
+		else
+		{
+			Console.WriteLine("No");
+		}
+	}
+
+}
+
+// 02. Draw a House
+using System;
+using System.Text;
+
+class StartUp
+{
+	static void Main(string[] args)
+	{
+		var n = int.Parse(Console.ReadLine());
+		for (int i = 0; i < n; i++)
+		{
+			Console.WriteLine(DrawRoofLine(n, i));
+		}
+
+		int m = 2 * n - 1;
+
+		DrawBaseTopBottom(m);
+
+		for (int i = 0; i < n - 2; i++)
+		{
+			DrawBaseLine(m);
+		}
+
+		DrawBaseTopBottom(m);
+	}
+
+	private static void DrawBaseLine(int n)
+	{
+		var line = "|" + new string(' ', n - 2) + "|";
+		Console.WriteLine(line);
+	}
+
+	private static void DrawBaseTopBottom(int n)
+	{
+		var line = "+" + new string('-', n - 2) + "+";
+		Console.WriteLine(line);
+	}
+
+	private static string DrawRoofLine(int n, int i)
+	{
+		return RoofDots(n, i) + DrawRoofStarsAndSpaces(n, i) + RoofDots(n, i);
+	}
+
+	private static string DrawRoofStarsAndSpaces(int n, int i)
+	{
+		if (i == 0)
+		{
+			return "*";
+		}
+		else if (i == n - 1)
+		{
+			var builder = new StringBuilder("*");
+			for (int k = 0; k < n - 1; k++)
+			{
+				builder.Append(" *");
+			}
+
+			return builder.ToString();
+		}
+		else
+		{
+			return "*" + new string(' ', 2 * i - 1) + "*";
+		}
+	}
+
+	private static string RoofDots(int n, int i)
+	{
+		return new string('.', n - i - 1);
+	}
+}
+
+// 03. Sum Time
+using System;
+using System.Linq;
+
+class StartUp
+{
+	static void Main(string[] args)
+	{
+		var dateSplit1 = Console.ReadLine().Trim().Split(":".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+		var dateSplit2 = Console.ReadLine().Trim().Split(":".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+
+		var days1 = 0;
+		var hours1 = 0;
+		var minutes1 = 0;
+
+		var days2 = 0;
+		var hours2 = 0;
+		var minutes2 = 0;
+
+		if (dateSplit1.Length == 3)
+		{
+			days1 = dateSplit1[0];
+			hours1 = dateSplit1[1];
+			minutes1 = dateSplit1[2];
+		}
+		else
+		{
+			hours1 = dateSplit1[0];
+			minutes1 = dateSplit1[1];
+		}
+
+
+		if (dateSplit2.Length == 3)
+		{
+			days2 = dateSplit2[0];
+			hours2 = dateSplit2[1];
+			minutes2 = dateSplit2[2];
+		}
+		else
+		{
+			hours2 = dateSplit2[0];
+			minutes2 = dateSplit2[1];
+		}
+
+		var days = days1 + days2;
+		var hours = hours1 + hours2;
+		var minutes = minutes1 + minutes2;
+
+		hours += minutes / 60;
+		minutes %= 60;
+		days += hours / 24;
+		hours %= 24;
+
+		if (days != 0)
+		{
+			Console.Write($"{days}::");
+		}
+
+		Console.WriteLine($"{hours}:{minutes:D2}");
+	}
+}
+
+// 04. Stars in the Cube
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+	static void Main(string[] args)
+	{
+		var n = int.Parse(Console.ReadLine());
+		var starsCount = 0;
+		var dic = new Dictionary<char, int>();
+
+		var cube = new char[n, n, n];
+
+		for (int row = 0; row < n; row++)
+		{
+			var chars = Console.ReadLine().Split().Select(char.Parse).ToArray();
+
+			var charsIndex = 0;
+
+			for (int layer = 0; layer < n; layer++)
+			{
+				for (int col = 0; col < n; col++)
+				{
+					cube[row, col, layer] = chars[charsIndex];
+					charsIndex++;
+				}
+				charsIndex++;
+			}
+		}
+
+		for (int row = 1; row < n - 1; row++)
+		{
+			for (int col = 1; col < n - 1; col++)
+			{
+				for (int layer = 1; layer < n - 1; layer++)
+				{
+					var ch = cube[row, col, layer];
+
+					if (ch == cube[row - 1, col, layer] &&
+						ch == cube[row + 1, col, layer] &&
+						ch == cube[row, col - 1, layer] &&
+						ch == cube[row, col + 1, layer] &&
+						ch == cube[row, col, layer - 1] &&
+						ch == cube[row, col, layer + 1])
+					{
+						starsCount++;
+
+						if (dic.ContainsKey(ch))
+						{
+							dic[ch]++;
+						}
+						else
+						{
+							dic.Add(ch, 1);
+						}
+					}
+				}
+			}
+		}
+
+		Console.WriteLine(starsCount);
+
+		foreach (var kvp in dic.OrderBy(kvp => kvp.Key))
+		{
+			Console.WriteLine($"{kvp.Key} -> {kvp.Value}");
+		}
+	}
+}

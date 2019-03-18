@@ -1,0 +1,390 @@
+//01. Blank Receipt
+import java.util.Scanner;
+
+public class InClass {
+    public static void main(String[] args) {
+        System.out.println("CASH RECEIPT\n------------------------------\nCharged to____________________\nReceived by___________________\n------------------------------\n\u00A9 SoftUni");
+    }
+}
+
+//02. Sign of Integer Number
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp4
+{
+    class Program
+    {
+        static void IntSign(int n)
+        {
+            if (n>0)
+            {
+                Console.WriteLine($"The number {n} is positive.");
+            }
+            else if (n<0)
+            {
+                Console.WriteLine($"The number {n} is negative.");
+            }
+            else
+            {
+                Console.WriteLine($"The number {n} is zero.");
+            }
+        }
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            IntSign(n);
+        }
+    }
+}
+
+//03. Printing Triangle
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp4
+{
+    class Program
+    {
+        static void PrintNums (int i)
+        {
+            for (int j=1; j<=i; j++)
+            {
+                Console.Write($"{j} ");
+            }
+            Console.WriteLine();
+        }
+        static void Main(string[] args)
+        {
+            int input = int.Parse(Console.ReadLine());
+            for (int k =1; k<=input; k++)
+            {
+                PrintNums(k);
+            }
+            for (int k =input-1; k>=1; k--)
+            {
+                PrintNums(k);
+            }
+        }
+    }
+}
+
+//04. Draw a Filled Square
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp4
+{
+    class Program
+    {
+        static void PrintString(int i, char ch)
+        {
+            string str = new string(ch, i);
+            Console.Write(str);
+        }
+        static void PrintBody(int i)
+        {
+            Console.Write("-");
+            for (int j=1; j<i; j++)
+            {
+                Console.Write("\\/");
+            }
+            Console.WriteLine("-");
+        }
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            PrintString(2*n, '-');
+            Console.WriteLine();
+            for (int i=1; i<=n-2; i++)
+            {
+                PrintBody(n);
+            }
+
+            PrintString(2*n, '-');
+            Console.WriteLine();
+            
+        }
+    }
+}
+
+//05. Temperature Conversion
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+//using System.Text.RegularExpressions;
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double input = double.Parse(Console.ReadLine());
+            Console.WriteLine($"{Convert(input):F2}");
+        }
+        static double Convert(double num)
+        {
+            double result=0;
+            result = (num - 32) * 5 / 9;
+            return result;
+        }
+    }
+}
+
+//06. Calculate Triangle Area
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp4
+{
+    class Program
+    {
+        static double TriangleArea(double a, double h)
+        {
+            return a * h / 2.0;
+        }
+        static void Main(string[] args)
+        {
+            double a = double.Parse(Console.ReadLine());
+            double h = double.Parse(Console.ReadLine());
+            Console.WriteLine(TriangleArea(a,h));
+        }
+    }
+}
+
+//07. Math Power
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp4
+{
+    class Program
+    {
+        static double TriangleArea(double n, int p)
+        {
+            double result = 1;
+            for (int i = 1; i<=p; i++)
+            {
+                result *= n;
+            }
+            return result;
+        }
+        static void Main(string[] args)
+        {
+            double n = double.Parse(Console.ReadLine());
+            int p = int.Parse(Console.ReadLine());
+            Console.WriteLine(TriangleArea(n,p));
+        }
+    }
+}
+
+//08. Greater of Two Values
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp4
+{
+    class Program
+    {
+        static void GreaterInt(int a, int b)
+        {
+           if (a>=b)
+            {
+                Console.WriteLine(a);
+            }
+           else
+            {
+                Console.WriteLine(b);
+            }
+        }
+        static void GreaterChar(char a, char b)
+        {
+            if ((int)a>=(int)b)
+            {
+                Console.WriteLine(a);
+            }
+            else
+            {
+                Console.WriteLine(b);
+            }
+        }
+        static void GreaterString(string str1, string str2)
+        {
+            if (str1.CompareTo(str2)>=0)
+            {
+                Console.WriteLine(str1);
+            }
+            else
+            {
+                Console.WriteLine(str2);
+            }
+        }
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            if (input.Equals("int"))
+            {
+                int a = int.Parse(Console.ReadLine());
+                int b = int.Parse(Console.ReadLine());
+                GreaterInt(a, b);
+            }
+            else if (input.Equals("char"))
+            {
+                char a = char.Parse(Console.ReadLine());
+                char b = char.Parse(Console.ReadLine());
+                GreaterChar(a, b);
+            }
+            else if (input.Equals("string"))
+            {
+                string str1 = Console.ReadLine();
+                string str2 = Console.ReadLine();
+                GreaterString(str1, str2);
+            }
+        }
+    }
+}
+
+//09. Multiply Evens by Odds
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static long ReturnValue(int n)
+        {
+            long evenSum = 0;
+            long oddSum = 0;
+            while (n>0)
+            {
+                int end = n % 10;
+                
+                if (end %2 != 0)
+                {
+                    oddSum += n % 10;
+                }
+                else if (end %2 ==0)
+                {
+                    evenSum += n % 10;
+                }
+                n /= 10;
+            }
+           
+            return evenSum*oddSum;
+        }
+        static void Main(string[] args)
+            {
+            int n = int.Parse(Console.ReadLine());
+            Console.WriteLine(ReturnValue(Math.Abs(n)));
+        }
+    }
+}
+
+//10. Holidays Between Two Dates
+using System;
+using System.Globalization;
+
+namespace Problem
+{
+    class Program
+    {
+static void Main(string[] args)
+        {
+            var startDate = DateTime.ParseExact(Console.ReadLine(), "d.M.yyyy", CultureInfo.InvariantCulture);
+            var endDate = DateTime.ParseExact(Console.ReadLine(), "d.M.yyyy", CultureInfo.InvariantCulture);
+            var holidaysCount = 0;
+            for (var date = startDate; date <= endDate; date=date.AddDays(1))
+            {
+                if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    holidaysCount++;
+                }
+            }
+            Console.WriteLine(holidaysCount);
+        }
+    }
+}
+
+//11. Price Change Alert
+using System;
+
+class PriceChangeAlert
+{
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        double threshold = double.Parse(Console.ReadLine());
+        double oldPrice = double.Parse(Console.ReadLine());
+        string message = null;
+        for (int i = 1; i < n ; i++)
+        {
+            double newPrice = double.Parse(Console.ReadLine());
+            double div = Proc(oldPrice, newPrice);
+            bool overThreshold = IsDiff(div, threshold);
+            message += Get(newPrice, oldPrice, div, overThreshold);
+            oldPrice = newPrice;
+        }
+        Console.WriteLine(message);
+    }
+    private static string Get(double newPrice, double oldPrice, double diff, bool etherTrueOrFalse)
+    {
+        string to = "";
+        if (diff == 0)
+        {
+            to = $"NO CHANGE: {newPrice}\n";
+        }
+        else if (!etherTrueOrFalse)
+        {
+            to = string.Format("MINOR CHANGE: {0} to {1} ({2:F2}%)\n", oldPrice, newPrice, diff*100);
+        }
+        else if (etherTrueOrFalse && (diff > 0))
+        {
+            to = string.Format("PRICE UP: {0} to {1} ({2:F2}%)\n", oldPrice, newPrice, diff*100);
+        }
+        else if (etherTrueOrFalse && (diff < 0))
+        {
+            to = string.Format("PRICE DOWN: {0} to {1} ({2:F2}%)\n", oldPrice, newPrice, diff*100);
+
+        }
+        return to;
+
+    }
+    private static bool IsDiff(double threshold, double isDiff)
+    {
+        if (Math.Abs(threshold) >= isDiff)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    private static double Proc(double num1, double num2)
+    {
+        double result = (num2 - num1) / num1;
+        return result;
+    }
+}

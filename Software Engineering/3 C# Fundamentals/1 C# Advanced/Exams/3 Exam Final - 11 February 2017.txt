@@ -1,0 +1,415 @@
+// 01. Key Revolver
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            //inputs
+            var bulletPrice = int.Parse(Console.ReadLine());
+            var barrelSize = int.Parse(Console.ReadLine());
+            var bullets = new Stack<int>(Console.ReadLine().Split().Select(int.Parse).ToArray());
+            var locks = new Queue<int>(Console.ReadLine().Split().Select(int.Parse).ToArray());
+            var intelligenceValue = int.Parse(Console.ReadLine());
+            var startingBulletCount = bullets.Count;
+            //shooting
+            while (locks.Count != 0 && bullets.Count != 0)
+            {
+                var bulletsInBarrel = Math.Min(bullets.Count, barrelSize);
+                for (int i = 0; i < bulletsInBarrel; i++)
+                {
+                    //check if there are any locks left
+                    if (locks.Count == 0)
+                    {
+                        break;
+                    }
+                    //? check bullets count
+                    var bullet = bullets.Pop();
+                    var currentLock = locks.Peek();
+                    if (bullet <= currentLock)
+                    {
+                        Console.WriteLine("Bang!");
+                        locks.Dequeue();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ping!");
+                    }
+                }
+                //check if there are any bullets and locks left !!!!!!!!!!!!!!!!!!!
+                if (bullets.Count > 0)
+                {
+                    Console.WriteLine("Reloading!");
+                }
+            }
+            //0 bullets left
+            if (locks.Count > 0 && bullets.Count() == 0)
+            {
+                Console.WriteLine($"Couldn't get through. Locks left: {locks.Count}");
+            }
+            else //0 locks left
+            {
+                var moneyEarned = intelligenceValue - bulletPrice * (startingBulletCount - bullets.Count);
+                Console.WriteLine($"{bullets.Count} bullets left. Earned ${moneyEarned}");
+            }
+        }
+    }
+}
+
+// 02. Sneaking
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Problem2
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            //bool sIsDead = false;
+            var rowCount = int.Parse(Console.ReadLine());
+            var lines = new List<string>();
+            for (int row = 0; row < rowCount; row++)
+            {
+                lines.Add(Console.ReadLine());
+            }
+            var columnCount = lines[0].Length;
+            var matrix = new char[rowCount, columnCount];
+            var sRowIndex = 0;
+            var sColumnIndex = 0;
+            var nColumnIndex = 0;
+            var nRowIndex = 0;
+
+            //populate matrix
+            for (int row = 0; row < rowCount; row++)
+            {
+                for (int column = 0; column < columnCount; column++)
+                {
+                    matrix[row, column] = lines[row][column];
+                    if (lines[row][column] == 'S')
+                    {
+                        sRowIndex = row;
+                        sColumnIndex = column;
+                    }
+                    else if (lines[row][column] == 'N')
+                    {
+                        nRowIndex = row;
+                        nColumnIndex = column;
+                    }
+                }
+            }
+
+            //commands
+            var commandString = Console.ReadLine();
+            for (int commandNumber = 0; commandNumber < commandString.Length; commandNumber++)
+            {
+                MoveEnemies(matrix);
+                //if (sIsDead)
+                //{
+                //    return;
+                //}
+
+                var command = commandString[commandNumber];
+                switch (command)
+                {
+                    case 'U':
+                        {
+                            for (int column = 0; column < columnCount; column++)
+                            {
+                                if (matrix[sRowIndex - 1, column] == 'N')
+                                {
+                                    Console.WriteLine("Nikoladze killed!");
+                                    matrix[sRowIndex - 1, column] = 'X';
+                                    matrix[sRowIndex, sColumnIndex] = '.';
+                                    matrix[sRowIndex - 1, sColumnIndex] = 'S';
+                                    PrintMatrix(matrix);
+                                    return;
+                                }
+                            }
+                            matrix[sRowIndex, sColumnIndex] = '.';
+                            matrix[sRowIndex - 1, sColumnIndex] = 'S';
+                            sRowIndex -= 1;
+                        }
+                        break;
+                    case 'D':
+                        {
+                            for (int column = 0; column < columnCount; column++)
+                            {
+                                if (matrix[sRowIndex + 1, column] == 'N')
+                                {
+                                    Console.WriteLine("Nikoladze killed!");
+                                    matrix[sRowIndex + 1, column] = 'X';
+                                    matrix[sRowIndex, sColumnIndex] = '.';
+                                    matrix[sRowIndex + 1, sColumnIndex] = 'S';
+                                    PrintMatrix(matrix);
+                                    return;
+                                }
+                            }
+                            matrix[sRowIndex, sColumnIndex] = '.';
+                            matrix[sRowIndex + 1, sColumnIndex] = 'S';
+                            sRowIndex += 1;
+                        }
+                        break;
+                    case 'L':
+                        {
+                            matrix[sRowIndex, sColumnIndex] = '.';
+                            matrix[sRowIndex, sColumnIndex - 1] = 'S';
+                            sColumnIndex -= 1;
+                        }
+                        break;
+                    case 'R':
+                        {
+                            matrix[sRowIndex, sColumnIndex] = '.';
+                            matrix[sRowIndex, sColumnIndex + 1] = 'S';
+                            sColumnIndex += 1;
+                        }
+                        break;
+                    case 'W':
+                        {
+
+                        }
+                        break;
+                }
+
+                //check if we die
+                for (int column = 0; column < matrix.GetLength(1); column++) //-1
+                {
+                    if (matrix[sRowIndex, column] == 'b' && sColumnIndex > column)
+                    {
+                        Console.WriteLine($"Sam died at {sRowIndex}, {sColumnIndex}");
+                        matrix[sRowIndex, sColumnIndex] = 'X';
+                        PrintMatrix(matrix);
+                        return;
+                    }
+                }
+
+                for (int column = 0; column < matrix.GetLength(1); column++) //can be optimized to skip after finding d
+                {
+                    if (matrix[sRowIndex, column] == 'd' && sColumnIndex < column)
+                    {
+                        Console.WriteLine($"Sam died at {sRowIndex}, {sColumnIndex}");
+                        matrix[sRowIndex, sColumnIndex] = 'X';
+                        PrintMatrix(matrix);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private static void MoveEnemies(char[,] matrix) //problem with refferent type matrix??
+        {
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                for (int column = 0; column < matrix.GetLength(1); column++) //can optimize by continueing when finding d/b
+                {
+                    if (matrix[row, column] == 'b')
+                    {
+                        if (column == matrix.GetLength(1) - 1)
+                        {
+                            matrix[row, column] = 'd';
+                            //for (int i = 0; i < column; i++)
+                            //{
+                            //    if (matrix[row, i] == 'S')
+                            //    {
+                            //        Console.WriteLine($"Sam died at {row}, {i}");
+                            //        matrix[row, i] = 'X';
+                            //        PrintMatrix(matrix);
+                            //        return true;
+                            //    }
+                            //}
+                            //continue;
+                        }
+                        else
+                        {
+                            matrix[row, column] = '.';
+                            matrix[row, column + 1] = 'b';
+                            column++;
+                        }
+
+                    }
+                    else if (matrix[row, column] == 'd')
+                    {
+                        if (column == 0)
+                        {
+                            matrix[row, 0] = 'b';
+                            //for (int i = 1; i < matrix.GetLength(1); i++)
+                            //{
+                            //    if (matrix[row, i] == 'S')
+                            //    {
+                            //        Console.WriteLine($"Sam died at {row}, {i}");
+                            //        matrix[row, i] = 'X';
+                            //        PrintMatrix(matrix);
+                            //        return true;
+                            //    }
+                            //}
+                            //continue;
+                        }
+                        else
+                        {
+                            matrix[row, column] = '.';
+                            matrix[row, column - 1] = 'd';
+                            column--;
+                        }
+                    }
+                }
+            }
+            //Console.WriteLine();//
+            //PrintMatrix(matrix);//
+            //Console.WriteLine();//
+            //return false;
+        }
+
+        private static void PrintMatrix(char[,] matrix)
+        {
+            for (int row = 0; row < matrix.GetLength(0); row++)
+            {
+                var builder = new StringBuilder();
+                for (int column = 0; column < matrix.GetLength(1); column++)
+                {
+                    builder.Append(matrix[row, column]);
+                }
+                Console.WriteLine(builder);
+            }
+        }
+    }
+}
+
+
+// 03. Crypto Blockchain
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem3
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var n = int.Parse(Console.ReadLine());
+            var builder = new StringBuilder();
+            for (int i = 0; i < n; i++)
+            {
+                builder.Append(Console.ReadLine());
+            }
+            var longLine = builder.ToString();
+            var pattern = @"(?:{\D*)(?<number1>\d{3,})(?:\D*})|(?:\[\D*)(?<number2>\d{3,})(?:\D*])";
+            var regex = new Regex(pattern);
+            var listOfGoodMatches = new List<string>();
+            var listOfGoodMatchesLength = new List<int>();
+            var matches = regex.Matches(longLine);
+            foreach (Match match in matches)
+            {
+                string number = "";
+                if (match.Groups["number1"].Success)
+                {
+                    number = match.Groups["number1"].Value;
+                }
+                if (match.Groups["number2"].Success)
+                {
+                    number = match.Groups["number2"].Value;
+                }
+
+                //Console.WriteLine(number);
+                if (number.Length % 3 == 0 && number != "0")
+                {
+                    listOfGoodMatches.Add(number);
+                    listOfGoodMatchesLength.Add(match.Length);
+                }
+            }
+            //done with adding nums to listOfGoodMatches<string> WORKGING CORRECTLY
+            var output = new StringBuilder();
+            for (int i = 0; i < listOfGoodMatches.Count; i++)
+            {
+                var str = ConvertNumToWord(listOfGoodMatches[i], listOfGoodMatchesLength[i]);
+                output.Append(str);
+            }
+            Console.WriteLine(output.ToString());
+        }
+
+        private static object ConvertNumToWord(string num, int len)
+        {
+            var chCount = num.Length / 3;
+            var smallBuilder = new StringBuilder();
+            for (int i = 0; i < chCount; i++)
+            {
+                var subStr = num.Substring(i * 3, 3);
+                //Console.WriteLine("SUBSTR " + subStr);
+                var ch = (char)(int.Parse(subStr) - len);
+                smallBuilder.Append(ch);
+            }
+
+            return smallBuilder.ToString();
+        }
+    }
+}
+
+// 04. Hit List
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem4
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var targetInfoIndex = int.Parse(Console.ReadLine());
+            string line;
+            var peopleInfo = new Dictionary<string, Dictionary<string, string>>();
+            while ((line = Console.ReadLine()) != "end transmissions")
+            {
+                var tokens = line.Split("=:;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+                var name = tokens[0];
+                if (!peopleInfo.ContainsKey(name))
+                {
+                    peopleInfo[name] = new Dictionary<string, string>();
+                }
+                for (int i = 0; i < (tokens.Length - 1) / 2; i++)
+                {
+                    var key = tokens[2 * i + 1];
+                    var value = tokens[2 * i + 2];
+                    if (peopleInfo[name].ContainsKey(key))
+                        peopleInfo[name][key] = value;
+                    else
+                        peopleInfo[name].Add(key, value);
+                }
+            }
+            //Console.WriteLine(string.Join("----", peopleInfo.Keys));
+            //Kill Kobin
+            var killTokens = Console.ReadLine().Split().ToArray();
+            var personToKill = killTokens[1];
+            //killTokens.ToList().ForEach(p => Console.WriteLine(p));
+
+            //var sortedDic = peopleInfo.Where(kvp => kvp.Key == personToKill).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            Console.WriteLine($"Info on {personToKill}:");
+            var sum = 0;
+            foreach (var kvp in peopleInfo[personToKill].OrderBy(n => n.Key))
+            {
+                var key = kvp.Key;
+                sum += key.Length;
+                var value = kvp.Value;
+                sum += value.Length;
+                Console.WriteLine($"---{key}: {value}");
+            }
+            //print other shit
+            Console.WriteLine($"Info index: {sum}");
+            if (sum >= targetInfoIndex)
+            {
+                Console.WriteLine("Proceed");
+            }
+            else
+            {
+                Console.WriteLine($"Need {targetInfoIndex - sum} more info.");
+            }
+        }
+    }
+}

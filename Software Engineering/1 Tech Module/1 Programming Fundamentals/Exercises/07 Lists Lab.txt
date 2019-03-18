@@ -1,0 +1,259 @@
+//01. Remove Negatives and Reverse
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            var positives = new List<int>();
+            foreach (int num in nums)
+            {
+                if (num >= 0)
+                {
+                    positives.Add(num);
+                }
+            }
+            positives.Reverse();
+            if (positives.Count==0)
+            {
+                Console.WriteLine("empty");
+            }
+            else
+            {
+                Console.WriteLine(String.Join(" ", positives));
+            }
+            
+        }
+    }
+}
+
+//02. Append Lists
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            string cleanedString = System.Text.RegularExpressions.Regex.Replace(input, @"\s+", " ");
+            string[] strings = cleanedString.Split('|');
+            string text = null;
+            for (long i = strings.Length-1; i>-1; i--)
+            {
+                if (!(strings[i].Equals(" ") || strings[i].Equals("")))
+                {
+                    List<long> nums = strings[i].Trim().Split(' ').Select(long.Parse).ToList();
+
+                    text += string.Join(" ", nums);
+                    text += " ";
+                }
+                
+                
+                
+            }
+            Console.WriteLine(text);
+        }
+    }
+}
+
+//03. Sum Adjacent Equal Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<decimal> nums = Console.ReadLine().Split(' ').Select(decimal.Parse).ToList();
+            Here:
+            for (int i = 0; i < nums.Count - 1; i++)
+            {
+                if (nums.Count == 2 && nums[0] == nums[1])
+                {
+                    Console.WriteLine($"{nums[0] + nums[1]}");
+                }
+                else if (nums[i] == nums[i + 1])
+                {
+                    nums[i + 1] += nums[i];
+                    nums.RemoveAt(i);
+                    goto Here;
+                }
+                else if (i == nums.Count - 2 && nums[nums.Count - 2] != nums[nums.Count - 1])
+                {
+                    Console.WriteLine(string.Join(" ", nums));
+                }
+            }
+            if (nums.Count==1)
+            {
+                Console.WriteLine($"{nums[0]}");
+                
+            }
+        }
+    }
+}
+
+//04. Split by Word Casing
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> words = Console.ReadLine().Trim().Split(' ', ',', ':', '.', '!', '(', ')', '"', '\'', '\\', '/', '[', ']', ';').ToList();
+            words.RemoveAll(string.IsNullOrWhiteSpace);
+            var lowerCaseWords = new List<string>();
+            var mixedCaseWords = new List<string>();
+            var upperCaseWords = new List<string>();
+            for (int i = 0; i < words.Count; i++)
+            {
+                if (words[i].All(char.IsLower))
+                {
+                    lowerCaseWords.Add(words[i]);
+                }
+                else if (words[i].All(char.IsUpper))
+                {
+                    upperCaseWords.Add(words[i]);
+                }
+                else
+                {
+                    mixedCaseWords.Add(words[i]);
+                }
+            }
+            Console.WriteLine("Lower-case: " + String.Join(", ", lowerCaseWords));
+            Console.WriteLine("Mixed-case: " + String.Join(", ", mixedCaseWords));
+            Console.WriteLine("Upper-case: " + String.Join(", ", upperCaseWords));
+        }
+    }
+}
+
+//05. Sort Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split(' ').Select(decimal.Parse).ToList();
+            nums.Sort();
+            var lastNum = decimal.MinValue;
+            string text = null;
+           foreach (var num in nums)
+            {
+                //if (num>lastNum)
+                //{
+                    text += $"{num} <= ";
+                    lastNum = num;
+                //}
+            }
+            text=text.Remove(text.Length -4, 3);
+            Console.WriteLine(text);
+        }
+    }
+}
+
+//06. Square Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            var result = new List<int>();
+            for (int i = 0; i<nums.Count; i++)
+            {
+                if (Math.Sqrt(nums[i]) == (int)Math.Sqrt(nums[i]))
+                {
+                    result.Add(nums[i]);
+                }
+            }
+            result.Sort();
+            for (int i = result.Count-1; i>-1; i--)
+            {
+                Console.Write($"{result[i]} ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+//07. Count Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            nums.Sort();
+            int[] count = new int[1001];
+            for (int i = 0; i<1001; i++)
+            {
+                count[i] = 0;
+            }
+            for (int i = 0; i<1001; i++)
+            {
+                for (int j = 0; j<nums.Count; j++)
+                {
+                    if (nums[j]==i)
+                    {
+                        count[i]++;
+                    }
+                }
+            }
+            for (int i = 0; i < 1001; i++)
+            {
+                if (count[i] != 0)
+                {
+                    Console.WriteLine($"{i} -> {count[i]}");
+                }
+            }
+            //Console.WriteLine(String.Join(", ", count));
+        }
+    }
+}

@@ -1,0 +1,527 @@
+//01. Practice Integers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            sbyte num1 = sbyte.Parse(Console.ReadLine());
+            byte num2 = byte.Parse(Console.ReadLine());
+            short num3 = short.Parse(Console.ReadLine());
+            ushort num4 = ushort.Parse(Console.ReadLine());
+            long num5 = long.Parse(Console.ReadLine());
+            int num6 = int.Parse(Console.ReadLine());
+            long num7 = long.Parse(Console.ReadLine());
+            Console.WriteLine("{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}",num1, num2, num3, num4, num5, num6, num7);
+        }
+    }
+}
+
+//02. Practice Floating Points
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            decimal num1 = decimal.Parse(Console.ReadLine());
+            double num2 = double.Parse(Console.ReadLine());
+            decimal num3 = decimal.Parse(Console.ReadLine());
+            Console.WriteLine("{0}\n{1}\n{2}",num1, num2, num3);
+        }
+    }
+}
+
+//03. Practice Chars And Strings
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            string str1 = Console.ReadLine();
+            char char1 = char.Parse(Console.ReadLine());
+            char char2 = char.Parse(Console.ReadLine());
+            char char3 = char.Parse(Console.ReadLine());
+            string str2 = Console.ReadLine();
+            Console.WriteLine("{0}\n{1}\n{2}\n{3}\n{4}", str1, char1, char2, char3, str2);
+        }
+    }
+}
+
+//04. Variable in Hex Format
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            string hexNum = Console.ReadLine();
+            int deciNum = Convert.ToInt32(hexNum, 16);
+            Console.WriteLine(deciNum);
+            
+        }
+    }
+}
+
+//05. Boolean Variable
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            string str1 = Console.ReadLine();
+            bool bool1 = Convert.ToBoolean(str1.ToLower());
+            if (bool1)
+            {
+                Console.WriteLine("Yes");
+            }
+            else
+            {
+                Console.WriteLine("No");
+            }
+        }
+    }
+}
+
+//06. Strings And Objects
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            string str1 = Console.ReadLine();
+            string str2 = Console.ReadLine();
+            object obj = str1 + " " + str2;
+            string str3 = obj.ToString();
+            Console.WriteLine("{0}", str3);
+        }
+    }
+}
+
+//07. Exchange Variable Values
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            int int1 = int.Parse(Console.ReadLine());
+            int int2 = int.Parse(Console.ReadLine());
+            int c = int2;
+            Console.Write("Before:\na = {0}\nb = {1}\n", int1, int2);
+            int2 = int1;
+            int1 = c;
+            Console.WriteLine("After:\na = {0}\nb = {1}\n", int1, int2);
+
+
+
+        }
+    }
+}
+
+//08. Employee Data
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            string firstName = Console.ReadLine();
+            string lastName = Console.ReadLine();
+            ushort age = ushort.Parse(Console.ReadLine());
+            char gender = char.Parse(Console.ReadLine());
+            long iD = long.Parse(Console.ReadLine());
+            int num = int.Parse(Console.ReadLine());
+            Console.WriteLine("First name: {0}\nLast name: {1}\nAge: {2}\nGender: {3}\nPersonal ID: {4}\nUnique Employee number: {5}", firstName, lastName, age, gender, iD, num);
+        }
+    }
+}
+
+//09. Reversed chars
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            char char1 = char.Parse(Console.ReadLine());
+            char char2 = char.Parse(Console.ReadLine());
+            char char3 = char.Parse(Console.ReadLine());
+            string str = char3.ToString() + char2.ToString() + char1.ToString();
+            Console.WriteLine("{0}", str);
+        }
+    }
+}
+
+//10. Centuries to Nanoseconds
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            int cent = int.Parse(Console.ReadLine());
+            ushort years = (ushort)(cent * 100);
+            uint days = (uint)(years * 365.2422);
+            ulong hours = (ulong)(days * 24);
+            ulong minutes = hours * 60;
+            ulong seconds = minutes * 60;
+            ulong milliSeconds = seconds * 1000;
+            ulong microSeconds = milliSeconds * 1000;
+            //ulong nanoSeconds = microSeconds * 1000;
+            Console.WriteLine("{0} centuries = {1} years = {2} days = {3} hours = {4} minutes = {5} seconds = {6} milliseconds = {7} microseconds = {7}000 nanoseconds", cent, years, days, hours, minutes, seconds, milliSeconds, microSeconds);
+
+        }
+    }
+}
+
+//11. Convert Speed Units
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            var meters = int.Parse(Console.ReadLine());
+            var hours = float.Parse(Console.ReadLine());
+            var minutes = float.Parse(Console.ReadLine());
+            var seconds = float.Parse(Console.ReadLine());
+            var totalSeconds = seconds + minutes * 60 + hours * 60 * 60;
+            var mps = meters / totalSeconds;
+            var kph = (meters/1000) / (totalSeconds/60/60);
+            var mph = (meters / 1609f) / (totalSeconds / 60 / 60);
+            Console.WriteLine("{0}\n{1}\n{2}", mps, kph, mph);
+        }
+    }
+}
+
+//12. Rectangle Properties
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            double a = double.Parse(Console.ReadLine());
+            double b = double.Parse(Console.ReadLine());
+            Console.WriteLine("{0}\n{1}\n{2}\n", 2*(a+b), a*b, Math.Sqrt(a*a+b*b));
+
+        }
+    }
+}
+
+//13. Vowel or Digit
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            string str = Console.ReadLine();
+            char input = char.Parse(str.ToLower());
+            if ((int)input >47 && (int)input<58)
+            {
+                Console.WriteLine("digit");
+            }
+            else if ((int)input == 97 || (int)input== 101 || (int)input == 105 || (int)input == 111 || (int)input ==117)
+                {
+                Console.WriteLine("vowel");
+            }
+            else
+            {
+                Console.WriteLine("other");
+            }
+        }
+    }
+}
+
+//14. Integer to Hex and Binary
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            int num = int.Parse(Console.ReadLine());
+            string hexValue = Convert.ToString(num, 16).ToUpper();
+            string binValue = Convert.ToString(num, 2);
+            Console.WriteLine("{0}\n{1}", hexValue,binValue);
+        }
+    }
+}
+
+//15. Fast Prime Checker
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            uint n = uint.Parse(Console.ReadLine());
+            for (int i=2; i<n+1; i++)
+            {
+                bool isPrime = true;
+                for (int j = 2; j<=Math.Sqrt(i); j++)
+                {
+                    if (i%j==0)
+                    {
+                        isPrime = false;
+                        break;
+                    }
+                }
+                Console.WriteLine("{0} -> {1}", i, isPrime);
+            }
+        }
+    }
+}
+
+//16. Comparing floats
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            double a = double.Parse(Console.ReadLine());
+            double b = double.Parse(Console.ReadLine());
+            if (Math.Abs(a-b)<0.000001)
+            {
+                Console.WriteLine("True");
+            }
+            else
+            {
+                Console.WriteLine("False");
+            }
+        }
+    }
+}
+
+//17. Print Part Of ASCII Table
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            int beginning = int.Parse(Console.ReadLine());
+            int end = int.Parse(Console.ReadLine());
+            for (int i = beginning; i<= end; i++)
+            {
+                Console.Write("{0} ", (char)(i));
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+//18. Different Integers Size
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string inputStr = Console.ReadLine();
+            long num;
+            try
+            {
+                num = long.Parse(inputStr);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("{0} can't fit in any type", inputStr);
+                return;
+            }
+            Console.WriteLine("{0} can fit in:", num);
+            if (num >= sbyte.MinValue && num <= sbyte.MaxValue)
+            {
+                Console.WriteLine("* sbyte");
+            }
+            if (num >= byte.MinValue && num <= byte.MaxValue)
+            {
+                Console.WriteLine("* byte");
+            }
+            if (num >= short.MinValue && num <= short.MaxValue)
+            {
+                Console.WriteLine("* short");
+            }
+            if (num >= ushort.MinValue && num <= ushort.MaxValue)
+            {
+                Console.WriteLine("* ushort");
+            }
+            if (num >= int.MinValue && num <= int.MaxValue)
+            {
+                Console.WriteLine("* int");
+            }
+            if (num >= uint.MinValue && num <= uint.MaxValue)
+            {
+                Console.WriteLine("* uint");
+            }
+            Console.WriteLine("* long");
+        }
+    }
+}
+
+//19. Thea The Photographer
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            var totalPictures = int.Parse(Console.ReadLine());
+            var secondsToFilter = int.Parse(Console.ReadLine());
+            var kpd = int.Parse(Console.ReadLine());
+            var uploadTime = int.Parse(Console.ReadLine());
+            var filterTotalTime = (long)totalPictures * secondsToFilter;
+            var goodPics = (long)Math.Ceiling(totalPictures * (kpd / 100d));
+            var uploadTotalTime = goodPics * uploadTime;
+            var timeInSeconds = filterTotalTime + uploadTotalTime;
+            var resultTime = TimeSpan.FromSeconds(timeInSeconds);
+            Console.WriteLine(resultTime.ToString(@"d\:hh\:mm\:ss"));
+        }
+    }
+}

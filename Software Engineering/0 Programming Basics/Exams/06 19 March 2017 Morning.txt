@@ -1,0 +1,161 @@
+//Problem 01 - House Painting
+import java.util.Scanner;
+
+public class HousePainting {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        double x = Double.parseDouble(console.nextLine());
+        double y = Double.parseDouble(console.nextLine());
+        double h = Double.parseDouble(console.nextLine());
+
+        double greenArea = x*x*2+2*x*y-6.9d;
+        double redArea = 2*x*(y+h/2);
+
+        System.out.printf("%.2f%n%.2f%n",greenArea/3.4d,redArea/4.3d);
+    }
+}
+
+//Problem 02 - Cups
+import com.sun.org.apache.xpath.internal.SourceTree;
+
+import java.util.Scanner;
+
+public class Cups {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int teacups = Integer.parseInt(console.nextLine());
+        int workers = Integer.parseInt(console.nextLine());
+        int days = Integer.parseInt(console.nextLine());
+
+        int totalTeacups = (int)Math.floor(workers*days*1.6d);
+        int diff = totalTeacups-teacups;
+        if (diff>=0) {
+            System.out.printf("%.2f extra money%n",diff*4.2);
+        } else {
+            System.out.printf("Losses: %.2f%n",-diff*4.2);
+        }
+    }
+}
+
+//Problem 03 - Vacation
+import java.util.Scanner;
+
+public class Vacation {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        double budget = Double.parseDouble(console.nextLine());
+        boolean isSummer = "Summer".equals(console.nextLine());
+        if (budget<=1000){
+            if (isSummer){
+                System.out.printf("Alaska - Camp - %.2f%n",0.65*budget);
+            } else {
+                System.out.printf("Morocco - Camp - %.2f%n",0.45*budget);
+            }
+        } else if (budget>1000 && budget <= 3000) {
+            if (isSummer){
+                System.out.printf("Alaska - Hut - %.2f%n",0.8*budget);
+            } else {
+                System.out.printf("Morocco - Hut - %.2f%n",0.6*budget);
+            }
+        } else {
+            if (isSummer){
+                System.out.printf("Alaska - Hotel - %.2f%n",0.9*budget);
+            } else {
+                System.out.printf("Morocco - Hotel - %.2f%n",0.9*budget);
+            }
+        }
+    }
+}
+
+//Problem 04 - Trainers Salary
+import java.util.Scanner;
+
+public class TrainersSalary {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        short lectures = Short.parseShort(console.nextLine());
+        double budget = Double.parseDouble(console.nextLine());
+        short jelevLectures = 0;
+        short royalLectures = 0;
+        short roliLectures = 0;
+        short trofonLectures = 0;
+        short sinoLectures = 0;
+        short othersLectures = 0;
+        double perLecture = budget/lectures;
+        for (short lectureNum = 1; lectureNum <=lectures; lectureNum++) {
+            String name = console.nextLine();
+            if ("Jelev".equals(name)){
+                jelevLectures++;
+            } else if ("RoYaL".equals(name)){
+                royalLectures++;
+            } else if ("Roli".equals(name)){
+                roliLectures++;
+            } else if ("Trofon".equals(name)){
+                trofonLectures++;
+            } else if ("Sino".equals(name)){
+                sinoLectures++;
+            } else {
+                othersLectures++;
+            }
+        }
+        System.out.printf("Jelev salary: %.2f lv%nRoYaL salary: %.2f lv%nRoli salary: %.2f lv%nTrofon salary: %.2f lv%nSino salary: %.2f lv%nOthers salary: %.2f lv%n",jelevLectures*perLecture,royalLectures*perLecture,roliLectures*perLecture,trofonLectures*perLecture,sinoLectures*perLecture,othersLectures*perLecture);
+    }
+}
+
+//Problem 05 - Hourglass
+import java.util.Scanner;
+
+public class Hourglass {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        short n = Short.parseShort(console.nextLine());
+        String stars = repeatStr("*",2*n+1);
+        String spaces = repeatStr(" ",2*n-3);
+        System.out.printf("%s%n.*%s*.%n",stars,spaces);
+        for (short row = 1; row < n-1; row++) {
+            String dots = repeatStr(".",row+1);
+            String eyes = repeatStr("@",2*n-3-2*row);
+            System.out.printf("%s*%s*%s%n",dots, eyes, dots);
+        }
+        String dots = repeatStr(".",n);
+        System.out.printf("%s*%s%n",dots,dots);
+        for (short row = 1; row < n-1; row++) {
+            String lowerDots = repeatStr(".",n-row);
+            String lowerSpaces = repeatStr(" ",row-1);
+            System.out.printf("%s*%s@%s*%s%n",lowerDots,lowerSpaces,lowerSpaces,lowerDots);
+        }
+        String eyes = repeatStr("@",2*n-3);
+        System.out.printf(".*%s*.%n%s%n", eyes, stars);
+    }
+    static String repeatStr(String strToRepeat, int count){
+        String text = "";
+        for (int i = 0; i < count ; i++) {
+            text += strToRepeat;
+        }
+        return text;
+    }
+}
+
+//Problem 06 - Two Numbers Sum
+import java.util.Scanner;
+
+public class TwoNumbersSum {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int first = Integer.parseInt(console.nextLine());
+        int second = Integer.parseInt(console.nextLine());
+        int magical = Integer.parseInt(console.nextLine());
+        int iterations = 0;
+        for (int i = first; i >= second; i--) {
+            for (int j = first; j >= second ; j--) {
+                iterations++;
+                if(i+j==magical) {
+                    System.out.printf("Combination N:%d (%d + %d = %d)%n",iterations,i,j,magical);
+                    return;
+                } else if (i+j!=magical && i==second && j==second){
+                    System.out.printf("%d combinations - neither equals %d%n",iterations,magical);
+                }
+            }
+        }
+    }
+}

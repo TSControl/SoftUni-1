@@ -1,0 +1,843 @@
+//01. Hello, Name!
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string name = Console.ReadLine();
+            PrintGreeting(name);
+        }
+        static void PrintGreeting (string name)
+            {
+            Console.WriteLine($"Hello, {name}!");
+            }
+
+    }
+}
+
+//02. Max Method
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int a = int.Parse(Console.ReadLine());
+            int b = int.Parse(Console.ReadLine());
+            int c = int.Parse(Console.ReadLine());
+            Console.WriteLine(GetMax(GetMax(a,b),c));
+        }
+        static int GetMax (int a, int b)
+            {
+            if (a>b)
+            {
+                return a;
+            }
+            else
+            {
+                return b;
+            }
+            }
+
+    }
+}
+
+//03. English Name of Last Digit
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            long n = long.Parse(Console.ReadLine());
+            Console.WriteLine(LastDigitName(Math.Abs(n)));
+        }
+        static string LastDigitName(long n)
+        {
+            var lastDigit = n % 10;
+            string str = null;
+            switch (lastDigit)
+            {
+                case 1:
+                    {
+                        str = "one";
+                        break;
+                    }
+                case 2:
+                    {
+                        str ="two";
+                        break;
+                    }
+                case 3:
+                    {
+                        str = "three";
+                        break;
+                    }
+                case 4:
+                    {
+                        str = "four";
+                        break;
+                    }
+                case 5:
+                    {
+                        str = "five";
+                        break;
+                    }
+                case 6:
+                    {
+                        str = "six";
+                        break;
+                    }
+                case 7:
+                    {
+                        str = "seven";
+                        break;
+                    }
+                case 8:
+                    {
+                        str = "eight";
+                        break;
+                    }
+                case 9:
+                    {
+                        str = "nine";
+                        break;
+                    }
+                case 0:
+                    {
+                        str = "zero";
+                        break;
+                    }
+            }
+            return str;
+        }
+    }
+}
+
+//04. Numbers in Reversed Order
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str = Console.ReadLine();
+            Console.WriteLine(ReversedNum(str));
+        }
+        static decimal ReversedNum(string str)
+        {
+            string reversedNum = null;
+            for (int i = str.Length-1; i>=0; i--)
+            {
+                reversedNum += str[i];
+            }
+
+            return decimal.Parse(reversedNum);
+        }
+    }
+}
+
+//05. Fibonacci Numbers
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            Console.WriteLine(Fib(n));
+        }
+        static decimal Fib(int n)
+        {
+            int first = 1; 
+            int second = 1; 
+            int sum = 0;
+            if (n==0)
+            {
+                return 1;
+            }
+            else if (n==1)
+            {
+                return 1;
+            }
+            else
+            {
+                for (int i = 2; i <= n; i++)
+                {
+                    sum = first + second;
+                    second = first;
+                    first = sum;
+                }
+            }
+                
+            
+            return sum;
+        }
+    }
+}
+
+//06. Prime Checker
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ulong n = ulong.Parse(Console.ReadLine());
+            Console.WriteLine(IsPrime(n));
+        }
+        static bool IsPrime(ulong n)
+        {
+            ulong counter = 0;
+            if (n == 0 || n == 1)
+            {
+                return false;
+            }
+            else
+            {
+                for (ulong i = 2; i <= (ulong)Math.Ceiling(Math.Sqrt(n)); i++)
+                {
+                    if (n % i == 0)
+                    {
+                        counter++;
+                        if (counter == 1)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                if (counter == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+    }
+}
+
+//07. Primes in Given Range
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ulong min = ulong.Parse(Console.ReadLine());
+            ulong max = ulong.Parse(Console.ReadLine());
+            string text = null;
+            if (min<=max)
+            {
+                for (ulong i = min; i <= max; i++)
+                {
+                    if (IsPrime(i))
+                    {
+                        text += $"{i}, ";
+                    }
+                }
+                Console.WriteLine(text.Substring(0, text.Length - 2));
+            }
+            else
+            {
+                Console.WriteLine();
+            }
+        }
+        static bool IsPrime(ulong n)
+        {
+            ulong counter = 0;
+            if (n == 0 || n == 1)
+            {
+                return false;
+            }
+            else
+            {
+                for (ulong i = 2; i <= (ulong)Math.Ceiling(Math.Sqrt(n)); i++)
+                {
+                    if (n % i == 0)
+                    {
+                        counter++;
+                        if (counter == 1)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                if (counter == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+    }
+}
+
+//08. Center Point
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var x1 = double.Parse(Console.ReadLine());
+            var y1 = double.Parse(Console.ReadLine());
+            var x2 = double.Parse(Console.ReadLine());
+            var y2 = double.Parse(Console.ReadLine());
+            PrintLine(x1, y1, x2, y2);
+        }
+        static void PrintLine(double x1, double y1, double x2, double y2)
+        {
+            double distance1 = Math.Sqrt(x1 * x1 + y1 * y1);
+            double distance2 = Math.Sqrt(x2 * x2 + y2 * y2);
+            if (distance1<=distance2)
+            {
+                Console.WriteLine("({0}, {1})", x1, y1);
+            }
+            else
+            {
+                Console.WriteLine("({0}, {1})", x2, y2);
+            }
+        }
+    }
+}
+
+//09. Longer Line
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var x1 = double.Parse(Console.ReadLine());
+            var y1 = double.Parse(Console.ReadLine());
+            var x2 = double.Parse(Console.ReadLine());
+            var y2 = double.Parse(Console.ReadLine());
+            var x3 = double.Parse(Console.ReadLine());
+            var y3 = double.Parse(Console.ReadLine());
+            var x4 = double.Parse(Console.ReadLine());
+            var y4 = double.Parse(Console.ReadLine());
+            PrintLine(x1, y1, x2, y2, x3, y3, x4, y4);
+        }
+        static void PrintLine(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
+        {
+            double distance1 = Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+            double distance2 = Math.Sqrt((x4 - x3) * (x4 - x3) + (y4 - y3) * (y4 - y3));
+            if (distance1 < distance2)
+            {
+                if (x3*x3+y3*y3>x4*x4+y4*y4)
+                {
+                    Console.WriteLine("({0}, {1})({2}, {3})", x4, y4, x3, y3);
+                }
+                else
+                {
+                    Console.WriteLine("({0}, {1})({2}, {3})", x3, y3, x4, y4);
+                }
+            }
+            else if (distance1>distance2)
+            {
+                if (x2 * x2 + y2 * y2 >= x1 * x1 + y1 * y1)
+                {
+                    Console.WriteLine("({0}, {1})({2}, {3})", x1, y1, x2, y2);
+                }
+                else
+                {
+                    Console.WriteLine("({0}, {1})({2}, {3})", x2, y2, x1, y1);
+                }
+            }
+            else
+            {
+                Console.WriteLine("({0}, {1})({2}, {3})", x1, y1, x2, y2);
+
+            }
+        }
+    }
+}
+
+//10. Cube Properties
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var n = double.Parse(Console.ReadLine());
+            string str = Console.ReadLine();
+            PrintLine(n, str);
+        }
+        static void PrintLine(double n, string str)
+        {
+            if (str.Equals("face"))
+            {
+                Console.WriteLine("{0:F2}",Math.Sqrt(2)*n);
+            }
+            else if (str.Equals("space"))
+            {
+                Console.WriteLine("{0:F2}", Math.Sqrt(3)*n);
+            }
+            else if (str.Equals("volume"))
+            {
+                Console.WriteLine("{0:F2}", n *n*n);
+            }
+            else if (str.Equals("area"))
+            {
+                Console.WriteLine("{0:F2}", 6 *n*n);
+            }
+        }
+    }
+}
+
+//11. Geometry Calculator
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str = Console.ReadLine();
+            PrintLine(str);
+        }
+        static void PrintLine(string str)
+        {
+            if (str.Equals("triangle"))
+            {
+                var side = double.Parse(Console.ReadLine());
+                var height = double.Parse(Console.ReadLine());
+                Console.WriteLine("{0:F2}", side*height/2.0);
+            }
+            else if (str.Equals("square"))
+            {
+                var side = double.Parse(Console.ReadLine());
+                Console.WriteLine("{0:F2}", Math.Pow(side ,2));
+            }
+            else if (str.Equals("rectangle"))
+            {
+                var width = double.Parse(Console.ReadLine());
+                var height = double.Parse(Console.ReadLine());
+                Console.WriteLine("{0:F2}", width*height);
+            }
+            else if (str.Equals("circle"))
+            {
+                var r = double.Parse(Console.ReadLine());
+                Console.WriteLine("{0:F2}", Math.PI*Math.Pow(r,2));
+            }
+        }
+    }
+}
+
+//12. Master Number
+using System;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 232; i <= n; i++)
+            {
+                if (Sym(i) && Sum(i) && Even(i))
+                {
+                    Console.WriteLine(i);
+                }
+            }
+        }
+        static bool Sym(int i)
+        {
+            string str = i.ToString();
+            for (int j=0; j<=str.Length/2; j++)
+            {
+                if (str[j]!=str[str.Length-j-1])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        static bool Sum(int n)
+        {
+            int sum = 0;
+            while (n!=0)
+            {
+                sum += n % 10;
+                n /= 10;
+            }
+            if (sum % 7 == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        static bool Even(int n)
+        {
+            string str = n.ToString();
+            for (short k = 0; k<str.Length; k++)
+            {
+                if (str[k]%2==0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+}
+
+//13. Factorial
+using System;
+using System.Numerics;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            short n = short.Parse(Console.ReadLine());
+            BigInteger factorial = 1;
+            for (int i = 1; i<=n; i++)
+            {
+                factorial *= i;
+            }
+            Console.WriteLine(factorial);
+        }
+    }
+}
+
+//14. Factorial Trailing Zeroes
+using System;
+using System.Numerics;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            short n = short.Parse(Console.ReadLine());
+            BigInteger factorial = 1;
+            for (int i = 1; i<=n; i++)
+            {
+                factorial *= i;
+            }
+            Console.WriteLine(Zeroes(factorial));
+        }
+        static int Zeroes (BigInteger factorial)
+        {
+            int counter = 0;
+            while (factorial%10==0)
+            {
+                counter++;
+                factorial /= 10;
+            }
+            return counter;
+        }
+    }
+}
+
+//15. ** Substring
+using System;
+
+public class Substring_broken
+{
+    public static void Main()
+    {
+        string text = Console.ReadLine();
+        int n = int.Parse(Console.ReadLine());
+        bool hasMatch = false;
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] == 'p')
+            {
+                hasMatch = true;
+                int endIndex = i+n;
+                if (endIndex > text.Length-1)
+                {
+                    endIndex = text.Length-1;
+                    string matchedString = text.Substring(i);
+                    Console.WriteLine(matchedString);
+                }
+                else
+                {
+                    string matchedString = text.Substring(i, n + 1);
+                    Console.WriteLine(matchedString);
+                }
+                
+                i = endIndex;
+            }
+        }
+        if (!hasMatch)
+        {
+            Console.WriteLine("no");
+        }
+    }
+}
+
+//16. ** Instruction Set
+using System;
+
+class InstructionSet_broken
+{
+    static void Main()
+    {
+        for (long i = 1; ; i++)
+        {
+            string opCode = Console.ReadLine();
+            string[] codeArgs = opCode.Split(' ');
+            decimal result = 0;
+            switch (codeArgs[0])
+            {
+                case "INC":
+                    {
+                        long operandOne = long.Parse(codeArgs[1]);
+                        result = ++operandOne;
+                        break;
+                    }
+                case "DEC":
+                    {
+                        long operandOne = long.Parse(codeArgs[1]);
+                        result = --operandOne;
+                        break;
+                    }
+                case "ADD":
+                    {
+                        long operandOne = long.Parse(codeArgs[1]);
+                        long operandTwo = long.Parse(codeArgs[2]);
+                        result = operandOne + operandTwo;
+                        break;
+                    }
+                case "MLA":
+                    {
+                        long operandOne = long.Parse(codeArgs[1]);
+                        long operandTwo = long.Parse(codeArgs[2]);
+                        result = (decimal)operandOne * (decimal)operandTwo;
+                        break;
+                    }
+                case "END":
+                    {
+                        return;
+                    }
+            }
+            Console.WriteLine(result);
+        }
+    }
+}
+
+//17. ** Be Positive
+using System;
+using System.Collections.Generic;
+
+public class BePositive_broken
+{
+    public static void Main()
+    {
+        var countSequences = int.Parse(Console.ReadLine());
+        for (int i = 0; i < countSequences; i++)
+        {
+            string[] input = Console.ReadLine().Trim().Split(' ');
+            var numbers = new List<int>();
+            for (int j = 0; j < input.Length; j++)
+            {
+                if (!input[j].Equals(string.Empty))
+                {
+                    var num = int.Parse(input[j]);
+                    numbers.Add(num);
+                }
+            }
+            bool found = false;
+            for (int j = 0; j < numbers.Count; j++)
+            {
+                var currentNum = numbers[j];
+                if (currentNum >= 0)
+                {
+                    if (found)
+                    {
+                        Console.Write(" ");
+                    }
+                    Console.Write(currentNum);
+                    found = true;
+                }
+                else if (j != numbers.Count - 1)
+                {
+                    currentNum += numbers[j + 1];
+                    
+                    if (currentNum >= 0)
+                    {
+                        if (found)
+                        {
+                            Console.Write(" ");
+                        }
+                        Console.Write(currentNum);
+                        found = true;
+                    }
+                    if (j!=numbers.Count - 1)
+                    {
+                        j++;
+                    }
+                }
+            }
+            if (!found)
+            {
+                Console.WriteLine("(empty)");
+            }
+            else
+            {
+                Console.WriteLine();
+            }
+        }
+    }
+}
+
+//18. ** Sequence of Commands
+using System;
+using System.Linq;
+
+public class SequenceOfCommands_broken
+{
+    private const char ArgumentsDelimiter = ' ';
+
+    public static void Main()
+    {
+        int sizeOfArray = int.Parse(Console.ReadLine());
+
+        long[] array = Console.ReadLine()
+            .Split(' ')
+            .Select(long.Parse)
+            .ToArray();
+
+        for (int i = 1; ;i++)
+        {
+            string line = Console.ReadLine().Trim();
+            string command = line.IndexOf(" ") > -1
+                  ? line.Substring(0, line.IndexOf(" "))
+                  : line;
+            int[] args = new int[2];
+
+            if (command.Equals("add") ||
+                command.Equals("subtract") ||
+                command.Equals("multiply"))
+            {
+                string[] stringParams = line.Split(' ');
+                args[0] = int.Parse(stringParams[1])-1;
+                args[1] = int.Parse(stringParams[2]);
+
+                PerformAction(array, command, args);
+                PrintArray(array);
+            }
+            else if (command.Equals("stop"))
+            {
+                return;
+            }
+            else if (command.Equals("rshift") || command.Equals("lshift"))
+            {
+                
+                args[0] = 0;
+                args[1] = 0;
+
+                PerformAction(array, command, args);
+                PrintArray(array);
+            }
+
+            
+
+        }
+       
+
+        
+            
+        
+    }
+
+    static void PerformAction(long[] array, string action, int[] args)
+    {
+        //long[] arr = array.Clone() as long[];
+        int pos = args[0];
+        int value = args[1];
+
+        switch (action)
+        {
+            case "multiply":
+                array[pos] *= value;
+                break;
+            case "add":
+                array[pos] += value;
+                break;
+            case "subtract":
+                array[pos] -= value;
+                break;
+            case "lshift":
+                ArrayShiftLeft(array);
+                break;
+            case "rshift":
+                ArrayShiftRight(array);
+                break;
+        }
+    }
+
+    private static void ArrayShiftRight(long[] array)
+    {
+        long[] newArr = new long[array.Length];
+        newArr[0] = array[array.Length - 1];
+        for (int i = 0; i<array.Length-1; i++)
+        {
+            newArr[i+1] = array[i];
+        }
+        for (int i = 0; i<array.Length; i++)
+        {
+            array[i] = newArr[i];
+        }
+    }
+
+    private static void ArrayShiftLeft(long[] array)
+    {
+        long lastElement = array[0];
+        for (int i = 0; i < array.Length - 1; i++)
+        {
+            array[i] = array[i + 1];
+        }
+        array[array.Length - 1] = lastElement;
+    }
+
+    private static void PrintArray(long[] array)
+    {
+        for (int i = 0; i < array.Length; i++)
+        {
+            Console.Write(array[i] + " ");
+        }
+        Console.WriteLine();
+    }
+}

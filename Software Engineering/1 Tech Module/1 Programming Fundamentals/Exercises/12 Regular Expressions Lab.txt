@@ -1,0 +1,177 @@
+//01. Match Full Name
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+using System.Text.RegularExpressions;
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string regex = @"\b(?<name>([A-Z][a-z]+\s{1}[A-Z][a-z]+))\b";
+            string names = Console.ReadLine();
+            MatchCollection matchedNames = Regex.Matches(names, regex);
+            foreach (Match name in matchedNames)
+                Console.Write(name.Value + " ");
+            Console.WriteLine();
+        }
+    }
+}
+
+//02. Match Phone Number
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var regex = @"(?:^|\s)((\+359 2 \d{3} \d{4})|(\+359-2-\d{3}-\d{4}))";
+            var phones = Console.ReadLine();
+            var phoneMatches = Regex.Matches(phones, regex);
+            var matchedPhones = phoneMatches.Cast<Match>().Select(a => a.Value.Trim()).ToArray();
+            Console.WriteLine(string.Join(", ", matchedPhones));
+        }
+    }
+}
+
+//03. Match Hexadecimal Numbers
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var pattern = @"\b(?:0x)?[0-9A-F]+\b";
+            var nums = Console.ReadLine();
+            var matches = Regex.Matches(nums, pattern);
+            var matchedNums = matches.Cast<Match>().Select(a => a.Value).ToArray();
+            Console.WriteLine(string.Join(" ", matchedNums));
+        }
+    }
+}
+
+//04. Match Dates
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var pattern = @"\b(?<day>\d{2})([-.\/])(?<month>[A-Z][a-z]{2})\1(?<year>\d{4})\b";
+            var input = Console.ReadLine();
+            var dates = Regex.Matches(input, pattern);
+            foreach (Match date in dates)
+            {
+                var day = date.Groups["day"].Value;
+                var month = date.Groups["month"].Value;
+                var year = date.Groups["year"].Value;
+                Console.WriteLine($"Day: {day}, Month: {month}, Year: {year}");
+            }
+        }
+    }
+}
+
+//05. Match Numbers
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var pattern = @"(^|(?<=\s))-?\d+(\.\d+)?($|(?=\s))";
+            var input = Console.ReadLine();
+            MatchCollection matches = Regex.Matches(input, pattern);
+            foreach (Match match in matches)
+            {
+                Console.Write(match.Value + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+//06. Replace a Tag
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine();
+            var pattern = @"(?<beggining><a href=).*(?<middle>>).*(?<end><\/a>)";
+            var output = "";
+            while (input != "end")
+            {
+                var match = Regex.Match(input, pattern);
+                if (match.Success)
+                {
+                    var index = match.Groups["beggining"].Index;
+                    var length = match.Groups["beggining"].Length;
+                    input = input.Remove(index, length); 
+                    input = input.Insert(index, "[URL href="); 
+                    var index1 = ((Match)match).Groups["middle"].Index;
+                    input = input.Remove(index1+2, 1);
+                    input = input.Insert(index1+2, "]");
+                    var index2 = ((Match)match).Groups["end"].Index;
+                    var length2 = ((Match)match).Groups["end"].Length;
+                    input = input.Remove(index2+2, length2);
+                    input = input.Insert(index2+2, @"[/URL]");
+                }
+                output += input + "\n";
+                input = Console.ReadLine();
+            }
+            Console.Write(output);
+
+        }
+    }
+}

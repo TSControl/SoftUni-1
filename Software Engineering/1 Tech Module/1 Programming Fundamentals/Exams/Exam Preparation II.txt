@@ -1,0 +1,229 @@
+//01. Charity Marathon
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var daysCount = decimal.Parse(Console.ReadLine());
+            var runnersCount = decimal.Parse(Console.ReadLine());
+            var lapsCount = decimal.Parse(Console.ReadLine());
+            var lapLength = decimal.Parse(Console.ReadLine());
+            var trackCapacity = decimal.Parse(Console.ReadLine());
+            var moneyPerKilometer = decimal.Parse(Console.ReadLine());
+
+            var maxRunners = trackCapacity * daysCount;
+            if (runnersCount > maxRunners)
+                runnersCount = maxRunners;
+            var totalKilometers = runnersCount * lapsCount * lapLength/1000M;
+            var totalMoney = moneyPerKilometer * totalKilometers;
+            Console.WriteLine("Money raised: {0:F2}", totalMoney);
+        }
+    }
+}
+
+//02. Ladybugs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LadyBugs
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var fieldSize = int.Parse(Console.ReadLine());
+            if (fieldSize == 0)
+            {
+                Console.WriteLine("");
+                return;
+            }
+            var listIndexes = Console.ReadLine().Split().Select(int.Parse).Where(p => p > -1 && p < fieldSize).Distinct().ToArray();
+            var input = Console.ReadLine();
+            var arr = new int[fieldSize];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (listIndexes.Contains(i))
+                    arr[i] = 1;
+                else
+                    arr[i] = 0;
+            }
+            while (input != "end")
+            {
+                var tokens = input.Split().ToArray();
+                var index = int.Parse(tokens[0]);
+                if (index<0 || index>arr.Length-1)
+                {
+                    input = Console.ReadLine();
+                    continue;
+                }
+                var direction = tokens[1];
+                var positionsToMove = int.Parse(tokens[2]);
+                var multiplier = 1;
+                if (direction == "left")
+                    multiplier = -1;
+                var startingLandingIndex = index + multiplier * positionsToMove;
+                if (arr[index] == 1)
+                {
+                    arr[index] = 0;
+                    var landingIndex = startingLandingIndex;
+                    while (landingIndex < arr.Length && landingIndex > -1)
+                    {
+                        if (arr[landingIndex] == 0)
+                        {
+                            arr[landingIndex] = 1;
+                            break;
+                        }
+                        else
+                            landingIndex += multiplier*positionsToMove;
+                    }
+                }
+
+
+                input = Console.ReadLine();
+            }
+            //do shit in case of end
+            Console.WriteLine(string.Join(" ", arr));
+        }
+    }
+}
+
+//03. Nether Realms
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace LadyBugs
+{
+    class Program
+    {
+        class Demon
+        {
+            public string Name { get; set; }
+            public double Health { get; set; }
+            public double Damage { get; set; }
+        }
+        static void Main(string[] args)
+        {
+            var names = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+            var demons = new List<Demon>(); // to print
+            foreach (var demon in names)
+            {
+                var name = demon;
+                double damage = 0;
+                var health = name.ToCharArray().Where(p => !"0123456789+-*/.".ToCharArray().Contains(p)).Select(p => (int)p).Sum();
+                //Console.WriteLine(name+" "+ health); - CORRECT HEALTH
+                //pull out nums out of name
+                Regex regex = new Regex(@"(?<nums>[-]{0,1}\d+\.{0,1}\d*)");
+                MatchCollection nums = regex.Matches(name);
+                //Console.WriteLine(string.Join(" ", nums));
+                foreach (var num in nums)
+                {
+                    damage += double.Parse(num.ToString());
+                }
+                var chars = name.ToCharArray();
+                for (int i = 0; i < chars.Length; i++)
+                {
+                    if (chars[i] == '*')
+                        damage *= 2;
+                    else if (chars[i] == '/')
+                        damage /= 2;
+                }
+                var newDemon = new Demon() { Name = name, Health = health, Damage = damage };
+                demons.Add(newDemon);
+
+            }
+            var sortedDemons = demons.OrderBy(p => p.Name).ToList();
+            foreach (var lord in sortedDemons)
+            {
+                Console.WriteLine("{0} - {1} health, {2:F2} damage", lord.Name, lord.Health, lord.Damage);
+            }
+        }
+    }
+}
+
+//04. Roli The Coder 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        class Event
+        {
+            public string Name { get; set; }
+            public List<string> Participants { get; set; }
+        }
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine();
+            var events = new List<Event>();
+            var regex = new Regex(@"(?<id>\d+)\s+#(?<name>\w+)\s*(?<participants>(?:@[a-zA-Z0-9'-]+\s*)*)");
+            var dic = new Dictionary<int, Event>();
+            while (input != "Time for Code")
+            {
+                var match = regex.Match(input);
+                if (!match.Success)
+                {
+                    input = Console.ReadLine();
+                    continue;
+                }
+                var id = int.Parse(match.Groups["id"].Value);
+                var name = match.Groups["name"].Value;
+                var participants = match.Groups["participants"].Value.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                if (dic.ContainsKey(id))
+                {
+                    if (dic[id].Name == name)
+                    {
+                        if (participants.Count() != 0)
+                        {
+                            dic[id].Participants.AddRange(participants);
+                        }
+                        else
+                        {
+                            //
+                        }
+                    }
+                    else
+                    {
+                        input = Console.ReadLine();
+                        continue;
+                    }
+                }
+                else
+                {
+                    var newEvent = new Event() { Name = name, Participants = participants };
+                    dic[id] = newEvent;
+                }
+                input = Console.ReadLine();
+            }
+            //print
+            foreach (var kvp in dic)
+                kvp.Value.Participants = kvp.Value.Participants.Distinct().ToList();
+            var sortedDic = dic.OrderByDescending(a => a.Value.Participants.Count()).ThenBy(a => a.Value.Name).ToDictionary(a => a.Key, a => a.Value);
+            foreach (var kvp in sortedDic)
+            {
+                Console.WriteLine("{0} - {1}", kvp.Value.Name, kvp.Value.Participants.Count());
+                foreach (var participant in kvp.Value.Participants.OrderBy(a => a))
+                    Console.WriteLine(participant);
+            }
+        }
+    }
+}

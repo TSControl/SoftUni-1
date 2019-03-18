@@ -1,0 +1,370 @@
+// 01. Request Validator
+function validateRequest(requestObj) {
+    const methods = ['GET', 'POST', 'DELETE', 'CONNECT'];
+    const versions = ['HTTP/0.9', 'HTTP/1.0', 'HTTP/1.1', 'HTTP/2.0'];
+    const uriRegex = /(^[a-zA-Z0-9.]+$)|(^\*$)/g;
+    const messageRegex = /(^[^<>\\&'"]+$)|(^$)/g;
+    let method = requestObj.method;
+    let uri = requestObj.uri;
+    let version = requestObj.version;
+    let message = requestObj.message;
+
+
+    if (!Object.keys(requestObj).includes('method') || !methods.includes(method)) {
+        throwValidationError('Method');
+    }
+
+    if (!Object.keys(requestObj).includes('uri') || !uriRegex.test(uri)) {
+        throwValidationError('URI');
+    }
+
+    if (!Object.keys(requestObj).includes('version') || !versions.includes(version)) {
+        throwValidationError('Version');
+    }
+
+    if (!Object.keys(requestObj).includes('message') || !messageRegex.test(message)) {
+        throwValidationError('Message');
+    }
+
+    function throwValidationError(errorType) {
+        throw new Error(`Invalid request header: Invalid ${errorType}`);
+    }
+
+    return requestObj;
+}
+
+// 02. Even Or Odd
+describe("isOddOrEven(string)", function () {
+    it("should return undefined for non string input", function () {
+        assert.equal(isOddOrEven(4), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(isOddOrEven(new Date()), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(isOddOrEven(true), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(isOddOrEven([]), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(isOddOrEven({}), undefined);
+    });
+
+    it("should return even for asdfgh", function () {
+        assert.equal(isOddOrEven('asdfgh'), 'even');
+    });
+
+    it("should return odd for qwert", function () {
+        assert.equal(isOddOrEven('qwert'), 'odd');
+    });
+});
+
+// 03. Char Lookup
+describe("lookupChar(string, index)", function () {
+    it("should return undefined for non string input", function () {
+        assert.equal(lookupChar(4, 6), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(lookupChar(4.5, 6), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(lookupChar(undefined, 6), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(lookupChar(NaN, 6), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(lookupChar(null, 6), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(lookupChar(true, 9), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(lookupChar([], 3), undefined);
+    });
+
+    it("should return undefined for non string input", function () {
+        assert.equal(lookupChar({}, 5), undefined);
+    });
+
+    it("should return undefined for non number input", function () {
+        assert.equal(lookupChar('dsfsdf', 'sadas'), undefined);
+    });
+
+    it("should return undefined for non number input", function () {
+        assert.equal(lookupChar('dsfsdf', null), undefined);
+    });
+
+    it("should return undefined for non number input", function () {
+        assert.equal(lookupChar('dsfsdf', NaN), undefined);
+    });
+
+    it("should return undefined for non number input", function () {
+        assert.equal(lookupChar('a', 0), 'a');
+    });
+
+    it("should return undefined for non number input", function () {
+        assert.equal(lookupChar('a', 1), 'Incorrect index');
+    });
+
+    it("should return undefined for non number input", function () {
+        assert.equal(lookupChar('dsfsdf', false), undefined);
+    });
+
+    it("should return undefined for non number input", function () {
+        assert.equal(lookupChar('dsfsdf', 9.32), undefined);
+    });
+
+    it("should return undefined for non number input", function () {
+        assert.equal(lookupChar('dsfsdf', []), undefined);
+    });
+
+    it("should return undefined for non number input", function () {
+        assert.equal(lookupChar('dsfsdf', {}), undefined);
+    });
+
+    it("index should be inside the string", function () {
+        assert.equal(lookupChar('sadsad', -1), "Incorrect index");
+    });
+
+    it("index should be inside the string", function () {
+        assert.equal(lookupChar('sadsad', 100), "Incorrect index");
+    });
+
+    it("index should be inside the string", function () {
+        assert.equal(lookupChar('sadsad', 6), "Incorrect index");
+    });
+
+    it("index should be inside the string", function () {
+        assert.equal(lookupChar('sadsad', 3), "s");
+    });
+
+    it("should return correct char for {abcdefg,6}", function () {
+        assert.equal(lookupChar('abcdefg', 6), "g");
+    });
+});
+
+// 04. Math Enforcer
+describe("mathEnforcer", function () {
+    it("should return undefined for non number input - object", function () {
+        assert.equal(mathEnforcer.addFive({}), undefined);
+    });
+
+    it("should return undefined for non number input - string", function () {
+        assert.equal(mathEnforcer.addFive('sdada'), undefined);
+    });
+
+    it("should return 9 with 4 input", function () {
+        assert.equal(mathEnforcer.addFive(-4), 1);
+    });
+
+    it("should return 5.3 with 0.3 input", function () {
+        assert.equal(mathEnforcer.addFive(0.3), 5.3);
+    });
+
+    it("should return undefined for non number input - object", function () {
+        assert.equal(mathEnforcer.subtractTen({}), undefined);
+    });
+
+    it("should return undefined for non number input - string", function () {
+        assert.equal(mathEnforcer.subtractTen('sdada'), undefined);
+    });
+
+    it("should return 3.3 with 13.3 input", function () {
+        assert.equal(mathEnforcer.subtractTen(13.3).toFixed(2), 3.3); //assert.closeTo(val1, val2, precision);
+    });
+
+    it("should return -15 with -5 input", function () {
+        assert.equal(mathEnforcer.subtractTen(-5), -15);
+    });
+
+    it("should return undefined for non number input - object", function () {
+        assert.equal(mathEnforcer.sum({}, 4), undefined);
+    });
+
+    it("should return undefined for non number input - string", function () {
+        assert.equal(mathEnforcer.sum(5, 'sdada'), undefined);
+    });
+
+    it("should return 3.3 with 13.3 input", function () {
+        assert.equal(mathEnforcer.sum(13.3, 5.6).toFixed(2), 18.9);
+    });
+
+    it("should return -15 with -5 input", function () {
+        assert.equal(mathEnforcer.sum(-20, 31), 11);
+    });
+});
+
+// 05. Shared Object
+describe("sharedObject", function () {
+    before(() => global.$ = $);
+
+    it("shared object should start with name = null", function () {
+        assert.equal(sharedObject.name, null);
+    });
+
+    it("shared object should start with name = null", function () {
+        assert.equal(sharedObject.income, null);
+    });
+
+    it("changeName should not change the name with empty string input", function () {
+        sharedObject.changeName('');
+        assert.equal(sharedObject.name, null);
+    });
+
+    it("changeName should change the name property and html", function () {
+        sharedObject.changeName('qwerty');
+        assert.equal(sharedObject.name, 'qwerty');
+        assert.equal($('#name').val(), 'qwerty');
+    });
+
+    it("changeIncome(income) shouldnt change income with non positive number input", function () {
+        sharedObject.changeIncome(-100);
+        assert.equal(sharedObject.income, null);
+    });
+
+    it("changeIncome(income) shouldnt change income with non positive number input", function () {
+        sharedObject.changeIncome(0);
+        assert.equal(sharedObject.income, null);
+    });
+
+    it("changeIncome(income) shouldnt change income with non positive number input", function () {
+        sharedObject.changeIncome(2.71);
+        assert.equal(sharedObject.income, null);
+    });
+
+    it("changeIncome(income) shouldnt change income with non positive number input", function () {
+        sharedObject.changeIncome('qwerty');
+        assert.equal(sharedObject.income, null);
+    });
+
+    it("changeIncome(income) shouldnt change income with non positive number input", function () {
+        sharedObject.changeIncome(20);
+        assert.equal(sharedObject.income, 20);
+        assert.equal($('#income').val(), '20');
+    });
+
+    it("changeIncome(income) shouldnt change income with non positive number input", function () {
+        sharedObject.changeIncome(20);
+        sharedObject.changeIncome(-20);
+        assert.equal(sharedObject.income, 20);
+        assert.equal($('#income').val(), '20');
+    });
+});
+
+describe("updateName()", function () {
+    beforeEach(function () {
+        $('#name').val('');
+        sharedObject.name = null;
+    });
+
+    it("updateName(name) should not update name with empty string input", function () {
+        sharedObject.updateName('');
+        assert.equal(sharedObject.name, null);
+    });
+
+    it("updateName(name) should update name with correct input", function () {
+        $('#name').val('qwe');
+        sharedObject.updateName();
+        assert.equal(sharedObject.name, 'qwe');
+    });
+});
+
+describe("updateIncome()", function () {
+    beforeEach(function () {
+        $('#income').val('');
+        sharedObject.income = null;
+    });
+
+    it("updateIncome() should not change anything with non integer input", function () {
+        $('#income').val('str');
+        sharedObject.updateIncome();
+        assert.equal(sharedObject.income, null);
+    });
+
+    it("updateIncome() should not change anything with non positive integer input", function () {
+        $('#income').val('-10');
+        sharedObject.updateIncome();
+        assert.equal(sharedObject.income, null);
+    });
+
+    it("updateIncome() should not change anything with non integer input", function () {
+        $('#income').val('2.71');
+        sharedObject.updateIncome();
+        assert.equal(sharedObject.income, null);
+    });
+
+    it("updateIncome() should not change anything with non integer input", function () {
+        $('#income').val('0');
+        sharedObject.updateIncome();
+        assert.equal(sharedObject.income, null);
+    });
+
+    it("updateIncome() should not change anything with non integer input", function () {
+        $('#income').val('45');
+        sharedObject.updateIncome();
+        assert.equal(sharedObject.income, 45);
+    });
+});
+
+// 06. ArmageDOM - copied from exercises lecture
+describe("ArmageDOM Unit Tests", function () {
+    let oldHTML;
+    let htmlSelector;
+
+    beforeEach("Init the HTML", function () {
+        document.body.innerHTML = `    <div id="target">
+        <div class="nested target">
+            <p>This is some text</p>
+        </div>
+        <div class="target">
+            <p>Empty div</p>
+        </div>
+        <div class="inside">
+            <span class="nested">Some more text</span>
+            <span class="target">Some more text</span>
+        </div>
+    </div>`;
+        htmlSelector = $('#target');
+        oldHTML = htmlSelector.html();
+    });
+
+    before(() => global.$ = $);
+
+    it("Should not remove with an invalid selector", function () {
+        let oldHTML = $(htmlSelector).html();
+        nuke(htmlSelector, 5);
+        assert.equal(htmlSelector.html(), oldHTML);
+    });
+
+    it("Should not remove with duplicate selector", function () {
+        let selector1 = $('.nested');
+        nuke(selector1, selector1);
+        assert.equal(htmlSelector.html(), oldHTML);
+    });
+
+    it("Should not remove with two valid selectors", function () {
+        let selector1 = $('.nested');
+        let selector2 = $('.inside');
+        nuke(selector1, selector2);
+        assert.equal(htmlSelector.html(), oldHTML);
+    });
+
+    it("Should remove with two valid selectors", function () {
+        let selector1 = $('.nested');
+        let selector2 = $('.target');
+        nuke(selector1, selector2);
+        assert.notEqual(htmlSelector.html(), oldHTML);
+    });
+});

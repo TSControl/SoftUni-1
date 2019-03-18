@@ -1,0 +1,278 @@
+// 01. Inside Volume
+function insideVolume(arr) {
+    let x1 = 10, x2 = 50, y1 = 20, y2 = 80, z1 = 15, z2 = 50;
+
+    function pointIsInside(x, y, z) {
+        if (x >= x1 && x <= x2 && y >= y1 && y <= y2 && z >= z1 && z <= z2)
+            return true;
+        else 
+            return false;
+    }
+    for (let i = 0; i < arr.length; i += 3) {
+        let x = arr[i];
+        let y = arr[i + 1];
+        let z = arr[i + 2];
+
+        if (pointIsInside(x, y, z))
+            console.log('inside');
+        else
+            console.log('outside');
+    }
+}
+
+// 02. Road Radar
+function isBelowLimit(arr) {
+    let speed = +arr[0];
+    let area = arr[1];
+
+    let speedDic = {
+        motorway:130,
+        interstate:90,
+        city:50,
+        residential:20
+    }
+
+    let speedDiff = speed - speedDic[area];
+
+    if (speedDiff > 0 && speedDiff <= 20) {
+        console.log('speeding');
+        return;
+    } else if (speedDiff > 20 && speedDiff <= 40) {
+        console.log('excessive speeding');
+        return;
+    } else if (speedDiff > 40) {
+        console.log('reckless driving');
+        return;
+    }
+}
+
+// 03. Template Format
+function generateHtml(arr) {
+    let pairCount = arr.length / 2;
+    let html = '<?xml version="1.0" encoding="UTF-8"?>\n<quiz>\n';
+
+    for (let i = 0; i < arr.length; i += 2) {
+        html += '  <question>\n    ';
+        html += arr[i];
+        html += '\n  </question>\n  <answer>\n    ';
+        html += arr[i + 1];
+        html += '\n  </answer>\n';
+    }
+
+    html += '</quiz>';
+
+    console.log(html);
+}
+
+// 04. Cooking by Numbers 
+function cookANumber(arr) {
+    let index = 0;
+    let result = +arr[0];
+
+    for (let i = 0; i < 5; i++) {
+        let operation = arr[++index];
+        switch (operation) {
+            case 'chop':
+            result /= 2;
+            break;
+            case 'dice':
+            result = Math.sqrt(result);
+            break;
+            case 'spice':
+            result++;
+            break;
+            case 'bake':
+            result *= 3;
+            break;
+            case 'fillet':
+            result *= 0.8;
+            break;
+        }
+
+        console.log(result);
+    }
+}
+
+// 05. Modify Average
+function modifyAverage(input) {
+    let numberAsStr = input;
+    while (1) {
+        if (hasAverageAboveFive(numberAsStr)) {
+            console.log(numberAsStr);
+            return;
+        } else
+            numberAsStr += '9';
+    }
+
+    function hasAverageAboveFive(str) {
+        let sum = 0;
+        let count = str.length;
+
+        for (let i = 0; i < str.length; i++)
+            sum += +str[i];
+
+        let average = sum / count;
+
+        if (average > 5)
+            return true;
+        else
+            return false;
+    }
+}
+
+// 06. Validity Checker
+function haveValidDistances(coordinates) {
+    let x1 = +coordinates[0];
+    let y1 = +coordinates[1];
+    let x2 = +coordinates[2];
+    let y2 = +coordinates[3];
+
+    let distToZero1 = Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2));
+    let distToZero2 = Math.sqrt(Math.pow(x2, 2) + Math.pow(y2, 2));
+    let distBetweenPoints = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+
+    console.log(`{${x1}, ${y1}} to {0, 0} is ${(parseInt(distToZero1) === distToZero1) ? '' : 'in'}valid`);
+    console.log(`{${x2}, ${y2}} to {0, 0} is ${(parseInt(distToZero2) === distToZero2) ? '' : 'in'}valid`);
+    console.log(`{${x1}, ${y1}} to {${x2}, ${y2}} is ${(parseInt(distBetweenPoints) === distBetweenPoints) ? '' : 'in'}valid`);
+}
+
+// 07. Treasure Locator
+function tryIslands(arr) {
+    for (let i = 0; i < arr.length; i += 2) {
+        let x = +arr[i];
+        let y = +arr[i + 1];
+
+        if (x <= 9 && x >= 8 && y <= 1 && x >= 0)
+            console.log('Tokelau');
+        else if (x <= 3 && x >= 1 && y <= 3 && y >= 1)
+            console.log('Tuvalu');
+        else if (x <= 7 && x >= 5 && y <= 6 && y >= 3)
+            console.log('Samoa');
+        else if (x <= 2 && x >= 0 && y <= 8 && y >= 6)
+            console.log('Tonga');
+        else if (x <= 9 && x >= 4 && y <= 8 && y >= 7)
+            console.log('Cook');
+        else
+            console.log('On the bottom of the ocean');
+    }
+}
+
+// 08. Trip Length
+function getTripDetails(arr) {
+    let x1 = +arr[0];
+    let y1 = +arr[1];
+    let x2 = +arr[2];
+    let y2 = +arr[3];
+    let x3 = +arr[4];
+    let y3 = +arr[5];
+
+    let dist12 = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    let dist13 = Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2));
+    let dist23 = Math.sqrt(Math.pow(x2 - x3, 2) + Math.pow(y2 - y3, 2));
+
+    let maxDistance = Math.max(dist12, dist13, dist23);
+
+    if (dist13 === maxDistance)
+        console.log(`1->2->3: ${dist12 + dist23}`);
+    else if (dist23 === maxDistance)
+        console.log(`2->1->3: ${dist12 + dist13}`);
+    else
+        console.log(`1->3->2: ${dist13 + dist23}`);
+}
+
+// 09. Radio Crystals
+function cutCrystal(numArr) {
+    let targetThickness = numArr[0];
+
+    for (let i = 1; i < numArr.length; i++) {
+        let currentThickness = numArr[i];
+
+        console.log(`Processing chunk ${currentThickness} microns`);
+
+        let cutCount = 0;
+        while (targetThickness * 4 <= currentThickness) {
+            currentThickness /= 4;
+            cutCount++;
+        }
+        if (cutCount !== 0) {
+            console.log(`Cut x${cutCount}`);
+            console.log("Transporting and washing");
+        }
+    
+        let lapCount = 0;
+        while (currentThickness * 0.8 >= targetThickness) {
+            currentThickness *= 0.8;
+            lapCount++;
+        }
+        if (lapCount !== 0) {
+            console.log(`Lap x${lapCount}`);
+            console.log("Transporting and washing");
+        }
+    
+        let grindCount = 0;
+        while(currentThickness - 20 >= targetThickness) {
+            currentThickness -= 20;
+            grindCount++;
+        }
+        if (grindCount !== 0) {
+            console.log(`Grind x${grindCount}`);
+            console.log("Transporting and washing");
+        }
+    
+        let etchCount = 0;
+        while(currentThickness - 2 >= targetThickness - 1) {
+            currentThickness -= 2;
+            etchCount++;
+        }
+        if (etchCount !== 0) {
+            console.log(`Etch x${etchCount}`);
+            console.log("Transporting and washing");            
+        }
+
+        if (currentThickness === targetThickness - 1)
+            console.log("X-ray x1");
+
+        console.log(`Finished crystal ${targetThickness} microns`);
+    }
+}
+
+// 10. DNA Helix
+function drawDNA(input) {
+    let n = +input;
+
+    function drawFirstLine(ch1, ch2) {
+        console.log(`**${ch1}${ch2}**`);
+    }
+
+    function drawSecondAndFourthLine(ch1, ch2) {
+        console.log(`*${ch1}--${ch2}*`);
+    }
+
+    function drawThirdLine(ch1, ch2) {
+        console.log(`${ch1}----${ch2}`);
+    }
+
+
+    let charIndex = 0;
+
+    function getCharByIndex(index) {
+        return 'ATCGTTAGGG'[index % 10];
+    }
+
+    for (let i = 0; i < n; i++) {
+        let rowToDraw = i % 4;
+
+        switch (rowToDraw) {
+            case 0:
+            drawFirstLine(getCharByIndex(charIndex++), getCharByIndex(charIndex++));
+            break;
+            case 1:
+            case 3:
+            drawSecondAndFourthLine(getCharByIndex(charIndex++), getCharByIndex(charIndex++));
+            break;
+            case 2:
+            drawThirdLine(getCharByIndex(charIndex++), getCharByIndex(charIndex++));
+            break;
+        }
+    }
+}

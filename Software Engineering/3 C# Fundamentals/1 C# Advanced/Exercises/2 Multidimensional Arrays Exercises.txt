@@ -1,0 +1,286 @@
+// 1. Matrix of Palindromes
+using System;
+using System.Linq;
+using System.Text;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var nums = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        var rowCount = nums[0];
+        var columnCount = nums[1];
+        var matrix = new string[rowCount, columnCount];
+
+        for (int row = 0; row < rowCount; row++)
+        {
+            for (int column = 0; column < columnCount; column++)
+            {
+                var newCh1 = (char)('a' + row);
+                var newCh2 = (char)('a' + row + column);
+                var builder = new StringBuilder();
+                builder.Append(newCh1);
+                builder.Append(newCh2);
+                builder.Append(newCh1);
+                matrix[row, column] = builder.ToString();
+            }
+        }
+        for (int row = 0; row < rowCount; row++)
+        {
+            for (int column = 0; column < columnCount; column++)
+            {
+                Console.Write(matrix[row, column] + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+// 2. Diagonal Difference WRONG
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var n = int.Parse(Console.ReadLine());
+        var matrix = new int[n, n];
+        var output = 0;
+        for (int row = 0; row < n; row++)
+        {
+            var nums = Console.ReadLine().Trim().Split().Select(int.Parse).ToArray();
+            for (int column = 0; column < nums.Length; column++)
+            {
+                matrix[row, column] = nums[column];
+            }
+        }
+        for (int row = 0; row < n; row++)
+        {
+            output += matrix[row, row];
+            output -= matrix[row, n - row - 1];
+        }
+        Console.WriteLine(Math.Abs(output));
+    }
+}
+
+// 3. Squares in Matrix
+using System;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var sizes = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        var rowCount = sizes[0];
+        var columnCount = sizes[1];
+        var matrix = new string[rowCount, columnCount];
+        for (int row = 0; row < rowCount; row++)
+        {
+            var tokens = Console.ReadLine().ToLower().Split().ToArray();
+            for (int column = 0; column < columnCount; column++)
+            {
+                matrix[row, column] = tokens[column];
+            }
+        }
+        var output = 0;
+        for (int row = 0; row < rowCount - 1; row++)
+        {
+            for (int column = 0; column < columnCount - 1; column++)
+            {
+                if (matrix[row, column].Equals(matrix[row, column + 1]) &&
+                    matrix[row, column].Equals(matrix[row + 1, column]) &&
+                    matrix[row, column].Equals(matrix[row + 1, column + 1]))
+                    output++;
+            }
+        }
+        Console.WriteLine(output);
+    }
+}
+
+// 4. Maximal Sum
+using System;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var sizes = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        var rowCount = sizes[0];
+        var columnCount = sizes[1];
+        var matrix = new int[rowCount, columnCount];
+        for (int row = 0; row < rowCount; row++)
+        {
+            var nums = Console.ReadLine().Trim().Split().Select(int.Parse).ToArray();
+            for (int column = 0; column < columnCount; column++)
+            {
+                matrix[row, column] = nums[column];
+            }
+        }
+        var maxSum = int.MinValue;
+        var maxRowIndex = 0;
+        var maxColumnIndex = 0;
+        for (int row = 0; row < rowCount - 2; row++)
+        {
+            for (int column = 0; column < columnCount - 2; column++)
+            {
+                var sum = matrix[row, column] + matrix[row, column + 1] + matrix[row, column + 2] +
+                    matrix[row + 1, column] + matrix[row + 1, column + 1] + matrix[row + 1, column + 2] +
+                    matrix[row + 2, column] + matrix[row + 2, column + 1] + matrix[row + 2, column + 2];
+                if (sum > maxSum)
+                {
+                    maxSum = sum;
+                    maxRowIndex = row;
+                    maxColumnIndex = column;
+                }    
+            }
+        }
+        Console.WriteLine("Sum = " + maxSum);
+        Console.WriteLine(matrix[maxRowIndex, maxColumnIndex] + " " + matrix[maxRowIndex, maxColumnIndex + 1] + " " + matrix[maxRowIndex, maxColumnIndex + 2]);
+        Console.WriteLine(matrix[maxRowIndex + 1, maxColumnIndex] + " " + matrix[maxRowIndex + 1, maxColumnIndex + 1] + " " + matrix[maxRowIndex + 1, maxColumnIndex + 2]);
+        Console.WriteLine(matrix[maxRowIndex + 2, maxColumnIndex] + " " + matrix[maxRowIndex + 2, maxColumnIndex + 1] + " " + matrix[maxRowIndex + 2, maxColumnIndex + 2]);
+    }
+}
+
+// 5. Rubiks Matrix TO FINISH
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Rubik
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            //make default matrix
+            var dimentions = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var rowCount = dimentions[0];
+            var columnCount = dimentions[1];
+            var increment = 1;
+            var matrix = new int[rowCount, columnCount];
+            for (int row = 0; row < rowCount; row++)
+            {
+                for (int column = 0; column < columnCount; column++)
+                {
+                    matrix[row, column] = increment++;
+                }
+            }
+
+            //do commands
+            var n = int.Parse(Console.ReadLine());
+
+        }
+    }
+}
+
+
+// 6. Target Practice TO FINISH
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var dimentions = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+        var n = dimentions[0];
+        var m = dimentions[1];
+        var matrix = new char[n, m];
+        var snake = Console.ReadLine().ToCharArray();
+        var shotParameters = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+        var impactRow = shotParameters[0];
+        var impactColumn = shotParameters[1];
+        var impactRadius = shotParameters[2];
+        var snakeLength = snake.Length;
+        //make m * n long queue CORRECT
+        var snakeQueue = new Queue<char>();
+        for (int i = 0; i < m * n; i++)
+        {
+            snakeQueue.Enqueue(snake[i % snakeLength]);
+        }
+        //fill stairs with snakes CORRECT
+        for (int row = n - 1; row > -1; row--)
+        {
+            if ((n - 1 - row) % 2 == 0)
+            {
+                for (int column = m - 1; column > -1; column--)
+                {
+                    matrix[row, column] = snakeQueue.Dequeue();
+                }
+            }
+            else
+            {
+                for (int column = 0; column < m; column++)
+                {
+                    matrix[row, column] = snakeQueue.Dequeue();
+                }
+            }
+        }
+
+        //impact 
+        for (int row = impactRow - impactRadius; row <= impactRow + impactRadius; row++)
+        {
+            for (int column = impactRow - impactRadius; column <= impactColumn + impactRadius; column++)
+            {
+                if (Math.Sqrt(Math.Pow(row - impactRow, 2) + Math.Pow(column - impactColumn, 2)) <= impactRadius)
+                    matrix[row, column] = ' ';
+            }
+        }
+
+        //falling
+        for (int column = 0; column < m; column++)
+        {
+            //make queue
+            var queue = new Queue<char>();
+            for (int row = n - 1; row > -1; row--)
+            {
+                var element = matrix[row, column];
+                if (element != ' ')
+                    queue.Enqueue(element);
+            }
+            //replace stuff
+            var queueCount = queue.Count;
+            for (int row = n - 1;  queue.Count != 0; row--)
+            {
+                matrix[row, column] = queue.Dequeue();
+            }
+            for (int row = n - 1 - queueCount; row > -1; row--)
+            {
+                matrix[row, column] = ' ';
+            }
+        }
+
+        //print matrix CORRECT
+        for (int row = 0; row < n; row++)
+        {
+            for (int column = 0; column < m; column++)
+            {
+                Console.Write(matrix[row, column]);
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+// 7. Lego Blocks
+
+
+// 8. Radioactive Bunnies
+
+
+// 9. Crossfire
+
+
+// 10. The Heigan Dance
+
+
+// 11. Parking System
+
+
+// 12. String Matrix Rotation

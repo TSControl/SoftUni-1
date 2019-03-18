@@ -1,0 +1,168 @@
+// 1. Sum Matrix Elements
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var tokens = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+        var rowCount = tokens[0];
+        var columnCount = tokens[1];
+        var matrix = new int[rowCount, columnCount];
+        var sum = 0;
+        for (int row = 0; row < rowCount; row++)
+        {
+            var nums = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                matrix[row, i] = nums[i];
+                sum += nums[i];
+            }
+        }
+        Console.WriteLine(rowCount);
+        Console.WriteLine(columnCount);
+        Console.WriteLine(sum);
+    }
+}
+
+// 2. Square With Maximum Sum
+using System;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var tokens = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+        var rowCount = tokens[0];
+        var columnCount = tokens[1];
+        var matrix = new int[rowCount, columnCount];
+        var maxSum = int.MinValue;
+        var maxRow = -1;
+        var maxColumn = -1;
+        for (int row = 0; row < rowCount; row++)
+        {
+            var nums = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                matrix[row, i] = nums[i];
+            }
+        }
+        for (int row = 0; row < rowCount - 1; row++)
+        {
+            for (int column = 0; column < columnCount - 1; column++)
+            {
+                var sum = matrix[row, column] + matrix[row, column + 1] + matrix[row + 1, column] + matrix[row + 1, column + 1];
+                if (sum > maxSum)
+                {
+                    maxSum = sum;
+                    maxRow = row;
+                    maxColumn = column;
+                }
+            }
+        }
+        Console.WriteLine(matrix[maxRow, maxColumn] + " " + matrix[maxRow, maxColumn + 1]);
+        Console.WriteLine(matrix[maxRow + 1, maxColumn] + " " + matrix[maxRow + 1, maxColumn + 1]);
+        Console.WriteLine(maxSum);
+    }
+}
+
+// 3. Group Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var nums = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+        var zeros = new List<int>();
+        var ones = new List<int>();
+        var twos = new List<int>();
+        for (int i = 0; i < nums.Length; i++)
+        {
+            var remainder = Math.Abs(nums[i] % 3);
+            switch (remainder)
+            {
+                case 0:
+                    zeros.Add(nums[i]);
+                    break;
+                case 1:
+                    ones.Add(nums[i]);
+                    break;
+                case 2:
+                    twos.Add(nums[i]);
+                    break;
+            }
+        }
+        Console.WriteLine(string.Join(" ", zeros));
+        Console.WriteLine(string.Join(" ", ones));
+        Console.WriteLine(string.Join(" ", twos));
+    }
+}
+
+// 3. Group Numbers WITH JAGGED ARRAY
+using System;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var nums = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+        var jaggedArray = new int[3][];
+        var sizeArr = new int[3];
+        foreach (var num in nums)
+            sizeArr[Math.Abs(num % 3)]++;
+        for (int i = 0; i < sizeArr.Length; i++)
+        {
+            jaggedArray[i] = new int[sizeArr[i]];
+        }
+        var indexArr = new int[3];
+        foreach (var num in nums)
+        {
+            var remainder = Math.Abs(num % 3);
+            jaggedArray[remainder][indexArr[remainder]] = num;
+            indexArr[remainder]++;
+        }
+        for (int i = 0; i < jaggedArray.Length; i++)
+        {
+            Console.WriteLine(string.Join(" ", jaggedArray[i]));
+        }
+    }
+}
+
+// 4. Pascal Triangle
+using System;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var n = int.Parse(Console.ReadLine());
+        var matrix = new long[n, n];
+        for (int row = 0; row < n; row++)
+        {
+            matrix[row, 0] = 1;
+            matrix[row, row] = 1;
+        }
+        for (int row = 1; row < n; row++)
+        {
+            for (int column = 1; column <= row; column++)
+            {
+                matrix[row, column] = matrix[row - 1, column - 1] + matrix[row - 1, column];
+            }
+        }
+        for (int row = 0; row < n; row++)
+        {
+            for (int column = 0; column <= row; column++)
+            {
+                Console.Write(matrix[row, column] + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+}

@@ -1,0 +1,260 @@
+//01. Poke Mon
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var startingPokePower = long.Parse(Console.ReadLine()); //starting N
+            long pokePower = startingPokePower;
+            var distance = long.Parse(Console.ReadLine()); //M
+            var exhaustionFactor = long.Parse(Console.ReadLine()); //Y
+            long counter = 0;
+            Here:
+            while (pokePower>=distance)
+            {
+                pokePower -= distance;
+                counter++;
+                if ((decimal)pokePower==(decimal)((decimal)startingPokePower/2)) //"exactly"?
+                {
+                    try
+                    {
+                        pokePower = (long)((long)pokePower/(long)exhaustionFactor); //division between integers
+                    }
+                    catch
+                    {
+                        //while (pokePower>=distance)
+                        //{
+                        //    pokePower -= distance;
+                            //counter++;
+                            goto Here;
+                        //}
+                        //?
+                    }
+                }
+                
+                
+            }
+            Console.WriteLine(pokePower);
+            Console.WriteLine(counter);
+        }
+    }
+}
+
+//02. Pokemon Don't Go
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+
+namespace PokeMonDontGo
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split().Select(int.Parse).ToList(); //more than 1 space?
+            long sum = 0; //BigInteger?
+            while (nums.Count() != 0)
+            {
+                var index = int.Parse(Console.ReadLine());
+                if (index < 0)
+                {
+                    var elementToRemove = nums[0];
+                    var elementToReplaceWith = nums.Last();
+                    sum += elementToRemove;
+                    nums[0] = elementToReplaceWith;
+                        nums = IncreaseAndDecrease(elementToRemove, nums);
+                }
+                else if (index > nums.Count() - 1)
+                {
+                    var elementToRemove = nums.Last();
+                    var elementToReplaceWith = nums.First();
+                    sum += elementToRemove;
+                    nums[nums.Count() - 1]=elementToReplaceWith;
+                        nums = IncreaseAndDecrease(elementToRemove, nums);
+                }
+                else
+                {
+                    var elementToRemove = nums[index];
+                    sum += elementToRemove;
+                    nums.RemoveAt(index);
+                    if (nums.Count() != 0)
+                        nums = IncreaseAndDecrease(elementToRemove, nums);
+                    else if (nums.Count()==1)
+                    {
+                        sum += nums.First();
+                        Console.WriteLine(sum);
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine(sum);
+                        return;
+                    }
+                }
+                //Console.WriteLine(string.Join(" ", nums)); //////////////////
+            }
+            Console.WriteLine(sum);
+        }
+        static List<int> IncreaseAndDecrease(int element, List<int> listNums)
+        {
+            for (int i = 0; i < listNums.Count(); i++)
+            {
+                if (listNums[i] <= element)
+                {
+                    listNums[i] += element;
+                }
+                else
+                {
+                    listNums[i] -= element;
+                }
+            }
+            return listNums;
+        }
+    }
+}
+
+//03. Regexmon
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace PokeMonDontGo
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //var output = new List<string>();
+            var input = Console.ReadLine();
+            
+            while (true)
+            {
+                var digimon = Digimon(input);
+                if (digimon.Count<2 || input == digimon[1])
+                    return;
+                else
+                {
+                    Console.WriteLine(digimon[0]);
+                    input = digimon[1];
+                }
+                var bojomon = Bojomon(input);
+                if (bojomon.Count() <2 || input == bojomon[1])
+                    return;
+                else
+                {
+                    Console.WriteLine(bojomon[0]);
+                    input = Bojomon(input)[1];
+                }
+                    
+            }
+            //
+        }
+        static List<string> Bojomon (string str)
+        {
+            var list = new List<string>();
+            var regex = new Regex(@"[a-zA-Z]+\-[a-zA-Z]+", RegexOptions.Multiline); //pika-pika
+            Match match = regex.Match(str);
+            if (match.Success)
+            {
+                list.Add(match.Value);
+                list.Add(str.Substring(match.Index+match.Length));//
+                return list;
+            }
+            else
+            {
+                return list;
+            }
+        }
+        static List<string> Digimon (string str)
+        {
+            var list = new List<string>();
+            var regex = new Regex(@"[^a-zA-Z\-]+");
+            Match match = regex.Match(str);
+            if (match.Success)
+            {
+                list.Add(match.Value); //check if string ?
+                list.Add(str.Substring(match.Index+match.Length));
+                return list;
+            }
+            else
+            {
+                return list;
+            }
+        }
+    }
+}
+
+//04. Pokemon Evolution
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace PokeMonDontGo
+{
+    class Program
+    {
+        class Evolution
+        {
+            public string Type { get; set; }
+            public int EvolutionIndex { get; set; }
+        }
+        static void Main(string[] args)
+        {
+            var dic = new Dictionary<string, List<Evolution>>(); //name, type, index
+            var input = Console.ReadLine();
+            while (input!= "wubbalubbadubdub")
+            {
+                var tokens = input.Split(" ->".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+                if (tokens.Length==1)
+                {
+                    var pokemonName = tokens[0];
+                    if (!dic.ContainsKey(pokemonName))
+                    {
+                        input = Console.ReadLine();
+                        continue;
+                    }
+                    Console.WriteLine("# {0}", pokemonName);
+                    foreach (var evolution in dic[pokemonName])
+                    {
+                        Console.WriteLine("{0} <-> {1}", evolution.Type, evolution.EvolutionIndex);
+                    }
+                }
+                else
+                {
+                    var pokemonName = tokens[0];
+                    var evolutionType = tokens[1];
+                    var evolutionIndex = int.Parse(tokens[2]);
+                    var newEvolution = new Evolution() { Type = evolutionType, EvolutionIndex = evolutionIndex };
+                    //add pokemon
+                    if (!dic.ContainsKey(pokemonName))
+                        dic[pokemonName] = new List<Evolution>();
+                    dic[pokemonName].Add(newEvolution);
+                }
+                input = Console.ReadLine();
+            }
+            foreach (var kvp in dic) //foreach string/dic
+            {
+                Console.WriteLine("# {0}", kvp.Key); //write string
+                foreach (var evolutionKvp in kvp.Value.OrderByDescending(a=>a.EvolutionIndex)) //foreach kvp in dic(evolution, index)
+                {
+                    Console.WriteLine("{0} <-> {1}", evolutionKvp.Type, evolutionKvp.EvolutionIndex);
+                }
+            }
+        }
+    }
+}

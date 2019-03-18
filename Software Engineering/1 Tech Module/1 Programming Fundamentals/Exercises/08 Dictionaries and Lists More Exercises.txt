@@ -1,0 +1,353 @@
+//01. Sort Times
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var list = Console.ReadLine().Split(' ').ToList();
+            list.RemoveAll(string.IsNullOrWhiteSpace);
+            list.Sort();
+            Console.WriteLine(String.Join(", ", list));
+        }
+    }
+}
+
+//02. Odd Filter
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            for (int i = 0; i<nums.Count; i++)
+            {
+                if (nums[i]%2==1)
+                {
+                    nums.RemoveAt(i);
+                    i--;
+                }
+            }
+            var average = nums.Average();
+            for (int i = 0; i<nums.Count; i++)
+            {
+                if (nums[i]>average)
+                {
+                    nums[i] += 1;
+                }
+                if (nums[i]<=average)
+                {
+                    nums[i] -= 1;
+                }
+            }
+            for (int i = 0; i < nums.Count; i++)
+            {
+                if (nums[i] % 2 == 0)
+                {
+                    nums.RemoveAt(i);
+                    i--;
+                }
+            }
+            Console.WriteLine(string.Join(" ", nums));
+        }
+    }
+}
+
+//03. Immune System
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var startHealth = int.Parse(Console.ReadLine());
+            var health = startHealth;
+            string line = Console.ReadLine();
+            var listOfViruses = new List<string>();
+            while (line!="end")
+            {
+                var strength = 0;
+                for (int i = 0; i<line.Length; i++)
+                {
+                    strength += (int)line[i];
+                }
+                strength /= 3;
+                var timeToDefeat = strength * line.Length; // in seconds
+                if (listOfViruses.Contains(line))
+                {
+                    timeToDefeat /= 3;
+                }
+                else
+                {
+                    listOfViruses.Add(line);
+                }
+                var seconds = timeToDefeat % 60;
+                var minutes = (timeToDefeat-seconds)/ 60;
+                
+                if (timeToDefeat<health)
+                {
+                    health -= timeToDefeat;
+                    
+                    Console.WriteLine($"Virus {line}: {strength} => {timeToDefeat} seconds");
+                    Console.WriteLine($"{line} defeated in {minutes}m {seconds}s.");
+                    Console.WriteLine($"Remaining health: {health}");
+                    health += health / 5;
+                    if (health>startHealth)
+                    {
+                        health = startHealth;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Virus {line}: {strength} => {timeToDefeat} seconds");
+                    Console.WriteLine("Immune System Defeated.");
+                    return;
+                }
+
+                line = Console.ReadLine();
+            }
+            Console.WriteLine($"Final Health: {health}");
+        }
+    }
+}
+
+//04. Supermarket Database
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var dictionary = new Dictionary<string, List<double>>();
+            var product = Console.ReadLine().Split().ToList();
+            double total = 0;
+            while (product[0]!="stocked")
+            {
+                if (!dictionary.ContainsKey(product[0]))
+                {
+                    dictionary.Add(product[0], new List<double>());
+                    dictionary[product[0]].Add(double.Parse(product[1]));
+                    dictionary[product[0]].Add(double.Parse(product[2]));
+
+                }
+                else
+                {
+                    dictionary[product[0]][1] += double.Parse(product[2]);
+                    if (dictionary[product[0]][0] != double.Parse(product[1]))
+                    {
+                        dictionary[product[0]][0]=double.Parse(product[1]);
+                    }
+                }
+                product.Clear();
+                product = Console.ReadLine().Split().ToList();
+            }
+            foreach (var element in dictionary)
+            {
+                Console.WriteLine($"{element.Key}: ${element.Value[0]:F2} * {element.Value[1]} = ${(element.Value[0]* element.Value[1]):F2}");
+                total += element.Value[0] * element.Value[1];
+            }
+            Console.WriteLine("------------------------------");
+            Console.WriteLine($"Grand Total: ${total:F2}");
+        }
+    }
+}
+
+//05. Parking Validation
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            Dictionary<string, string> carPark = new Dictionary<string, string>();
+            for (int i = 0; i<n; i++)
+            {
+                string[] tokens = Console.ReadLine().Split(' ');
+                string command = tokens[0];
+                string userName = tokens[1];
+                
+                switch (command.ToLower())
+                {
+                    case "register":
+                        string licensePlate = tokens[2];
+                        printInput(Register(carPark, userName, licensePlate));
+                        break;
+                    case "unregister":
+                        printInput(Unregister(carPark, userName));
+                        break;
+
+                }
+                
+            }
+            foreach (KeyValuePair<string, string> item in carPark)
+            {
+                Console.WriteLine($"{item.Key} => {item.Value}");
+            }
+        }
+
+        private static string Unregister(Dictionary<string, string> carPark, string userName)
+        {
+            if (!carPark.ContainsKey(userName))
+            {
+                return String.Format("ERROR: user {0} not found", userName);
+            }
+            carPark.Remove(userName);
+            return String.Format("user {0} unregistered successfully", userName);
+        }
+
+        private static string Register(Dictionary<string, string> carPark, string userName, string licensePlate)
+        {
+            if (carPark.ContainsKey(userName))
+            {
+                return "ERROR: already registered with plate number " + carPark[userName];
+            }
+            else if (!ValidatePlate(licensePlate))
+            {
+                return "ERROR: invalid license plate " + licensePlate;
+            }
+            else if (carPark.ContainsValue(licensePlate))
+            {
+                return String.Format("ERROR: license plate {0} is busy", licensePlate);
+            }
+            carPark.Add(userName, licensePlate);
+            return String.Format("{0} registered {1} successfully", userName, licensePlate); 
+        }
+
+        private static bool ValidatePlate(string licensePlate)
+        {
+            bool isValidNumbers = licensePlate.ToCharArray().Skip(2).Take(4).All(d => char.IsDigit(d));
+            bool isValidLetter = licensePlate.ToCharArray().Take(2).Concat(licensePlate.ToCharArray().Skip(6).Take(2).ToArray()).All(d => d>='A' && d<='Z');
+            return licensePlate.Length == 8 && isValidLetter && isValidNumbers;
+        }
+
+        private static void printInput (string input)
+        {
+            Console.WriteLine(input);
+        }
+    }
+}
+
+//06. Byte Flip
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var strings = Console.ReadLine().Split().ToList();
+            var chars = new List<char>();
+            var newStrings = new List<string>();
+
+            for (int i = 0; i<strings.Count; i++)
+            {
+                if (strings[i].Length!=2)
+                {
+                    strings.RemoveAt(i);
+                    i--;
+                }
+            }
+            for (int i = 0; i<strings.Count; i++)
+            {
+                var firstNewChar = strings[i][1];
+                var secondNewChar = strings[i][0];
+                newStrings.Add(firstNewChar.ToString() + secondNewChar.ToString());
+                //strings[i].Reverse();
+            }
+            //Console.WriteLine(string.Join(" ", newStrings));//
+            newStrings.Reverse();
+            foreach(var str in newStrings)
+            {
+                chars.Add((char)Int16.Parse(str, NumberStyles.AllowHexSpecifier));
+            }
+            Console.WriteLine(string.Join("", chars));
+        }
+    }
+}
+
+//07. Take/Skip Rope
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var chars = new List<char>();
+            var nums = new List<char>();
+            var nonNums = new List<char>();
+            var takeList = new List<int>();
+            var skipList = new List<int>();
+            //var result = new List<char>(); 
+            string result = null; 
+
+            string input = Console.ReadLine();
+            for (int i = 0; i<input.Length; i++)
+            {
+                chars.Add(input[i]);
+            }
+            //have list of all input chars
+            for (int i = 0; i<chars.Count; i++)
+            {
+                if ((int)chars[i]>47 && (int)chars[i] < 58)
+                {
+                    nums.Add(chars[i]); //can parse here
+                }
+                else
+                {
+                    nonNums.Add(chars[i]);
+                }
+            }
+            //have 2 lists
+            for (int i = 0; i<nums.Count; i+=2)
+            {
+                takeList.Add(int.Parse(nums[i].ToString())); //parsing
+            }
+            for (int i = 1; i < nums.Count; i += 2)
+            {
+                skipList.Add(int.Parse(nums[i].ToString())); //parsing
+            }
+            //have take and skip lists of ints
+            int totalSkip = 0;
+            
+            for (int i = 0; i<skipList.Count; i++)
+            {
+                int takeCount = takeList[i];
+                int skipCount = skipList[i];
+                result += new string(nonNums.Skip(totalSkip).Take(takeCount).ToArray());
+                totalSkip += takeCount + skipCount;
+            }
+            Console.WriteLine(string.Join("", result));
+        }
+    }
+}

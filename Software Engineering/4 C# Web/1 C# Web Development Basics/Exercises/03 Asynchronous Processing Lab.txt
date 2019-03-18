@@ -1,0 +1,157 @@
+// VS console app project
+// 1. Even Numbers Thread
+namespace Problem3
+{
+	using System;
+	using System.Linq;
+	using System.Threading;
+
+	class StartUp
+	{
+		public static void Main()
+		{
+			var nums = Console.ReadLine().Split().Select(int.Parse).ToArray();
+			var start = nums[0];
+			var end = nums[1];
+
+			Thread evens = new Thread(() => PrintEvenNumbers(start, end));
+			evens.Start();
+			evens.Join();
+			Console.WriteLine("Thread finished work");
+
+			
+		}
+
+		private static void PrintEvenNumbers(int start, int end)
+		{
+			for (var i = start % 2 == 0 ? start : start + 1; i <= end; i += 2)
+			{
+				Console.WriteLine(i);
+			}
+		}
+	}
+}
+
+// 2. Slice File - remove "../../../" for .NET CORE
+namespace Problem3
+{
+	using System;
+	using System.IO;
+	using System.Threading.Tasks;
+
+	class StartUp
+	{
+		public static void Main()
+		{
+			Console.WriteLine("Enter source path:");
+			string filePath = "../../../" + Console.ReadLine();
+			Console.WriteLine("Enter destination path:");
+			string destination = "../../../" + Console.ReadLine();
+			Console.WriteLine("Enter number of pieces");
+			int pieces = int.Parse(Console.ReadLine());
+
+			SliceAsync(filePath, destination, pieces);
+
+			Console.WriteLine("Anything else?");
+			while (true)
+			{
+				Console.ReadLine();
+			}
+		}
+
+		static void Slice(string sourceFile, string destinationPath, int parts)
+		{
+			const int BufferLength = 1024;
+
+			if (!Directory.Exists(destinationPath))
+			{
+				Directory.CreateDirectory(destinationPath);
+			}
+
+			using (var source = new FileStream(sourceFile, FileMode.Open))
+			{
+				FileInfo fileInfo = new FileInfo(sourceFile);
+
+				long partLength = (source.Length / parts) + 1;
+				long currentByte = 0;
+
+				for (int currentPart = 1; currentPart <= parts; currentPart++)
+				{
+					string filePath = string.Format("{0}/Part-{1}{2}", destinationPath, currentPart, fileInfo.Extension);
+
+					using (var destination = new FileStream(filePath, FileMode.Create))
+					{
+						byte[] buffer = new byte[BufferLength];
+						while (currentByte <= partLength * currentPart)
+						{
+							int readBytesCount = source.Read(buffer, 0, buffer.Length);
+							if (readBytesCount == 0)
+							{
+								break;
+							}
+
+							destination.Write(buffer, 0, readBytesCount);
+							currentByte += readBytesCount;
+						}
+					}
+				}
+			}
+
+			Console.WriteLine("Slice complete.");
+		}
+
+		static void SliceAsync(string sourceFile, string destinationPath, int parts)
+		{
+			Task.Run(() => Slice(sourceFile, destinationPath, parts)).GetAwaiter().GetResult(); ;
+		}
+	}
+}
+
+// 3.Simple Web Server
+namespace Problem3
+{
+	using System;
+	using System.Net;
+	using System.Net.Sockets;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	class StartUp
+	{
+		public static void Main()
+		{
+			IPAddress address = IPAddress.Parse("127.0.0.1");
+			int port = 1300;
+			TcpListener listener = new TcpListener(address, port);
+			listener.Start();
+
+			Console.WriteLine("Server started.");
+			Console.WriteLine($"Listening to TCP clients at 127.0.0.1:{port}");
+
+			var task = Task.Run(() => ConnectWithTcpClient(listener));
+			task.Wait();
+		}
+
+		public static async Task ConnectWithTcpClient(TcpListener listener)
+		{
+			while (true)
+			{
+				Console.WriteLine("Waiting for client...");
+				var client = await listener.AcceptTcpClientAsync();
+				Console.WriteLine("Client connected.");
+
+				byte[] buffer = new byte[1024];
+				client.GetStream().Read(buffer, 0, buffer.Length);
+
+				var message = Encoding.ASCII.GetString(buffer);
+				Console.WriteLine(message);
+
+				byte[] data = Encoding.ASCII.GetBytes("Hello from server");
+				client.GetStream().Write(data, 0, data.Length);
+
+				Console.WriteLine("Closing connection.");
+				client.GetStream().Dispose();
+			}
+		}
+	}
+}

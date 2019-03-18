@@ -1,0 +1,265 @@
+//01. Numbers 1...N with Step 3
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        for (int i = 1; i <=n ; i+=3) {
+            System.out.println(i);
+        }
+    }
+}
+
+//02. Numbers N...1
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        for (int i = n; i >= 1 ; i--) {
+            System.out.println(i);
+        }
+    }
+}
+
+//03. Powers of Two
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int num = 1;
+        for (int i = 1; i <= n+1 ; i++) {
+            System.out.println(num);
+            num = num*2;
+        }
+    }
+}
+
+//04. Even Powers of 2
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int num = 1;
+        System.out.println(num);
+        for (int i = 1; i < n ; i+=2) {
+            num = num * 4;
+            System.out.println(num);
+        }
+    }
+}
+
+//05. Sequence 2k+1
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        for (int i = 1; i <= n ; i=2*i+1) {
+            System.out.println(i);
+        }
+    }
+}
+
+//06. Number in Range [1...100]
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        for (int i = 1;; i++) {
+            int n = Integer.parseInt(console.nextLine());
+            if (n>=1 && n<=100){
+                System.out.println("The number is: " + n);
+                break;
+
+        } else {
+                System.out.println("Invalid number!");
+            }
+
+
+        }
+    }
+}
+
+//07. Greatest Common Divisor (CGD)
+using System;
+class Program
+{
+    static void Main(string[] args)
+    {
+        var a = int.Parse(Console.ReadLine());
+        var b = int.Parse(Console.ReadLine());
+        var smallerNum = Math.Min(a, b);
+        Console.WriteLine(Gcd(a, b));
+    }
+    static int Gcd(int a, int b)
+    {
+        while (a != b)
+        {
+            if (a > b)
+                a = a - b;
+            else
+                b = b - a;
+        }
+        return a;
+    }
+}
+
+//08. Factorial
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int num = 1;
+        for (int i = 1; i <=n ; i++) {
+            num = num*i;
+        }
+        System.out.println(num);
+        }
+    }
+	
+//09. Sum Digits
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int num = Integer.parseInt(console.nextLine());
+        int sum = 0;
+        int right = 0;
+        do {            right = num%10;
+            sum += right;
+            num = (num - right)/10;
+        } while (num!=0);
+        System.out.println(sum);
+    }
+    }
+
+//10. Check Prime
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        if (n<2) {
+            System.out.println("Not prime");
+        } else {
+            String type = "Prime";
+            for (int i = 2; i <= (int)Math.sqrt(n); i++) {
+                if (n%i==0) {
+                    type = "Not Prime";
+                    System.out.println(type);
+                    return;
+                }
+            }
+            System.out.println(type);
+        }
+    }
+    }
+	
+//11. Enter Even Number
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = 0;
+        for (;;) {
+            try {
+                n = Integer.parseInt(console.nextLine());
+                if (n%2==0) {
+                    System.out.println("Even number entered: " + n);
+                    break;
+                } else {
+                    System.out.println("The number is not even.");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid number!");
+            }
+        }
+    }
+}
+
+//12. Fibonacci
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        if (n<2) {
+            System.out.println("1");
+            return;
+        }
+        int fN = 1;
+        int sN = 1;
+        int sum = 1;
+        for (int i = 3; i <= n+1; i++) {
+            sum=fN+sN;
+            fN=sN;
+            sN=sum;
+        }
+        System.out.println(sN);
+    }
+}
+
+//13. Number Pyramid
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int count = 0;
+        for (int i = 1;; i++) {
+            for (int j = 1; j <=i ; j++) {
+                count++;
+                if (count <= n) {
+                    System.out.print(count + " ");
+                } else {
+                    return;
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+
+//14. Number Table
+import java.util.Scanner;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int row = 0;
+        int column = 0;
+        int num = 0;
+        for (int i = 0; i <n ; i++) {
+row = i;
+            for (int j = 0; j <n ; j++) {
+column = j;
+                num = row + column + 1;
+                if (num<=n){
+                System.out.print(num + " ");
+            } else {
+                    System.out.print(2*n-num + " ");
+                }
+                column+=1;
+            }
+            System.out.println();
+            row+=1;
+        }
+    }
+}

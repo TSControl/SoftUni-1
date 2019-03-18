@@ -1,0 +1,233 @@
+// 01. Bus Stop
+function getInfo() {
+    let busses = $('#buses');
+    let stopNameElement = $('#stopName');
+
+    busses.empty();
+    stopNameElement.text('');
+
+    let stopIdElement = $('#stopId');
+    let stopId = stopIdElement.val();
+    let url = 'https://judgetests.firebaseio.com/businfo/' + stopId + '.json';
+    let request = $.getJSON({
+        url,
+        success: displayBusStops,
+        error: displayError
+    });
+
+    function displayBusStops(responseObj) {
+        let stopName = responseObj.name;
+        let bussesObj = responseObj.buses;
+
+        stopNameElement.text(stopName);
+
+        console.log(bussesObj);
+        for (let bus in bussesObj) {
+            busses.append($('<li>')
+                .text(`Bus ${bus} arrives in ${bussesObj[bus]} minutes`))
+        }
+    }
+
+    function displayError() {
+        stopNameElement.text('Error');
+    }
+}
+
+// 02. Bus Schedule
+function solve() {
+    let stopName = '';
+    let nextStopId = 'depot';
+
+    function depart() {
+        $('#depart').attr('disabled', 'true');
+        $('#arrive').removeAttr('disabled');
+
+        $.get(`https://judgetests.firebaseio.com/schedule/${nextStopId}.json`)
+            .then(parseData)
+            .catch(throwError);
+
+        function parseData(stopObj) {
+            stopName = stopObj.name;
+            nextStopId = stopObj.next;
+
+            $('.info').text(`Next stop ${stopName}`);
+        }
+
+        function throwError() {
+            $('#arrive').attr('disabled', 'true');
+            $('#depart').attr('disabled', 'true');
+
+            $('.info').text('Error');
+        }
+    }
+
+
+    function arrive() {
+        $('#arrive').attr('disabled', 'true');
+        $('#depart').removeAttr('disabled');
+
+        $('.info').text(`Arriving at ${stopName}`);
+    }
+
+    return {
+        depart,
+        arrive
+    };
+}
+
+// 02. Bus Schedule (first solution which gave me 0/100 because I used #info instead of .info (I didnt see the span inside the div - FML, it doesnt even change the final page...))
+function solve() {
+    let stopName = '';
+    let nextStopId = 'depot';
+
+    function depart() {
+        $('#depart').attr('disabled', 'true');
+        $('#arrive').removeAttr('disabled');
+
+        if (stopName === '') {
+            ajaxCall('depot');
+        } else {
+            ajaxCall(nextStopId);
+        }
+    }
+
+    function ajaxCall(id) {
+        $.getJSON({
+            url: `https://judgetests.firebaseio.com/schedule/${id}.json`,
+            success: parseData,
+            error: throwError
+        });
+    }
+
+    function parseData(stopObj) {
+        stopName = stopObj.name;
+        nextStopId = stopObj.next;
+
+        $('.info').text(`Next stop ${stopName}`);
+
+    }
+
+    function throwError() {
+        $('#arrive').attr('disabled', 'true');
+        $('#depart').attr('disabled', 'true');
+
+        $('.info').text('Error');
+    }
+
+    function arrive() {
+        $('#arrive').attr('disabled', 'true');
+        $('#depart').removeAttr('disabled');
+
+        $('.info').text(`Arriving at ${stopName}`);
+    }
+
+    return {
+        depart,
+        arrive
+    };
+}
+
+// 03. Messenger - I have no idea why on clicking submit button the messages element content changes to undefined: undefined
+function attachEvents() {
+    let sendButton = $('#submit');
+    let refreshButton = $('#refresh');
+    let databaseUrl = "https://messenger-c06ed.firebaseio.com/.json";
+
+    sendButton.click(sendMessage);
+    refreshButton.click(loadMessages);
+
+    loadMessages();
+
+    function sendMessage() {
+        let name = $('#author').val();
+        let message = $('#content').val();
+        let date = Date.now();
+
+        let objectToSend = {
+            author: name,
+            content: message,
+            timestamp: date
+        }
+
+        $.post(databaseUrl, JSON.stringify(objectToSend))
+            .then(showMessages);
+    }
+
+    function loadMessages() {
+        $.get(databaseUrl)
+            .then(showMessages);
+    }
+
+    function showMessages(messagesObj) {
+        let messagesElement = $('#messages');
+        messagesElement.empty();
+        let newMessagesContent = '';
+
+        let sortedKeys = Object.keys(messagesObj).sort((key1, key2) => messagesObj[key1]['timestamp'] - messagesObj[key2]['timestamp']);
+        for (let key of sortedKeys) {
+            let objectToAdd = messagesObj[key];
+            let messageToAdd = `${objectToAdd['author']}: ${objectToAdd['content']}`;
+            newMessagesContent += messageToAdd + '\n';
+        }
+
+        messagesElement.append(newMessagesContent);
+    }
+}
+
+// 04. Phonebook
+function attachEvents() {
+    let loadButtonElement = $('#btnLoad');
+    loadButtonElement.click(loadContacts);
+    let contactsUrl = 'https://phonebook-nakov.firebaseio.com/phonebook.json';
+    let createButtonElement = $('#btnCreate');
+    createButtonElement.click(createContact);
+
+    function loadContacts() {
+        $('#phonebook').empty();
+
+        $.get(contactsUrl)
+            .then(displayContacts)
+            .catch(displayErrorMessage);
+    }
+
+    function displayContacts(contactsObj) {
+        for (let key in contactsObj) {
+            let person = contactsObj[key]['person'];
+            let phone = contactsObj[key]['phone'];
+
+            let newLi = $('<li>').text(`${person}: ${phone} `);
+            let deleteBtn = $('<button>').text('Delete').click(() => {
+                deleteContact(key)
+            });
+            newLi.append(deleteBtn);
+            $('#phonebook').append(newLi);
+        }
+    }
+
+    function createContact() {
+        let contactToPostObj = {
+            person: $('#person').val(),
+            phone: $('#phone').val()
+        }
+
+        $.post(contactsUrl, JSON.stringify(contactToPostObj))
+            .then(loadContacts)
+            .catch(displayErrorMessage);
+
+        $('#person').val('');
+        $('#phone').val('');
+    }
+
+    function deleteContact(keyToDelete) {
+        $.ajax({
+            url: `https://phonebook-nakov.firebaseio.com/phonebook/${keyToDelete}.json`,
+            type: 'DELETE',
+            success: loadContacts,
+            error: displayErrorMessage
+        });
+    }
+
+    function displayErrorMessage(error) {
+        //alert('you suck');
+    }
+}

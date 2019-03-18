@@ -1,0 +1,517 @@
+//01. X
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            for (int i=1; i<=(n-1)/2;i++)
+            {
+                string spaces = new String(' ', n-2*i);
+                string frontSpaces = new string(' ', i - 1);
+                Console.WriteLine("{0}x{1}x",frontSpaces, spaces);
+            }
+            string midFrontSpaces = new string(' ', (n - 1) / 2);
+            Console.WriteLine("{0}x", midFrontSpaces);
+            for (int j = 1; j <= (n - 1) / 2; j++)
+            {
+                string spaces = new String(' ', 2*j-1);
+                string frontSpaces = new string(' ', (n - 1) / 2-j);
+                Console.WriteLine("{0}x{1}x",frontSpaces, spaces);
+            }
+        }
+    }
+}
+
+//02. Vapor Store
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double startBalance = double.Parse(Console.ReadLine());
+            double currBalance = startBalance;
+            for (int i = 1; ; i++)
+            {
+                if (currBalance > 0)
+                {
+                    string game = Console.ReadLine();
+                    switch (game)
+                    {
+                        case "OutFall 4":
+                            if (currBalance > 39.99)
+                            {
+                                currBalance -= 39.99;
+                                Console.WriteLine("Bought OutFall 4");
+                            }
+                            else if (currBalance < 39.99)
+                            {
+                                Console.WriteLine("Too Expensive");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Out of money!");
+                                return;
+                            }
+                            break;
+                        case "CS: OG":
+                            if (currBalance > 15.99)
+                            {
+                                currBalance -= 15.99;
+                                Console.WriteLine("Bought CS: OG");
+                            }
+                            else if (currBalance < 15.99)
+                            {
+                                Console.WriteLine("Too Expensive");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Out of money!");
+                                return;
+                            }
+                            break;
+                        case "Zplinter Zell":
+                            if (currBalance > 19.99)
+                            {
+                                currBalance -= 19.99;
+                                Console.WriteLine("Bought Zplinter Zell");
+                            }
+                            else if (currBalance < 39.99)
+                            {
+                                Console.WriteLine("Too Expensive");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Out of money!");
+                                return;
+                            }
+                            break;
+                        case "Honored 2":
+                            if (currBalance > 59.99)
+                            {
+                                currBalance -= 59.99;
+                                Console.WriteLine("Bought Honored 2");
+                            }
+                            else if (currBalance < 59.99)
+                            {
+                                Console.WriteLine("Too Expensive");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Out of money!");
+                                return;
+                            }
+                            break;
+                        case "RoverWatch":
+                            if (currBalance > 29.99)
+                            {
+                                currBalance -= 29.99;
+                                Console.WriteLine("Bought RoverWatch");
+                            }
+                            else if (currBalance < 29.99)
+                            {
+                                Console.WriteLine("Too Expensive");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Out of money!");
+                                return;
+                            }
+                            break;
+                        case "RoverWatch Origins Edition":
+                            if (currBalance > 39.99)
+                            {
+                                currBalance -= 39.99;
+                                Console.WriteLine("Bought RoverWatch Origins Edition");
+                            }
+                            else if (currBalance < 39.99)
+                            {
+                                Console.WriteLine("Too Expensive");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Out of money!");
+                                return;
+                            }
+                            break;
+                        case "Game Time":
+                            Console.WriteLine("Total spent: ${0:F2}. Remaining: ${1:F2}", startBalance-currBalance, currBalance);
+                            return;
+                        default:
+                            Console.WriteLine("Not Found");
+                            break;
+                    }
+                }
+                
+            }
+        }
+    }
+}
+
+//03. Megapixels
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int width = int.Parse(Console.ReadLine());
+            int height = int.Parse(Console.ReadLine());
+            double result = width * height / 1000000.0;
+            double pixels = Math.Round(result, 1);
+            Console.WriteLine("{0}x{1} => {2}MP", width, height, pixels);
+        }
+    }
+}
+
+//04. Photo Gallery
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int number = int.Parse(Console.ReadLine());
+            int day = int.Parse(Console.ReadLine());
+            int month = int.Parse(Console.ReadLine());
+            int year = int.Parse(Console.ReadLine());
+            int hour = int.Parse(Console.ReadLine());
+            int minutes = int.Parse(Console.ReadLine());
+            int size = int.Parse(Console.ReadLine());
+            int width = int.Parse(Console.ReadLine());
+            int height = int.Parse(Console.ReadLine());
+            string orientation = null;
+            Console.WriteLine("Name: DSC_{0:D4}.jpg", number);
+            Console.WriteLine("Date Taken: {0:D2}/{1:D2}/{2:D4} {3:D2}:{4:D2}", day, month, year, hour, minutes);
+            if (size < 1000)
+            {
+                Console.WriteLine("Size: {0}B", size);
+            }
+            else if (size >= 1000 && size < 999499)
+            {
+                Console.WriteLine("Size: {0:F0}KB", size / 1000.0);
+            }
+            else
+            {
+                Console.WriteLine("Size: {0}MB", Math.Round(size / 1000000.0,1));
+            }
+            if (width > height)
+            {
+                orientation = "landscape";
+            }
+            else if (height > width)
+            {
+                orientation = "portrait";
+            }
+            else
+            {
+                orientation = "square";
+            }
+            Console.WriteLine("Resolution: {0}x{1} ({2})", width, height, orientation);
+        }
+    }
+}
+
+//05. BPM Counter
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            int bpm = int.Parse(Console.ReadLine());
+            int beats = int.Parse(Console.ReadLine());
+            int seconds = 60 * beats / bpm;
+            int mins = seconds / 60;
+            int secondsResult = seconds % 60;
+            if (beats % 4 == 0)
+            {
+                int bars = beats / 4;
+                Console.WriteLine("{0} bars - {1}m {2}s", bars, mins, secondsResult);
+            }
+            else
+            {
+                double bars = Math.Round(10 * beats / 4.0,1);
+                Console.WriteLine("{0} bars - {1}m {2}s", Math.Round(bars / 10, 1, AwayFromZero), mins, secondsResult);
+            }
+
+        }
+    }
+}
+
+//06. DNA Sequences
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int counter = 0; 
+            for (int i = 1; i<5; i++)
+            {
+                for (int j=1; j<5; j++)
+                {
+                    for (int k=1; k<5; k++)
+                    {
+                        if (i+j+k<n)
+                        {
+                            Console.Write("X");
+                            {
+                                switch (i)
+                                {
+                                    case 1:
+                                        Console.Write("A");
+                                        break;
+                                    case 2:
+                                        Console.Write("C");
+                                        break;
+                                    case 3:
+                                        Console.Write("G");
+                                        break;
+                                    case 4:
+                                        Console.Write("T");
+                                        break;
+                                }
+                                switch (j)
+                                {
+                                    case 1:
+                                        Console.Write("A");
+                                        break;
+                                    case 2:
+                                        Console.Write("C");
+                                        break;
+                                    case 3:
+                                        Console.Write("G");
+                                        break;
+                                    case 4:
+                                        Console.Write("T");
+                                        break;
+                                }
+                                switch (k)
+                                {
+                                    case 1:
+                                        Console.Write("A");
+                                        break;
+                                    case 2:
+                                        Console.Write("C");
+                                        break;
+                                    case 3:
+                                        Console.Write("G");
+                                        break;
+                                    case 4:
+                                        Console.Write("T");
+                                        break;
+                                }
+                                counter++;
+                                Console.Write("X ");
+                                if (counter%4==0)
+                                {
+                                    Console.WriteLine();
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            Console.Write("O");
+                            {
+                                switch (i)
+                                {
+                                    case 1:
+                                        Console.Write("A");
+                                        break;
+                                    case 2:
+                                        Console.Write("C");
+                                        break;
+                                    case 3:
+                                        Console.Write("G");
+                                        break;
+                                    case 4:
+                                        Console.Write("T");
+                                        break;
+                                }
+                                switch (j)
+                                {
+                                    case 1:
+                                        Console.Write("A");
+                                        break;
+                                    case 2:
+                                        Console.Write("C");
+                                        break;
+                                    case 3:
+                                        Console.Write("G");
+                                        break;
+                                    case 4:
+                                        Console.Write("T");
+                                        break;
+                                }
+                                switch (k)
+                                {
+                                    case 1:
+                                        Console.Write("A");
+                                        break;
+                                    case 2:
+                                        Console.Write("C");
+                                        break;
+                                    case 3:
+                                        Console.Write("G");
+                                        break;
+                                    case 4:
+                                        Console.Write("T");
+                                        break;
+                                }
+                                counter++;
+                                Console.Write("O ");
+                                if (counter % 4 == 0)
+                                {
+                                    Console.WriteLine();
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//07. Training Hall Equipment
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double budget = double.Parse(Console.ReadLine());
+            byte n = byte.Parse(Console.ReadLine());
+            double moneyLeft = budget;
+            for (int i = 1; i <= n; i++)
+            {
+                string itemName = Console.ReadLine();
+                double itemPrice = double.Parse(Console.ReadLine());
+                int itemCount = int.Parse(Console.ReadLine());
+                if (itemCount == 1)
+                {
+                    Console.WriteLine("Adding {0} {1} to cart.", itemCount, itemName);
+                }
+                else
+                {
+                    Console.WriteLine("Adding {0} {1}s to cart.", itemCount, itemName);
+                }
+                moneyLeft -= itemCount * itemPrice;
+
+            }
+            Console.WriteLine("Subtotal: ${0:F2}", budget - moneyLeft);
+            if (moneyLeft >= 0)
+            {
+                Console.WriteLine("Money left: ${0:F2}", moneyLeft);
+            }
+            else
+            {
+                Console.WriteLine("Not enough. We need ${0:F2} more.", -moneyLeft);
+            }
+
+        }
+    }
+}
+
+//08. * SMS Typing
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        public static MidpointRounding AwayFromZero { get; private set; }
+
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            string resultString = null;
+            for (int i =1; i<=n; i++)
+            {
+                int input = int.Parse(Console.ReadLine());
+                string inputString = input.ToString();
+                int lengthString = inputString.Length;
+                int soloNum = input % 10;
+                int offset = (soloNum - 2) * 3;
+                char result = 'a';
+
+                if (input==0)
+                {
+                    resultString += ' ';
+                }
+                else
+                {
+                    if (soloNum == 8 || soloNum == 9)
+                    {
+                        offset++;
+                    }
+                    int letterIndex = offset + lengthString - 1;
+                    for (int j = 1; j <= letterIndex; j++)
+                    {
+                        result++;
+
+                    }
+                    resultString += result;
+                }
+                
+            }
+            Console.WriteLine(resultString);
+        }
+    }
+}

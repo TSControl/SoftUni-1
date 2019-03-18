@@ -1,0 +1,333 @@
+//01. Extract Emails
+using System;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine();
+            var pattern = @"(?<=\s)([a-z]+|\d+)(\d+|\w+|\.+|-+)([a-z]+|\d+)\@[a-z]+\-?[a-z]+\.[a-z]+(\.[a-z]+)?";
+            var regex = new Regex(pattern);
+            MatchCollection matches = regex.Matches(input);
+            foreach (Match match in matches)
+                Console.WriteLine(match);
+        }
+    }
+}
+
+//02. Email me
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine();
+            var pattern = @"(?<before>.*)@(?<after>.*)";
+            var match = Regex.Match(input, pattern);
+            var before = match.Groups["before"].Value.ToCharArray().Select(a=>(int)a).Sum();
+            var after = match.Groups["after"].Value.ToCharArray().Select(a => (int)a).Sum();
+            if (before>=after)
+                Console.WriteLine("Call her!");
+            else
+                Console.WriteLine("She is not the one.");
+        }
+    }
+}
+
+//03. Karate Strings
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+//using System.IO;
+//using System.Text.RegularExpressions;
+//using Microsoft.Office.Interop.Excel;
+
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main()
+        {
+            var list = Console.ReadLine().Split('>').ToList();
+            var ostatak = 0;
+            foreach (var str in list.Skip(1).ToList())
+            {
+                var index = list.IndexOf(str);
+                var chars = str.ToCharArray();
+                int n = int.Parse(chars[0].ToString());
+                n += ostatak;
+                if (n>chars.Length)
+                {
+                    ostatak = n - chars.Length;
+                    n = chars.Length;
+                }
+                else
+                {
+                    ostatak = 0;
+                }
+                
+                var newChArray = chars.Skip(n).ToArray();
+                list[index] = string.Join("", newChArray);
+            }
+            Console.WriteLine(string.Join(">", list));
+        }
+    }
+}
+
+//04. Morse Code Upgraded
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var tokens = Console.ReadLine().Split('|').ToList();
+            string patternAllZeroes = "(?<zero>0)";
+            string patternAllOnes = "(?<one>1)";
+            string patternMultipleZeroes = @"[1|]?(?<multipleZeroes>0{2,})[1|]?";
+            string patternMultipleOnes = @"[0|]?(?<multipleOnes>1{2,})[0|]?";
+            var regex0 = new Regex(patternAllZeroes);
+            var regex1 = new Regex(patternAllOnes);
+            var regexMulti0 = new Regex(patternMultipleZeroes);
+            var regexMulti1 = new Regex(patternMultipleOnes);
+            var output = "";
+            for (int i = 0; i < tokens.Count(); i++)
+            {
+                var token = tokens[i];
+                var sum = 0;
+                sum+=3*Regex.Matches(token, patternAllZeroes).Count;
+                sum+=5*Regex.Matches(token, patternAllOnes).Count;
+                //
+                Match matchMultiple0 = regexMulti0.Match(token);
+                while (matchMultiple0.Success)
+                {
+                    Group groupMulti0 = matchMultiple0.Groups["multipleZeroes"];
+                    CaptureCollection allMulti0 = groupMulti0.Captures;
+                    for (int j = 0; j < allMulti0.Count; j++)
+                    {
+                        Capture c = allMulti0[j];
+                        //Console.WriteLine(c.Value);//
+                        sum += c.Length;
+                    }
+                    matchMultiple0 = matchMultiple0.NextMatch();
+                }
+                //
+                Match matchMultiple1 = regexMulti1.Match(token);
+                while (matchMultiple1.Success)
+                {
+                    Group groupMulti1 = matchMultiple1.Groups["multipleOnes"];
+                    CaptureCollection allMulti1 = groupMulti1.Captures;
+                    for (int j = 0; j < allMulti1.Count; j++)
+                    {
+                        Capture c = allMulti1[j];
+                        //Console.WriteLine(c.Value);//
+                        sum += c.Length;
+                    }
+                    matchMultiple1 = matchMultiple1.NextMatch();
+                }
+                //
+                output += (char)sum;
+            }
+            Console.WriteLine(output);
+        }
+    }
+}
+
+//05. Only Letters
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine();
+            string pattern = @"(?<num>\d+)(?<word>[a-zA-Z])";
+            Regex regex = new Regex(pattern);
+            var match = regex.Match(input);
+            var c = 0;
+            while (match.Success)
+            {
+                
+                var num = match.Groups["num"].Value;
+                var indexNum = match.Groups["num"].Index;
+                var lengthNum = match.Groups["num"].Length;
+                var word = match.Groups["word"].Value;
+                //Console.WriteLine(num);
+                //Console.WriteLine(indexNum);
+                //Console.WriteLine(lengthNum);
+                //Console.WriteLine(word);
+                input=input.Remove(c+indexNum, lengthNum);
+                input = input.Insert(c+indexNum, word);
+                c -= lengthNum - 1;
+                match = match.NextMatch();
+            }
+            Console.WriteLine(input);
+        }
+    }
+}
+
+//06. Email Statistics
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+using System.IO;
+using System.Text.RegularExpressions;
+//using Microsoft.Office.Interop.Excel;
+
+
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main()
+        {
+            int n = int.Parse(Console.ReadLine());
+            var emails = new Dictionary<string, HashSet<string>>();
+            string pattern = @"^(?<username>[A-Za-z]{5,})@(?<domain>[a-z]{3,}[.](bg|com|org))$";
+            Regex regex = new Regex(pattern);
+            for (int i = 0; i < n; i++)
+            {
+                string wannaBeEmail = Console.ReadLine();
+                if (regex.IsMatch(wannaBeEmail))
+                {
+                    Match match = regex.Match(wannaBeEmail);
+                    string username = match.Groups["username"].Value;
+                    string domain = match.Groups["domain"].Value;
+                    if (!emails.ContainsKey(domain))
+                    {
+                        emails[domain] = new HashSet<string>();
+
+                    }
+                    if (!emails[domain].Contains(username))
+                    {
+                        emails[domain].Add(username);
+                    }
+
+                }
+            }
+            foreach (var emailKVP in emails.OrderByDescending(u => u.Value.Count))
+            {
+                Console.WriteLine(emailKVP.Key + ":");
+                var usernames = emailKVP.Value.ToList();
+                foreach (var username in usernames)
+                {
+                    Console.WriteLine($"### {username}");
+                }
+            }
+        }
+    }
+}
+
+//07. Hideout
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string path = Console.ReadLine();
+            while (true)
+            {
+                string[] tokens = Console.ReadLine().Split();
+                string pattern = $@"(?<hideout>\{tokens[0]}{{{tokens[1]},}})";
+                Match match = Regex.Match(path, pattern);
+                if (match.Success)
+                {
+                    Console.WriteLine($"Hideout found at index {path.IndexOf(match.Value)} and it is with size {match.Value.Length}!");
+                    break;
+                }
+            }
+            
+        }
+    }
+}
+
+//08. Mines
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+using System.IO;
+using System.Text.RegularExpressions;
+//using Microsoft.Office.Interop.Excel;
+
+
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main()
+        {
+            var path = Console.ReadLine();
+            int startIndex = 0;
+            int endIndex = 0;
+            while ((startIndex = path.IndexOf("<", startIndex)) != -1 && (endIndex = path.IndexOf(">", startIndex)) != -1)
+            {
+                string bombChars = path.Substring(startIndex + 1, 2);
+                int bombStrength = CalculateMineStrength(bombChars);
+                int leftFromTheBomb = Math.Max(0, startIndex - bombStrength);
+                int rightFromBomb = Math.Min(path.Length - 1, endIndex+bombStrength);
+                StringBuilder sb = new StringBuilder(path);
+                for (int i = leftFromTheBomb; i <= rightFromBomb; i++)
+                {
+                    sb[i] = '_';
+                }
+                path = sb.ToString();
+            }
+            Console.WriteLine(path);
+
+        }
+
+        private static int CalculateMineStrength(string bombChars)
+        {
+            return Math.Abs(bombChars[0] - bombChars[1]);
+        }
+    }
+}

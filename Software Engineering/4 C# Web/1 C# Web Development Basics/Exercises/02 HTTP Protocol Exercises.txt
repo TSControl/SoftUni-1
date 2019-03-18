@@ -1,0 +1,162 @@
+//paste in VS console application project (dont forget right click + set as StartUp project)
+// 1.URL Decode
+using System;
+
+public class StartUp
+{
+	static void Main()
+	{
+		var input = Console.ReadLine();
+
+		var output = System.Net.WebUtility.UrlDecode(input);
+
+		Console.WriteLine(output);
+	}
+}
+
+// 2.Validate URL
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem2
+{
+	class StartUp
+	{
+		static void Main(string[] args)
+		{
+			var input = Console.ReadLine();
+
+			input = System.Net.WebUtility.UrlDecode(input);
+
+			var regex = new Regex(@"^(?<protocol>https{0,1})\:\/\/(?<host>\w+.\w+)(:(?<port>\d*)){0,1}(?<path>\/(\w+\?{0,1}(?:\w+\=\w+&{0,1})*#{0,1}(?:\w+){0,1}){0,1})");
+
+			var isValid = regex.IsMatch(input);
+
+			if (isValid)
+			{
+				var protocol = regex.Match(input).Groups["protocol"].Value;
+
+				var host = regex.Match(input).Groups["host"].Value;
+
+				var port = regex.Match(input).Groups["port"].Value;
+
+				if (port == "")
+				{
+					if (protocol == "http")
+					{
+						port = "80";
+					}
+					else
+					{
+						port = "443";
+					}
+				}
+				else if (port != "80" && port != "443")
+				{
+					PrintInvalid();
+
+					return;
+				}
+				else
+				{
+					if ((port == "80" && protocol != "http") ||
+						(port == "443" && protocol != "https"))
+					{
+						PrintInvalid();
+					}
+				}
+
+				var path = regex.Match(input).Groups["path"].Value;
+
+				var builder = new StringBuilder();
+
+				builder.AppendLine($"Protocol: {protocol}");
+				builder.AppendLine($"Host: {host}");
+				builder.AppendLine($"Port: {port}");
+				builder.AppendLine($"Path: {path}");
+
+				var output = builder.ToString();
+
+				Console.WriteLine(output);
+			}
+			else
+			{
+				PrintInvalid();
+			}
+		}
+
+		private static void PrintInvalid()
+		{
+			Console.WriteLine("Invalid URL");
+		}
+	}
+}
+
+
+// Problem 3
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem3
+{
+    class StartUp
+    {
+		private static string HttpResponseHeader = "HTTP/1.1 {0}\nContent-Length: {1}\nContent-Type: text/plain\n\n{2}";
+
+		private static Dictionary<int, string> StatusTextByResponseCode = new Dictionary<int, string>() { { 200, "OK" }, { 404, "Not Found" } };
+
+		static void Main(string[] args)
+        {
+			var pathsByMethods = new Dictionary<string, HashSet<string>>();
+
+			string line;
+
+			while ((line = Console.ReadLine().ToLower()) != "end")
+			{
+				var lineSplit = line.Substring(1).Split('/');
+				var path = lineSplit[0];
+				var method = lineSplit[1];
+
+				if (!pathsByMethods.ContainsKey(method))
+				{
+					pathsByMethods.Add(method, new HashSet<string> { path });
+				}
+				else
+				{
+					pathsByMethods[method].Add(path);
+				}
+
+			}
+
+			var requestSplit = Console.ReadLine().ToLower().Split();
+			var requestMethod = requestSplit[0];
+			var requestPath = requestSplit[1].Substring(1);
+
+			var responsePath = pathsByMethods.ContainsKey(requestMethod) 
+				? pathsByMethods[requestMethod].FirstOrDefault(p => p == requestPath) 
+				: string.Empty;
+
+			var response = string.Empty;
+			if (string.IsNullOrEmpty(responsePath))
+			{
+				var responseStatusCode = $"{StatusTextByResponseCode.Keys.FirstOrDefault(k => k == 404)} {StatusTextByResponseCode[404]}";
+				response = string.Format(HttpResponseHeader,
+					responseStatusCode,
+					StatusTextByResponseCode[404].Length,
+					StatusTextByResponseCode[404]);
+			}
+			else
+			{
+				var responseStatusCode = $"{StatusTextByResponseCode.Keys.FirstOrDefault(k => k == 200)} {StatusTextByResponseCode[200]}";
+				response = string.Format(HttpResponseHeader,
+					responseStatusCode,
+					StatusTextByResponseCode[200].Length,
+					StatusTextByResponseCode[200]);
+			}
+
+			Console.WriteLine(response);
+        }
+    }
+}

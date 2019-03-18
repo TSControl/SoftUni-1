@@ -1,0 +1,267 @@
+// 01. Sort Array
+function sortArr(arr, cmd) {
+    switch (cmd) {
+        case 'asc':
+            arr.sort((a, b) => a - b);
+            break;
+        case 'desc':
+            arr.sort((a, b) => b - a);
+            break;
+    }
+
+    return arr;
+}
+
+// 01. Sort Array - long lame method as in the lab document
+function sortArr(arr, cmd) {
+    var ascComparator = function (a, b) {
+        return a - b;
+    }
+
+    var descComparator = function (a, b) {
+        return b - a;
+    }
+
+    var functionDic = {
+        'asc': ascComparator,
+        'desc': descComparator
+    };
+
+    return arr.sort(functionDic[cmd]);
+}
+
+// 02. Argument Info
+function getInfo() {
+    let typeCountDic = {};
+
+    for (let argument of arguments) {
+        let type = typeof (argument);
+
+        console.log(`${type}: ${argument}`);
+
+        if (!(typeCountDic[type]))
+            typeCountDic[type] = 0;
+
+        typeCountDic[type]++;
+    }
+
+    Object.keys(typeCountDic).sort((k1, k2) => typeCountDic[k2] - typeCountDic[k1]).forEach(k => console.log(`${k} = ${typeCountDic[k]}`));
+}
+
+// 03. Functional Sum
+//let add =
+(function () {
+    let sum = 0;
+
+    return function changeSum(n) {
+        sum += n;
+
+        changeSum.toString = function () {
+            return sum;
+        }
+
+        return changeSum;
+    }
+})();
+// console.log('' + add(4)(5)(6)(9));
+
+// 04. Personal BMI
+function returnObj(name, age, weight, height) {
+    let bmi = weight / (Math.pow(height / 100, 2));
+    let status = '';
+    if (bmi < 18.5)
+        status = 'underweight';
+    else if (bmi < 25)
+        status = 'normal';
+    else if (bmi < 30)
+        status = 'overweight';
+    else
+        status = 'obese';
+
+    let outputObj = {
+        'name': name,
+        personalInfo: {
+            'age': age,
+            'weight': Math.round(weight),
+            'height': Math.round(height)
+        },
+        'BMI': Math.round(bmi),
+        'status': status
+    }
+
+    if (status === 'obese')
+        outputObj['recommendation'] = 'admission required';
+
+    return outputObj;
+}
+
+// 05. Vector Math - copy for judge only the uncommented part (IIFE)
+// let solution = 
+(function () {
+    return {
+        add: ([x1, y1], [x2, y2]) => [x1 + x2, y1 + y2],
+        multiply: ([x1, y1], m) => [x1 * m, y1 * m],
+        length: ([x, y]) => Math.sqrt(x * x + y * y),
+        dot: ([x1, y1], [x2, y2]) => x1 * x2 + y1 * y2,
+        cross: ([x1, y1], [x2, y2]) => x1 * y2 - x2 * y1
+    };
+})();
+// console.log(solution.add([1, 1], [1, 0]));
+
+// 06. Breakfast Robot
+let solution = (
+    //COPY ONLY FROM HERE (UNLIKE LAST TIME) FOR THE RETARDED JUDGE!!!
+    function () {
+    let stock = {
+        protein: 0,
+        carbohydrate: 0,
+        fat: 0,
+        flavour: 0
+    };
+
+    const recipes = {
+        apple: {
+            carbohydrate: 1,
+            flavour: 2
+        },
+        coke: {
+            carbohydrate: 10,
+            flavour: 20
+        },
+        burger: {
+            carbohydrate: 5,
+            fat: 7,
+            flavour: 3
+        },
+        omelet: {
+            protein: 5,
+            fat: 1,
+            flavour: 1
+        },
+        cheverme: {
+            protein: 10,
+            carbohydrate: 10,
+            fat: 10,
+            flavour: 10
+        }
+    };
+
+    return function randomNameForFJudge(inputStr) {
+        let tokens = inputStr.split(' ');
+        let command = tokens.shift();
+
+        switch (command) {
+            case "restock":
+                return restock(tokens[0], Number(tokens[1]));
+            case "prepare":
+                return prepare(tokens[0], Number(tokens[1]));
+            case "report":
+                return report();
+        }
+    };
+
+    function restock(microelement, quantity) {
+        stock[microelement] += quantity;
+        return "Success";
+    }
+
+    function prepare(recipe, quantity) {
+        let ingredients = Object.keys(recipes[recipe]);
+        for (let ingredient of ingredients) {
+            if (stock[ingredient] < quantity * recipes[recipe][ingredient]) {
+                return `Error: not enough ${ingredient} in stock`;
+            }
+        }
+
+        for (let ingredient of ingredients) {
+            stock[ingredient] -= quantity * recipes[recipe][ingredient];
+        }
+
+        return 'Success';
+    }
+
+    function report() {
+        return `protein=${stock.protein} carbohydrate=${stock.carbohydrate} fat=${stock.fat } flavour=${stock.flavour}`;
+    }
+    }
+    //THIS TIME COPY TO HERE ONLY FOR THE STUPID JUDGE
+)();
+
+// 07. Monkey Patcher
+let solution = 
+//COPY FROM HERE FOR JUDGE
+(function () {
+    function call(obj, command) {
+        switch (command) {
+            case 'upvote':
+                obj.upvotes++;
+                break;
+            case 'downvote':
+                obj.downvotes++;
+                break;
+            case 'score':
+                return score(obj);
+        }
+
+        function score(obj) {
+            let modifier = 0;
+            let rating = '';
+
+            if (obj.upvotes + obj.downvotes > 50)
+                modifier = Math.ceil(Math.max(obj.upvotes, obj.downvotes) * 0.25);
+
+            if (obj.upvotes + obj.downvotes < 10) {
+                rating = 'new';
+            } else if (obj.downvotes > obj.upvotes) {
+                rating = 'unpopular';
+            } else if (obj.upvotes / (obj.upvotes + obj.downvotes) > 0.66) {
+                rating = 'hot';
+            } else if (Math.max(obj.upvotes, obj.downvotes) > 100) {
+                rating = 'controversial';
+            } else {
+                rating = 'new';
+            }
+
+            return [
+                obj.upvotes + modifier,
+                obj.downvotes + modifier,
+                obj.upvotes - obj.downvotes,
+                rating
+            ];
+        }
+    }
+
+    return {
+        call: call
+    };
+})();
+//COPY TO HERE FOR JUDGE
+
+// 08. Euclids Algorithm
+function compute(n1, n2) {
+    while (n1 !== n2) {
+        let bigger = Math.max(n1, n2);
+        let smaller = Math.min(n1, n2);
+
+        n1 = bigger - smaller;
+        n2 = smaller;
+    }
+
+    return n1;
+}
+
+// 09. Kepler's Problem - fuck judge - didnt accept my solution for 0.000000001 difference in 2 tests
+function compute(m, e) {
+
+    function recurse(x, e) {
+        const accuracy = 1e-9;
+
+        if (Math.abs(m - (x - e * Math.sin(x))) < accuracy) {
+            return x;
+        }
+
+        return recurse(x - (x - e * Math.sin(x) - m) / (1 - e * Math.cos(x)), e);
+    }
+
+    return Number(recurse(m, e).toFixed(9));
+}

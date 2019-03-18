@@ -1,0 +1,75 @@
+//1. Sum 3 Numbers 
+function sumNumers(a, b, c) {
+  let sum = a + b + c;
+  console.log(sum);
+}
+
+//2. Calculate Sum and VAT 
+  function getVat(arr) {
+    let sum = 0;
+    for (let num of arr)
+      sum   += num;
+    console.log("sum = " + sum);
+    console.log("VAT = " + sum*0.20);
+    console.log("total = " + sum*1.20);
+  }
+  
+//3. Letter Occurences In String 
+function countOcc(str, chr) {
+  let count = 0;
+
+  for (let i=0; i < str.length; i++) {
+    if (str[i] == chr) {
+      count++;
+      
+    }
+  }
+
+  return count;
+}
+
+//4. Filter By Age 
+function filterByAge(minAge, name1, age1, name2, age2) {
+  let person1 = {name:name1, age:age1};
+  let person2 = {name:name2, age:age2};
+
+  if (person1.age >= minAge)
+    console.log(person1);
+  if (person2.age >= minAge)
+    console.log(person2);
+}
+
+//5. String of Numbers 1..N 
+function strOfNumbers(n) {
+  let str = '';
+  for (let i=1; i<=n; i++) str += i;
+  return str;
+}
+
+//6. Figure Area 
+function getArea(w, h, W, H){
+  let maxCommonHeight = Math.min(h, H);
+  let maxCommonWidth = Math.min(w, W);
+
+  let overlappingArea = maxCommonWidth * maxCommonHeight;
+
+  let totalArea = w*h + W*H - overlappingArea;
+
+  return totalArea;
+}
+
+//7. Next Day 
+function calcNextDay(year, month, day) {
+  let date = new Date(year, month-1, day);
+  let oneDay = 24 * 60 * 60 * 1000;
+  let nextDate = new Date(date.getTime() + oneDay);
+  return nextDate.getFullYear() + "-" +
+  (nextDate.getMonth() + 1) + "-" +
+  nextDate.getDate();
+}
+
+//8. Distance between Points 
+function calcDistance(x1, y1, x2, y2) {
+  let distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  return distance;
+}

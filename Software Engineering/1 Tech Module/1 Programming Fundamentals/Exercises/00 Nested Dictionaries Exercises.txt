@@ -1,0 +1,354 @@
+//01. Wardrobe
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            var dic = new Dictionary<string, Dictionary<string, int>>();
+            for (int i = 0; i < n; i++)
+            {
+                var tokens = Console.ReadLine().Split(new string[] {" -> "}, StringSplitOptions.RemoveEmptyEntries).ToArray();
+                var color = tokens[0];
+                var clothes = tokens[1].Split(',').ToArray();
+                if (!dic.ContainsKey(color))
+                    dic[color] = new Dictionary<string, int>();
+                foreach (var cloth in clothes.Distinct())
+                {
+                    if (!dic[color].ContainsKey(cloth))
+                        dic[color][cloth] = 0;
+                    dic[color][cloth] += clothes.Where(a => a == cloth).Count();
+                }
+            }
+            var tokensToSearch = Console.ReadLine().Split().ToArray();
+            var colorToSearch = tokensToSearch[0];
+            var searchedClothes = tokensToSearch[1];
+            foreach (var kvp in dic)
+            {
+                Console.WriteLine("{0} clothes:", kvp.Key);
+                foreach (var minikvp in kvp.Value)
+                {
+                    Console.Write("* {0} - {1}", minikvp.Key, minikvp.Value);
+                    if (minikvp.Key==searchedClothes && kvp.Key==colorToSearch)
+                        Console.Write(" (found!)");
+                    Console.WriteLine();
+                }
+            }
+        }
+    }
+}
+
+//02. Key-Key Value-Value
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var key = Console.ReadLine();
+            var value = Console.ReadLine();
+            var n = int.Parse(Console.ReadLine());
+            var dic = new Dictionary<string, List<string>>();
+            for (int i = 0; i < n; i++)
+            {
+                var tokens = Console.ReadLine().Split(new string[] { " => " }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+                var newKey = tokens[0];
+                var values = tokens[1].Split(';').ToArray();
+                if (newKey.Contains(key))
+                {
+                    if (!dic.ContainsKey(newKey))
+                        dic[newKey] = new List<string>();
+                    foreach (var val in values.Where(a=>a.Contains(value)))
+                        dic[newKey].Add(val);
+                }
+            }
+            foreach (var kvp in dic)
+            {
+                Console.WriteLine("{0}:", kvp.Key);
+                foreach (var item in kvp.Value)
+                    Console.WriteLine("-{0}", item);
+            }
+        }
+    }
+}
+
+//03. Travel Company
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _07.TravellCompany
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var mainDic = new Dictionary<string, Dictionary<string, int>>();
+            var input = Console.ReadLine().Split(new char[] { ':', ' ' },StringSplitOptions.RemoveEmptyEntries);
+
+
+            while (input[0] != "ready")
+            {
+                var city = input[0];
+
+                var tokens = input[1].Split(',');
+
+
+                if (!mainDic.ContainsKey(city))
+                {
+                    mainDic.Add(city, new Dictionary<string, int>());
+                }
+                for (int i = 0; i < tokens.Length; i++)
+                {
+                    string[] viecleAndQuantity = tokens[i].Split('-');
+                    string viecle = viecleAndQuantity[0];
+                    int people = int.Parse(viecleAndQuantity[1]);
+                    if (!mainDic[city].ContainsKey(viecle))
+                    {
+                        mainDic[city].Add(viecle, people);
+                    }
+                    else
+                    {
+                        mainDic[city][viecle] = people;
+                    }
+
+                }
+
+
+                input = Console.ReadLine().Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+           
+
+            input = Console.ReadLine().Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            while (true)
+            {
+               
+                string city = input[0];
+                if (city == "travel")
+                {
+                    break;
+                }
+                int people = int.Parse(input[1]);
+                if (mainDic.ContainsKey(city))
+                {
+                    var sum = 0;
+                    Dictionary<string, int> finalDic = mainDic[city];
+                    foreach (var item in finalDic)
+                    {
+                        sum += item.Value;
+                    }
+                    sum -= people;
+                    if (sum >= 0)
+                    {
+                        Console.WriteLine($"{city} -> all {people} accommodated");
+                        
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{city} -> all except {Math.Abs(sum)} accommodated");
+                        
+                    }
+                }
+               
+                input = Console.ReadLine().Split(new char[] { ':', ' ' },StringSplitOptions.RemoveEmptyEntries);
+            }
+
+            
+        }
+    }
+}
+
+//04. Shellbound
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine();
+            var dic = new Dictionary<string, HashSet<int>>();
+
+            while (input!="Aggregate")
+            {
+                var tokens = input.Split().ToArray();
+                var city = tokens[0];
+                var size = int.Parse(tokens[1]);
+                if (!dic.ContainsKey(city))
+                    dic[city] = new HashSet<int>();
+                dic[city].Add(size);
+                input = Console.ReadLine();
+            }
+            //do shit
+            foreach (var kvp in dic)
+            {
+                Console.Write("{0} -> ", kvp.Key);
+                Console.Write(string.Join(", ", kvp.Value) + " (");
+                Console.WriteLine("{0})", (long)kvp.Value.Sum()-((long)kvp.Value.Sum()/kvp.Value.Count()));
+            }
+        }
+    }
+}
+
+//05. Dict-Ref-Advanced
+using System;
+using System.Collections.Generic;
+using System.Linq;
+class Program
+{
+    static void Main()
+    {
+        var line = Console.ReadLine();
+        var dic = new Dictionary<string, List<int>>();
+        while (line != "end")
+        {
+            var tokens = line.Split(" ->,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+            var key = tokens[0];
+            var nums = new List<int>();
+            try
+            {
+                if (!dic.ContainsKey(key))
+                    dic.Add(key, new List<int>());
+                nums.AddRange(tokens.Skip(1).Select(int.Parse).ToArray());
+                dic[key].AddRange(nums);
+            }
+            catch (FormatException)
+            {
+                var secondKey = tokens[1];
+                if (!dic.ContainsKey(secondKey))
+                {
+                    line = Console.ReadLine();
+                    continue;
+                }
+                dic[key].AddRange(dic[secondKey]);
+            }
+            
+            
+            
+            line = Console.ReadLine();
+        }
+        //do shit in case of end
+        foreach ( var kvp in dic.Where(a=>a.Value.Any()))
+        {
+            Console.WriteLine("{0} === {1}", kvp.Key, string.Join(", ", kvp.Value));
+        }
+    }
+}
+
+//06. Forum Topics
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+class Program
+{
+    static void Main()
+    {
+        var tokens = Console.ReadLine();
+        var dic = new Dictionary<string, HashSet<string>> ();
+        while (tokens != "filter")
+        {
+            var arr = tokens.Split(" ->,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+            var key = arr[0];
+            var values = arr.Skip(1).ToList();
+            if (values.Count()>0)
+            {
+                if (!dic.ContainsKey(key))
+                    dic[key] = new HashSet<string>();
+                foreach (var value in values)
+                    dic[key].Add(value);
+            }
+            tokens = Console.ReadLine();
+        }
+        var tags = Console.ReadLine().Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+        foreach (var kvp in dic)
+        {
+            var allIn = true;
+            foreach (var tag in tags)
+            {
+                if (!kvp.Value.Contains(tag))
+                    allIn = false;
+            }
+            if (allIn)
+                Console.WriteLine("{0} | #{1}", kvp.Key, string.Join(", #", kvp.Value));
+        }
+    }
+}
+
+//07. Social Media Posts
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+class Program
+{
+    class Post
+    {
+        public string Name { get; set; }
+        public int Likes { get; set; }
+        public int Dislikes { get; set; }
+        public Dictionary<string, string> Comments { get; set; }
+    }
+    static void Main()
+    {
+        var input = Console.ReadLine();
+        var posts = new List<Post>();
+        while (input != "drop the media")
+        {
+            var tokens = input.Split().ToArray();
+            switch (tokens[0])
+            {
+                case "post":
+                    var post = new Post { Name = tokens[1], Likes = 0, Dislikes = 0, Comments = new Dictionary<string, string>() };
+                    posts.Add(post);
+                    break;
+                case "like":
+                    posts.Where(a => a.Name == tokens[1]).First().Likes++;
+                    break;
+                case "dislike":
+                    posts.Where(a => a.Name == tokens[1]).First().Dislikes++;
+                    break;
+                case "comment":
+                    var key = tokens[2];
+                    var value = string.Join(" ", tokens.Skip(3));
+                    posts.Where(a => a.Name == tokens[1]).First().Comments.Add(key, value);
+                        break;
+
+            }
+            input = Console.ReadLine();
+        }
+        foreach (var post in posts)
+        {
+            Console.WriteLine("Post: {0} | Likes: {1} | Dislikes: {2}", post.Name, post.Likes, post.Dislikes);
+            Console.WriteLine("Comments:");
+            if (post.Comments.Count != 0)
+            {
+                foreach (var kvp in post.Comments)
+                    Console.WriteLine("*  {0}: {1}", kvp.Key, kvp.Value);
+            }
+            else
+                Console.WriteLine("None");
+        }
+    }
+}

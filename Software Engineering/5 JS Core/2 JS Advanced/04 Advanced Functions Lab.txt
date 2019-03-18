@@ -1,0 +1,69 @@
+// 01. Aggregates
+function aggregate(arr) {
+    let sum = arr.reduce((acc, cur) => acc + cur);
+    let min = arr.reduce((acc, cur) => acc = Math.min(acc, cur));
+    let max = arr.reduce((acc, cur) => acc = Math.max(acc, cur));
+    let product = arr.reduce((acc, cur) => acc * cur);
+    let join = arr.reduce((acc, cur) => '' + acc + cur);
+
+    console.log(`Sum = ${sum}\n` +
+        `Min = ${min}\n` +
+        `Max = ${max}\n` +
+        `Product = ${product}\n` +
+        `Join = ${join}`);
+}
+
+// 02. Currency Format
+function result(func) {
+    function final(value) {
+        return func(',', '$', true, value);
+    }
+    
+    return final;
+}
+
+// 03. Command Processor
+function processCommands(commands) {
+    let iife = (function () {
+        let hidden = '';
+
+        return {
+            append: input => hidden += input,
+            removeStart: countToRemove => hidden = hidden.slice(countToRemove),
+            removeEnd: countToRemove => hidden = hidden.slice(0, hidden.length - countToRemove),
+            print: () => console.log(hidden)
+        }
+    })();
+
+    for (let command of commands) {
+        let tokens = command.split(' ');
+
+        iife[tokens[0]](tokens[1]);
+    }
+}
+
+// 04. Max Element
+function returnMax(arr) {
+    let max = arr.reduce((acc, cur) => Math.max(acc, cur));
+
+    return max;
+}
+OR
+function returnMax(arr) {
+    return Math.max(...arr);
+}
+OR
+function returnMax(arr) {
+    return Math.max.apply(null, arr);
+}
+
+// 05. Next Article
+function getArticleGenerator(articles) {
+    return function () {
+        if (articles.length > 0) {
+            $('#content')
+                .append($('<article>')
+                    .append($('<p>').text(articles.shift())));
+        }
+    }
+}

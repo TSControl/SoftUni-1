@@ -1,0 +1,100 @@
+//01. Reverse String
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(string.Join("", Console.ReadLine().Reverse()));
+        }
+    }
+}
+
+//02. Count Substring Occurrences
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var text = Console.ReadLine().ToLower();
+            var word = Console.ReadLine().ToLower();
+            var count = 0;
+            var lastIndex = -1;
+            while ((lastIndex = text.IndexOf(word, lastIndex+1)) != -1)
+                count++;
+            Console.WriteLine(count);
+        }
+    }
+}
+
+//03. Text Filter
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var badWords = Console.ReadLine().Split(" ,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+            var dic = new Dictionary<string, string>();
+            foreach (var word in badWords)
+            {
+                dic[word] = new string('*', word.Length).ToString();
+            }
+            var text = Console.ReadLine();
+            foreach (var word in badWords)
+                text = text.Replace(word, dic[word]);
+            Console.WriteLine(text);
+        }
+    }
+}
+
+//04. Palindromes
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var words = Console.ReadLine().Split(" ,.?!".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+            var palis = new List<string>();
+            foreach (var word in words)
+            {
+                var reverseWordArr = word.Reverse().ToArray();
+                var reverseWord = string.Join("", reverseWordArr);
+                //Console.WriteLine(reverseWord);
+                if (word==reverseWord)
+                {
+                    palis.Add(word);
+                }
+            }
+            var palis1 = palis.Distinct().OrderBy(p => p).ToArray();
+            var output = string.Join(", ", palis1);
+            Console.WriteLine(output);
+        }
+    }
+}

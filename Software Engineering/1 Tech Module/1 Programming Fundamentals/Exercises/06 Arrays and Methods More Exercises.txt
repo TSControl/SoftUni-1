@@ -1,0 +1,382 @@
+//01. Array Statistics
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            Console.WriteLine($"Min = {nums.Min()}\nMax = {nums.Max()}\nSum = {nums.Sum()}\nAverage = {nums.Average()}\n");
+
+        }
+    }
+}
+
+//02. Manipulate Array
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> nums = Console.ReadLine().Trim().Split(' ').ToList();
+            int n = int.Parse(Console.ReadLine());
+            for (int i =0; i<n; i++)
+            {
+                string input = Console.ReadLine();
+                if (input.Equals("Reverse"))
+                {
+                    nums.Reverse();
+                }
+                else if (input.Equals("Distinct"))
+                {
+                    var noDupes = nums.Distinct().ToList();
+                    nums.Clear();
+                    for (int j = 0; j<noDupes.Count; j++)
+                    {
+                        nums.Add(noDupes[j]);
+                    }
+                }
+                else if (input.StartsWith("Replace"))
+                {
+                    string[] arr = input.Split(' ').ToArray();
+                    int index = int.Parse(arr[1]);
+                    string str = arr[2];
+                    nums.RemoveAt(index);
+                    nums.Insert(index, str);
+                }
+            }
+            Console.WriteLine(String.Join(", ", nums));
+        }
+    }
+}
+
+//03. Safe Manipulation
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+           
+                List<string> nums = Console.ReadLine().Trim().Split(' ').ToList();
+
+                while (true)
+                {
+                Here:
+                try
+                {
+                    string input = Console.ReadLine();
+                    if (input.Equals("Reverse"))
+                    {
+                        nums.Reverse();
+                    }
+                    else if (input.Equals("Distinct"))
+                    {
+                        var noDupes = nums.Distinct().ToList();
+                        nums.Clear();
+                        for (int j = 0; j < noDupes.Count; j++)
+                        {
+                            nums.Add(noDupes[j]);
+                        }
+                    }
+                    else if (input.StartsWith("Replace"))
+                    {
+                        string[] arr = input.Split(' ').ToArray();
+                        int index = int.Parse(arr[1]);
+                        string str = arr[2];
+                        nums.RemoveAt(index);
+                        nums.Insert(index, str);
+                    }
+                    else if (input.Equals("END"))
+                    {
+                        Console.WriteLine(String.Join(", ", nums));
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input!");
+                    }
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid input!");
+                    goto Here;
+                }
+
+
+            }
+                
+
+            
+        }
+    }
+}
+
+//04. Grab and Go
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            int n = int.Parse(Console.ReadLine());
+            nums.Reverse();
+            long sum = 0;
+            for (int i = 0; i<nums.Count; i++)
+            {
+                if (nums[i]==n)
+                {
+                    for (int j = i+1; j<nums.Count;j++)
+                    {
+                        sum += nums[j];
+                    }
+                    Console.WriteLine(sum);
+                    return;
+                }
+                if (i==nums.Count-1 && nums[i]!=n)
+                {
+                    Console.WriteLine("No occurrences were found!");
+                }
+            }
+        }
+    }
+}
+
+//05. Pizza Ingredients
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> list = Console.ReadLine().Split(' ').ToList();
+            var ingredients = new List<string>();
+            int n = int.Parse(Console.ReadLine());
+            int ingredientsCount = 0;
+            foreach (string str in list)
+            {
+                if (str.Length==n)
+                {
+                    ingredients.Add(str);
+                    ingredientsCount++;
+                    if (ingredientsCount==10)
+                    {
+                        PrintList(ingredients);
+                        return;
+                    }
+                }
+            }
+            PrintList(ingredients);
+        }
+        static void PrintList(List<string> ingredients)
+        {
+            foreach(string str in ingredients)
+            {
+                Console.Write($"Adding {str}.\n");
+            }
+            Console.WriteLine("Made pizza with total of {0} ingredients.", ingredients.Count);
+            Console.WriteLine("The ingredients are: "+ String.Join(", ", ingredients) + ".\n");
+        }
+    }
+}
+
+//06. Heists
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] pricesArr = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            int jewelsPrice = pricesArr[0];
+            int goldPrice = pricesArr[1];
+            int earnings = 0;
+            int expenses = 0;
+            while (true)
+            {
+                List<string> line = Console.ReadLine().Trim().Split(' ').ToList();
+                if (line[0].Equals("Jail") && line[1].Equals("Time"))
+                {
+                    if (earnings>=expenses)
+                    {
+                        Console.WriteLine("Heists will continue. Total earnings: {0}.", earnings-expenses);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Have to find another job. Lost: {0}.", expenses-earnings);
+                    }
+                    return;
+                }
+                else
+                {
+                    expenses +=int.Parse(line[1]);
+                    string loot = line[0];
+                    for (int i = 0; i<loot.Length; i++)
+                    {
+                        if (loot[i].Equals('%'))
+                        {
+                            earnings += jewelsPrice;
+                        }
+                        else if (loot[i].Equals('$'))
+                        {
+                            earnings += goldPrice;
+                        }
+                    }
+                }
+                
+            }
+
+        }
+    }
+}
+
+//07. Inventory Matcher
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] names = Console.ReadLine().Trim().Split(' ').ToArray();
+            string[] quantities = Console.ReadLine().Trim().Split(' ').ToArray();
+            string[] prices = Console.ReadLine().Trim().Split(' ').ToArray();
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input.Equals("done"))
+                {
+                    return;
+                }
+                else
+                {
+                    for (int i = 0; i<names.Length; i++)
+                    {
+                        if (input.Equals(names[i]))
+                        {
+                            Console.WriteLine($"{names[i]} costs: {prices[i]}; Available quantity: {quantities[i]}");
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//08. Upgraded Matcher
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] names = Console.ReadLine().Trim().Split(' ').ToArray();
+            long[] quantities = Console.ReadLine().Trim().Split(' ').Select(long.Parse).ToArray();
+            decimal[] prices = Console.ReadLine().Trim().Split(' ').Select(decimal.Parse).ToArray();
+            long[] longQuantities = new long[names.Length];
+            for (int j = 0; j<quantities.Length;j++)
+            {
+                longQuantities[j] = quantities[j];
+            }
+            for (int j = quantities.Length; j<names.Length; j++)
+            {
+                longQuantities[j] = 0;
+            }
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input.Equals("done"))
+                {
+                    return;
+                }
+                else
+                {
+                    string[] inputArr = input.Split(' ').ToArray();
+                    string name = inputArr[0];
+                    long quantity = long.Parse(inputArr[1]);
+                    if (quantity<=longQuantities[Array.IndexOf(names, name)])
+                    {
+                        Console.WriteLine("{0} x {1} costs {2:F2}", name, quantity, quantity*prices[Array.IndexOf(names, name)]);
+                        longQuantities[Array.IndexOf(names, name)] -= quantity;
+                    }
+                    else
+                    {
+                        Console.WriteLine("We do not have enough {0}", name);
+                    }
+                }
+            }
+        }
+    }
+}
+
+//09. Jump Around
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToArray();
+            int start = 0;
+            int sum = nums[0];
+            Here:
+            if (start+nums[start]>nums.Length-1 && start-nums[start]<0)
+            {
+                Console.WriteLine(sum);
+            }
+            else if (start+nums[start]<=nums.Length-1)
+            {
+                
+                start += nums[start];
+                sum += nums[start];
+                goto Here;
+            }
+            else if (start - nums[start]>=0)
+            {
+                
+                start -= nums[start];
+                sum += nums[start];
+                goto Here;
+            }
+        }
+    }
+}

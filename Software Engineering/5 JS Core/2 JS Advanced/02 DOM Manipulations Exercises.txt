@@ -1,0 +1,198 @@
+// 01. Subtraction
+function subtract() {
+    let num1 = Number(document.getElementById("firstNumber").value);
+    let num2 = Number(document.getElementById("secondNumber").value);
+    let result = num1 - num2;
+    document.getElementById("result").textContent = result;
+}
+
+// 02. Fill Dropdown
+function addItem() {
+    let newItemText = document.getElementById("newItemText").value;
+    let newItemValue = document.getElementById("newItemValue").value;
+    let select = document.getElementById("menu");
+    let option = document.createElement("option");
+    option.textContent = newItemText;
+    option.value = newItemValue;
+    select.appendChild(option);
+
+    document.getElementById("newItemText").value = '';
+    document.getElementById("newItemValue").value = '';
+}
+
+// 03. Accordion
+function toggle() {
+    let button = document.getElementsByClassName("button")[0]
+    let moreOrLess = button.textContent;
+    let extra = document.getElementById("extra");
+
+    if (moreOrLess === "More") {
+        extra.style.display = "block";
+        button.textContent = "Less";
+    } else if (moreOrLess === "Less") {
+        extra.style.display = "none";
+        button.textContent = "More";
+    }
+}
+
+// 04. Sections
+function create(sentences) {
+    let content = document.getElementById("content");
+
+    for (let str of sentences) {
+        let p = document.createElement("p");
+        p.textContent = str;
+        p.style.display = "none";
+
+        let div = document.createElement("div");
+        div.appendChild(p);
+        div.addEventListener("click", clickDiv);
+
+        content.appendChild(div);
+    }
+
+    function clickDiv(event) {
+        let div = event.target;
+        let p = div.firstChild;
+        p.style.display = "inline";
+    }
+}
+		
+// 05. Notification
+function notify(message) {
+    // TODO:
+    let notification = document.getElementById("notification");
+    notification.textContent = message;
+    notification.style.display = "block";
+    setTimeout(clearNotification, 2000);
+
+    function clearNotification() {
+        notification.textContent = '';
+        notification.style.display = "none";
+    }
+}
+
+// 06. Time Converter
+function attachEventsListeners() {
+    let daysBtn = document.getElementById("daysBtn");
+    let hoursBtn = document.getElementById("hoursBtn");
+    let minutesBtn = document.getElementById("minutesBtn");
+    let secondsBtn = document.getElementById("secondsBtn");
+
+    daysBtn.addEventListener("click", clickDays);
+    hoursBtn.addEventListener("click", clickHours);
+    minutesBtn.addEventListener("click", clickMinutes);
+    secondsBtn.addEventListener("click", clickSeconds);
+
+    function clickDays() {
+        let days = document.getElementById("days").value;
+        let hours = days * 24;
+        let minutes = hours * 60;
+        let seconds = minutes * 60;
+
+        document.getElementById("hours").value = hours;
+        document.getElementById("minutes").value = minutes;
+        document.getElementById("seconds").value = seconds;
+    }
+
+    function clickHours() {
+        let hours = document.getElementById("hours").value;
+        let days = hours / 24;
+        let minutes = hours * 60;
+        let seconds = minutes * 60;
+
+        document.getElementById("days").value = days;
+        document.getElementById("minutes").value = minutes;
+        document.getElementById("seconds").value = seconds;
+    }
+
+    function clickMinutes() {
+        let minutes = document.getElementById("minutes").value;
+        let hours = minutes / 60;
+        let seconds = hours * 3600;
+        let days = hours / 24;
+
+        document.getElementById("hours").value = hours;
+        document.getElementById("days").value = days;
+        document.getElementById("seconds").value = seconds;
+    }
+
+    function clickSeconds() {
+        let seconds = document.getElementById("seconds").value;
+        let hours = seconds / 3600;
+        let minutes = seconds / 60;
+        let days = hours / 24;
+
+        document.getElementById("hours").value = hours;
+        document.getElementById("minutes").value = minutes;
+        document.getElementById("days").value = days;
+    }
+}
+
+// 07. Distance Converter
+function attachEventsListeners() {
+    let button = document.getElementById("convert");
+    button.addEventListener("click", clickConvert);
+
+    function clickConvert() {
+        document.getElementById("outputDistance").value = '';
+
+        let input = Number(document.getElementById("inputDistance").value);
+        let from = document.getElementById("inputUnits").value;
+        let to = document.getElementById("outputUnits").value;
+
+        let inputInMeters = input;
+
+        switch (from) {
+            case "km":
+                inputInMeters *= 1000;
+                break;
+            case "cm":
+                inputInMeters /= 100;
+                break;
+            case "mm":
+                inputInMeters /= 1000;
+                break;
+            case "mi":
+                inputInMeters /= 0.000621371;
+                break;
+            case "yrd":
+                inputInMeters /= 1.09361;
+                break;
+            case "ft":
+                inputInMeters /= 3.28084;
+                break;
+            case "in":
+                inputInMeters /= 39.3701;
+                break;
+        }
+
+        let outputInMeters = inputInMeters;
+
+        switch (to) {
+            case "km":
+                outputInMeters /= 1000;
+                break;
+            case "cm":
+                outputInMeters *= 100;
+                break;
+            case "mm":
+                outputInMeters *= 1000;
+                break;
+            case "mi":
+                outputInMeters *= 0.000621371;
+                break;
+            case "yrd":
+                outputInMeters *= 1.09361;
+                break;
+            case "ft":
+                outputInMeters *= 3.28084;
+                break;
+            case "in":
+                outputInMeters *= 39.3701;
+                break;
+        }
+
+        document.getElementById("outputDistance").value = outputInMeters;
+    }
+}

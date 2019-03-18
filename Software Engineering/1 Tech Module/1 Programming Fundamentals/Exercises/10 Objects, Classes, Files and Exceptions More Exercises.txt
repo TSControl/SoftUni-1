@@ -1,0 +1,416 @@
+//01. Order by Age
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            var list = new List<dynamic>();
+            StringBuilder output = new StringBuilder();
+            while (input != "End")
+            {
+                var arr = input.Split().ToArray();
+                list.Add(new { Name = arr[0], Id = arr[1], Age = int.Parse(arr[2])});
+                input = Console.ReadLine();
+            }
+            var sortedList = list.OrderBy(p => p.Age).ToList();
+            foreach (var person in sortedList)
+            {
+                output.Append( $"{person.Name} with ID: {person.Id} is {person.Age} years old.\n");
+                //Console.WriteLine("{0} with ID: {1} is {2} years old.", person.Name, person.Id, person.Age);
+            }
+            Console.WriteLine(output);
+        }
+    }
+}
+
+//02. Vehicle Catalogue
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        class Vehicle
+        {
+            public string Type { get; set; }
+            public string Model { get; set; }
+            public string Color { get; set; }
+            public int HorsePower { get; set; }
+        }
+
+        static void Main(string[] args)
+        {
+            int totalHorsePowerCars = 0;
+            int counterHorsePowerCars = 0;
+            int totalHorsePowerTrucks = 0;
+            int counterHorsePowerTrucks = 0;
+            string input = Console.ReadLine();
+            //string output = null;
+            var vehicles = new List<Vehicle>();
+            while (input != "End")
+            {
+                var arr = input.Split().ToArray();
+
+                Vehicle vehicle = new Vehicle { Type = arr[0].ToLower(), Model = arr[1], Color = arr[2], HorsePower = int.Parse(arr[3]) };
+                vehicles.Add(vehicle);
+                input = Console.ReadLine();
+            }
+            foreach (var wheels in vehicles)
+            {
+                if (wheels.Type == "car")
+                {
+                    totalHorsePowerCars += wheels.HorsePower;
+                    counterHorsePowerCars++;
+                }
+                else
+                {
+                    totalHorsePowerTrucks += wheels.HorsePower;
+                    counterHorsePowerTrucks++;
+                }
+            }
+            //do shit in case of End
+            string secondInput = Console.ReadLine();
+            while (secondInput != "Close the Catalogue")
+            {
+                //var brand = secondInput;
+                var sortedVehicles = vehicles.Where(p => p.Model == secondInput).ToList();
+               
+                foreach (var wheels in sortedVehicles)
+                {
+                    if (wheels.Type == "car")
+                    {
+                        Console.WriteLine("Type: Car");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Type: Truck");
+                    }
+                    Console.Write($"Model: {wheels.Model}\nColor: {wheels.Color}\nHorsepower: {wheels.HorsePower}\n");
+                }
+
+                secondInput = Console.ReadLine();
+            }
+            if (counterHorsePowerCars==0)
+            {
+                Console.WriteLine("Cars have average horsepower of: 0.00.");
+
+            }
+            else
+            {
+                Console.WriteLine("Cars have average horsepower of: {0:F2}.", (double)totalHorsePowerCars / counterHorsePowerCars);
+
+            }
+            if (counterHorsePowerTrucks==0)
+                {
+                Console.WriteLine("Trucks have average horsepower of: 0.00.");
+
+            }
+            else
+            {
+                Console.WriteLine("Trucks have average horsepower of: {0:F2}.", (double)totalHorsePowerTrucks / counterHorsePowerTrucks);
+
+            }
+        }
+    }
+}
+
+//03. Jarvis
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+//using System.Text.RegularExpressions;
+
+namespace DoNow
+{
+    class Program
+    {
+        class Arm
+        {
+            public long EnergyConsumption { get; set; }
+            public long ArmReach { get; set; }
+            public long FingersCount { get; set; }
+        }
+        class Leg
+        {
+            public long EnergyConsumption { get; set; }
+            public long Strength { get; set; }
+            public long Speed { get; set; }
+        }
+        class Torso
+        {
+            public long EnergyConsumption { get; set; }
+            public double ProcessorSize { get; set; } //in cm
+            public string HousingMaterial { get; set; }
+
+        }
+        class Head
+        {
+            public long EnergyConsumption { get; set; }
+            public long IQ { get; set; }
+            public string SkinMaterial { get; set; }
+
+        }
+        static void Main(string[] args)
+        {
+            var maxEnergyCapacity = long.Parse(Console.ReadLine());
+            var input = Console.ReadLine();
+            var arms = new List<Arm>();
+            var legs = new List<Leg>();
+            var torsos = new List<Torso>();
+            var heads = new List<Head>();
+            while (input!="Assemble!")
+            {
+                var tokens = input.Split().ToArray();
+                var energyConsumption = long.Parse(tokens[1]);
+                var type = tokens[0];
+                if (type=="Arm")
+                {
+                    var armReach = long.Parse(tokens[2]);
+                    var fingerCount = long.Parse(tokens[3]);
+                    var arm = new Arm() {EnergyConsumption=energyConsumption, ArmReach=armReach, FingersCount=fingerCount };
+                    if (arms.Count < 2)
+                        arms.Add(arm);
+                    else if (energyConsumption < arms[0].EnergyConsumption && arms[1].EnergyConsumption < energyConsumption)
+                    {
+                        arms.RemoveAt(0);
+                        arms.Add(arm);
+                    }
+                    else if (energyConsumption > arms[0].EnergyConsumption && arms[1].EnergyConsumption > energyConsumption)
+                    {
+                        arms.RemoveAt(1);
+                        arms.Add(arm);
+                    }
+                    else if (energyConsumption < arms[0].EnergyConsumption && arms[1].EnergyConsumption > energyConsumption)
+                    {
+                        arms.RemoveAt(0);
+                        arms.Add(arm);
+                    }
+                }
+                else if (type=="Leg")
+                {
+                    var strength = long.Parse(tokens[2]);
+                    var speed = long.Parse(tokens[3]);
+                    var leg = new Leg() { EnergyConsumption = energyConsumption, Strength = strength, Speed = speed };
+                    if (legs.Count<2)
+                        legs.Add(leg);
+                    else if (energyConsumption<legs[0].EnergyConsumption && legs[1].EnergyConsumption < energyConsumption)
+                    {
+                        legs.RemoveAt(0);
+                        legs.Add(leg);
+                    }
+                    else if (energyConsumption > legs[0].EnergyConsumption && legs[1].EnergyConsumption > energyConsumption)
+                    {
+                        legs.RemoveAt(1);
+                        legs.Add(leg);
+                    }
+                    else if (energyConsumption < legs[0].EnergyConsumption && legs[1].EnergyConsumption > energyConsumption)
+                    {
+                        legs.RemoveAt(0);
+                        legs.Add(leg);
+                    }
+                }
+                else if (type=="Torso")
+                {
+                    var processorSize = double.Parse(tokens[2]);
+                    var housingMaterial = tokens[3];
+                    var torso = new Torso() { EnergyConsumption = energyConsumption, ProcessorSize = processorSize, HousingMaterial = housingMaterial };
+                    if (torsos.Count==0)
+                    {
+                        torsos.Add(torso);
+                    }
+                    else if (torsos.Count() == 1 && energyConsumption < torsos[0].EnergyConsumption)
+                    {
+                        torsos.Clear();
+                        torsos.Add(torso);
+                    }
+                }
+                else if (type=="Head")
+                {
+                    var iq = long.Parse(tokens[2]);
+                    var skinMaterial = tokens[3];
+                    var head = new Head() { EnergyConsumption = energyConsumption, IQ = iq, SkinMaterial = skinMaterial};
+                    if (heads.Count()==0)
+                    {
+                        heads.Add(head);
+                    }
+                    else if (heads.Count()==1 && energyConsumption<heads[0].EnergyConsumption)
+                    {
+                        heads.Clear();
+                        heads.Add(head);
+                    }
+                    
+                    
+                }
+                input = Console.ReadLine();
+            }
+            //do shit in case of Assemble!
+            heads = heads.OrderBy(p=>p.EnergyConsumption).ToList();
+            torsos=torsos.OrderBy(p => p.EnergyConsumption).ToList();
+            legs=legs.OrderBy(p => p.EnergyConsumption).ToList();
+            arms=arms.OrderBy(p => p.EnergyConsumption).ToList();
+            if (heads.Count<1 || arms.Count<2 || legs.Count<2 || torsos.Count<1)
+            {
+                Console.WriteLine("We need more parts!");
+                return;
+            }
+            long totalEnergyConsumption = (long)heads[0].EnergyConsumption+(long)torsos[0].EnergyConsumption+(long)legs.Take(2).Sum(p=>p.EnergyConsumption)+ (long)arms.Take(2).Sum(p => p.EnergyConsumption);
+            if (totalEnergyConsumption>maxEnergyCapacity)
+            {
+                Console.WriteLine("We need more power!");
+                return;
+            }
+            Console.WriteLine("Jarvis:\n#Head:\n###Energy consumption: {0}\n###IQ: {1}\n###Skin material: {2}\n#Torso:\n###Energy consumption: {3}\n###Processor size: {4:F1}\n###Corpus material: {5}\n#Arm:\n###Energy consumption: {6}\n###Reach: {7}\n###Fingers: {8}\n#Arm:\n###Energy consumption: {9}\n###Reach: {10}\n###Fingers: {11}\n#Leg:\n###Energy consumption: {12}\n###Strength: {13}\n###Speed: {14}\n#Leg:\n###Energy consumption: {15}\n###Strength: {16}\n###Speed: {17}\n", heads[0].EnergyConsumption, heads[0].IQ, heads[0].SkinMaterial, torsos[0].EnergyConsumption, torsos[0].ProcessorSize, torsos[0].HousingMaterial, arms[0].EnergyConsumption, arms[0].ArmReach, arms[0].FingersCount, arms[1].EnergyConsumption, arms[1].ArmReach, arms[1].FingersCount, legs[0].EnergyConsumption, legs[0].Strength, legs[0].Speed, legs[1].EnergyConsumption, legs[1].Strength, legs[1].Speed);
+        }
+    }
+}
+
+//04. Punctuation Finder
+,, ,, ., ,, ., ., ,, !, ,, ,, :, ,, ., ,, ,, ,, ,, ., ,, ,, ?, ,, ?, ,, ,, ., ,, ,, ,, ,, ., ,, ,, ., ,, ,, ?, ,, ?, ,, ,, ., ., ,, ,, ,, ., ., ,, ., ,, ,, ,, :, ., ., ,, ,, ., ., :, ,, .
+
+//05. Write to File
+"Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum"
+
+"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut aliquid ex ea commodi consequatur Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel illum qui dolorem eum fugiat quo voluptas nulla pariatur"
+
+"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system and expound the actual teachings of the great explorer of the truth the master-builder of human happiness No one rejects dislikes or avoids pleasure itself because it is pleasure but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful Nor again is there anyone who loves or pursues or desires to obtain pain of itself because it is pain but because occasionally circumstances occur in which toil and pain can procure him some great pleasure To take a trivial example which of us ever undertakes laborious physical exercise except to obtain some advantage from it But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences or one who avoids a pain that produces no resultant pleasure"
+
+"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident similique sunt in culpa qui officia deserunt mollitia animi id est laborum et dolorum fuga Et harum quidem rerum facilis est et expedita distinctio Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus omnis voluptas assumenda est omnis dolor repellendus Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae Itaque earum rerum hic tenetur a sapiente delectus ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat"
+
+"On the other hand we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment so blinded by desire that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will which is the same as saying through shrinking from toil and pain These cases are perfectly simple and easy to distinguish In a free hour when our power of choice is untrammelled and when nothing prevents our being able to do what we like best every pleasure is to be welcomed and every pain avoided But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted The wise man therefore always holds in these matters to this principle of selection he rejects pleasures to secure other greater pleasures or else he endures pains to avoid worse pains"
+
+//06. EXCELlent Knowledge
+ZIP|Sales|Name|Year|Value|
+2121|456|Jane|2011|84219|
+2092|789|Ashish|2012|28322|
+2128|456|Jane|2013|81878|
+2073|123|John|2011|44491|
+
+//07. Play Catch
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+//using System.IO;
+//using System.Text.RegularExpressions;
+//using Microsoft.Office.Interop.Excel;
+
+
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main()
+        {
+            var nums = Console.ReadLine().Split().Select(long.Parse).ToList();
+            int counter = 0;
+            while (counter < 3)
+            {
+                var tokens = Console.ReadLine().Split().ToArray();
+                var command = tokens[0];
+                try
+                {
+                    switch (command)
+                    {
+                        case "Replace":
+                            var index = int.Parse(tokens[1]);
+                            var element = long.Parse(tokens[2]);
+                            nums.RemoveAt(index);
+                            nums.Insert(index, element);
+                            break;
+                        case "Print":
+                            var startIndex = int.Parse(tokens[1]);
+                            var endIndex = int.Parse(tokens[2]);
+                            var toPrint = new List<long>();
+
+                            for (int i = startIndex; i <= endIndex; i++)
+                            {
+                                toPrint.Add(nums[i]);
+                            }
+                            Console.WriteLine(string.Join(", ", toPrint));
+                            break;
+                        case "Show":
+                            var indexToShow = int.Parse(tokens[1]);
+                            Console.WriteLine(nums[indexToShow]);
+                            break;
+                    }
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine("The index does not exist!");
+                    counter++;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("The variable is not in the correct format!");
+                    counter++;
+                }
+            }
+            Console.WriteLine(string.Join(", ", nums));
+        }
+    }
+}
+
+//08. Personal Exception
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+//using System.IO;
+//using System.Text.RegularExpressions;
+//using Microsoft.Office.Interop.Excel;
+
+
+
+namespace DoNow
+{
+    class Program
+    {
+        class NegativeNumException: Exception
+        {
+            public NegativeNumException() : base("My first exception is awesome!!!")
+            {
+
+            }
+        }
+        static void Main()
+        {
+            while (true)
+            {
+                try
+                {
+                    int number = int.Parse(Console.ReadLine());
+                    if (number<0)
+                    {
+                        throw new NegativeNumException();
+                    }
+                    Console.WriteLine(number);
+                }
+                catch (NegativeNumException pe)
+                {
+                    Console.WriteLine(pe.Message);
+                    return;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,116 @@
+// 01. Triangle of Stars 
+function printTriangle(n) {
+    function printStars(starCount) {
+        console.log('*'.repeat(starCount));
+    }
+    
+    for (let row = 1; row <= n; row++)
+        printStars(row);
+
+    for (let i = n - 1; i > 0; i--)
+        printStars(i);
+}
+
+// 02. Square of Stars
+function printRectangle(size = 5) {
+    function printRow(starCount) {
+        console.log('* '.repeat(starCount));
+    }
+
+    for (let row = 0; row < size; row++)
+        printRow(size);
+}
+
+// 03. Palindrome 
+function isPalindrome(str) {
+    for (let pos = 0; pos < str.length / 2; pos++) {
+        if (str[pos] != str[str.length - pos - 1])
+            return "false";
+    }
+
+    return "true";
+}
+
+// 04. Day of Week
+function dayOfWeek(str) {
+    switch (str) {
+        case "Monday":
+        return 1;
+        case "Tuesday":
+        return 2;
+        case "Wednesday":
+        return 3;
+        case "Thursday":
+        return 4;
+        case "Friday":
+        return 5;
+        case "Saturday":
+        return 6;
+        case "Sunday":
+        return 7;
+        default:
+        return "error";
+    }
+}
+
+// 05. Functional Calculator
+function calculator() {
+    let operand1 = +arguments[0];
+    let operand2 = +arguments[1];
+    let operator = arguments[2];
+
+    let mul = function(a, b) {
+        return a * b;
+    }
+
+    let div = function(a, b) {
+        return a / b;
+    }
+
+    let add = function(a, b) {
+        return a + b;
+    }
+
+    let sub = function(a, b) {
+        return a - b;
+    }
+
+    switch (operator) {
+        case ('+'):
+            return add(operand1, operand2);
+        case ('-'):
+            return sub(operand1, operand2);
+        case ('/'):
+        return div(operand1, operand2);
+        case ('*'):
+        return mul(operand1, operand2);
+    }
+}
+
+// 06. Aggregate Elements
+function aggregateElements(arr) {
+    arr = arr.map(Number);
+
+    let sum = 0;
+    for (let n of arr)
+        sum += n;
+    console.log(sum);
+
+    let recipSum = 0;
+    for (let n of arr)
+        recipSum += 1 / n;
+    console.log(recipSum);
+
+    let concatStr = '';
+    for (let n of arr)
+        concatStr += n;
+    console.log(concatStr);
+}
+
+// 07. Words Uppercase
+function howToWriteInForums(str) {
+    let regex = /\b\w+\b/gm;
+    let matches = str.match(regex);
+
+    console.log(matches.map(w => w.toUpperCase()).join(', '));
+}

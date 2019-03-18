@@ -1,0 +1,278 @@
+//01. Numbers from 1 to 100
+public class Numbers1to100 {
+    public static void main(String[] args) {
+        for (int i=1; i<=100; i++){
+            System.out.println(i);
+        }
+    }
+}
+
+//02. Numbers Ending in 7
+public class NumbersEndingIn7 {
+    public static void main(String[] args) {
+        for (int i = 0; i<=1000; i++){
+            if (i % 10 == 7) {
+                System.out.println(i);
+            }
+        }
+    }
+}
+
+//03. Latin Letters
+public class LatinLetters {
+    public static void main(String[] args) {
+        for (char i = 'a'; i<= 'z'; i++){
+            System.out.println(i);
+        }
+    }
+}
+
+//04. Sum Numbers
+import java.util.Scanner;
+
+public class SumNumbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int sum = 0;
+        for (int i = 1; i<=n; i++){
+            int k = Integer.parseInt(console.nextLine());
+            sum = sum+k;
+        }
+        System.out.println(sum);
+    }
+}
+
+//05. Max Number
+import java.util.Scanner;
+
+public class MaxNumber {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int maxNum = Integer.MIN_VALUE;
+        for (int i = 1; i<=n; i++){
+            int k = Integer.parseInt(console.nextLine());
+            if (k>maxNum) {
+                maxNum = k;
+            }
+        }
+        System.out.println(maxNum);
+    }
+}
+
+//06. Min Number
+import java.util.Scanner;
+
+public class MinNumber {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int maxNum = Integer.MAX_VALUE;
+        for (int i = 1; i<=n; i++){
+            int k = Integer.parseInt(console.nextLine());
+            if (k<maxNum) {
+                maxNum = k;
+            }
+        }
+        System.out.println(maxNum);
+    }
+}
+
+//07. Left and Right Sum
+import java.util.Scanner;
+
+public class LeftAndRightSum {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int leftSum = 0;
+        int rightSum = 0;
+        for (int k = 1; k<=n; k++){
+            int leftNum = Integer.parseInt(console.nextLine());
+            leftSum += leftNum;
+        }
+        for (int k = 1; k<=n; k++){
+            int rightNum = Integer.parseInt(console.nextLine());
+            rightSum += rightNum;
+        }
+        if (leftSum == rightSum) {
+            System.out.println("Yes, sum = " + leftSum);
+        } else {
+            System.out.println("No, diff= " + Math.abs(leftSum-rightSum));
+        }
+    }
+}
+
+//08. Odd Even Sum
+import java.util.Scanner; 
+
+public class OddEvenSum {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int oddSum = 0;
+        int evenSum = 0;
+        for (int k=1; k<=n; k++){
+            int num = Integer.parseInt(console.nextLine());
+            if (k%2 == 1) {
+                oddSum += num;
+            } else {
+                evenSum += num;
+            }
+        }
+        if (oddSum==evenSum) {
+            System.out.println("Yes");
+            System.out.println("Sum = " + oddSum);
+        } else {
+            System.out.println("No");
+            System.out.println("Diff = " + Math.abs(oddSum-evenSum));
+        }
+    }
+}
+
+//09. Vowels Sum
+import java.util.Scanner;
+
+public class VowelsSum {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        String text = console.nextLine();
+        int sum = 0;
+        for (int i = 0; i < text.length(); i++){
+            char currSymb = text.charAt(i);
+            switch (currSymb) {
+                case 'a':
+                    sum += 1;
+                    break;
+                case 'e':
+                    sum+=2;
+                    break;
+                case 'i':
+                    sum+=3;
+                    break;
+                case 'o':
+                    sum+=4;
+                    break;
+                case 'u':
+                    sum+=5;
+                    break;
+            }
+        }
+        System.out.println(sum);
+    }
+}
+
+//10. Half Sum Element
+import java.util.Scanner;
+
+public class HalfSumElement {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            int currNum = Integer.parseInt(console.nextLine());
+            sum += currNum;
+            if (currNum > max) {
+                max = currNum;
+            }
+        }
+        sum = sum - max;
+        int diff = Math.abs(sum - max);
+        if (diff == 0) {
+            System.out.println("Yes");
+            System.out.println("Sum = " + sum);
+        } else {
+            System.out.println("No");
+            System.out.println("Diff = " + diff);
+        }
+    }
+}
+
+//11. Odd / Even Position
+using System;
+class Program
+{
+    static void Main(string[] args)
+    {
+        var n = int.Parse(Console.ReadLine());
+        var oddSum = 0d;
+        var oddMin = double.MaxValue;
+        var oddMax = double.MinValue;
+        var evenSum = 0d;
+        var evenMin = double.MaxValue;
+        var evenMax = double.MinValue;
+        for (int i = 1; i <= n; i++)
+        {
+            var num = double.Parse(Console.ReadLine());
+            if (i % 2 == 1)
+            {
+                oddSum += num;
+                if (num < oddMin)
+                    oddMin = num;
+                if (num > oddMax)
+                    oddMax = num;
+            }
+            else
+            {
+                evenSum += num;
+                if (num < evenMin)
+                    evenMin = num;
+                if (num > evenMax)
+                    evenMax = num;
+            }
+        }
+        Console.WriteLine($"OddSum={oddSum},");
+        if (oddMin != double.MaxValue)
+            Console.WriteLine($"OddMin={oddMin},");
+        else
+            Console.WriteLine("OddMin=No,");
+        if (oddMax != double.MinValue)
+            Console.WriteLine($"OddMax={oddMax},");
+        else
+            Console.WriteLine("OddMax=No,");
+        Console.WriteLine($"EvenSum ={evenSum},");
+        if (evenMin != double.MaxValue)
+            Console.WriteLine($"EvenMin={evenMin},");
+        else
+            Console.WriteLine("EvenMin=No,");
+        if (evenMax != double.MinValue)
+            Console.WriteLine($"EvenMax={evenMax}");
+        else
+            Console.WriteLine("EvenMax=No");
+    }
+}
+
+//12. Equal Pairs
+import java.util.Scanner;
+
+public class EqualPairs {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int a = Integer.parseInt(console.nextLine());
+        int b = Integer.parseInt(console.nextLine());
+        int sum = a+b;
+        int maxDiff=Integer.MIN_VALUE;
+
+        for (int i = 1; i < n; i++) {
+            int firstNum = Integer.parseInt(console.nextLine());
+            int secondNum = Integer.parseInt(console.nextLine());
+            int diff = Math.abs(firstNum+secondNum-sum);
+            if (diff>maxDiff){
+                maxDiff=diff;
+            }
+            sum = firstNum + secondNum;
+        }
+
+        if (maxDiff==0 || maxDiff==Integer.MIN_VALUE){
+            System.out.println("Yes, value=" + sum);
+        } else {
+            System.out.println("No, maxdiff=" + maxDiff);
+        }
+
+
+    }
+}

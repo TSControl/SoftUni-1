@@ -1,0 +1,357 @@
+//01. Passed
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double grade = double.Parse(Console.ReadLine());
+            if (grade>=3)
+            {
+                Console.WriteLine("Passed!");
+            }
+        }
+    }
+}
+
+//02. Passed or Failed
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double grade = double.Parse(Console.ReadLine());
+            if (grade>=3)
+            {
+                Console.WriteLine("Passed!");
+            }
+            else
+            {
+                Console.WriteLine("Failed!");
+            }
+        }
+    }
+}
+
+//03. Back in 30 Minutes
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int hour = int.Parse(Console.ReadLine());
+            int minutes = int.Parse(Console.ReadLine());
+            if (minutes <=29)
+            {
+                Console.WriteLine("{0}:{1:D2}", hour, minutes + 30);
+            }
+            else if (minutes > 29 && hour < 23)
+            {
+                Console.WriteLine("{0}:{1:D2}", hour + 1, minutes - 30);
+            }
+            else
+            {
+                Console.WriteLine("0:{0:D2}", minutes - 30);
+            }
+        }
+    }
+}
+
+//04. Month Printer
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int month = int.Parse(Console.ReadLine());
+            switch (month)
+            {
+                case 1: Console.WriteLine("January"); break;
+                case 2: Console.WriteLine("February"); break;
+                case 3: Console.WriteLine("March"); break;
+                case 4: Console.WriteLine("April"); break;
+                case 5: Console.WriteLine("May"); break;
+                case 6: Console.WriteLine("June"); break;
+                case 7: Console.WriteLine("July"); break;
+                case 8: Console.WriteLine("August"); break;
+                case 9: Console.WriteLine("September"); break;
+                case 10: Console.WriteLine("October"); break;
+                case 11: Console.WriteLine("November"); break;
+                case 12: Console.WriteLine("December"); break;
+                default: Console.WriteLine("Error!"); break;
+
+            }
+        }
+    }
+}
+
+//05. Foreign Languages
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string country = Console.ReadLine();
+            switch (country)
+            {
+                case "England": Console.WriteLine("English"); break;
+                case "USA": Console.WriteLine("English"); break;
+                case "Spain": Console.WriteLine("Spanish"); break;
+                case "Mexico": Console.WriteLine("Spanish"); break;
+                case "Argentina": Console.WriteLine("Spanish"); break;
+                default: Console.WriteLine("unknown"); break;
+
+            }
+        }
+    }
+}
+
+//06. Theatre Promotion
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string day = Console.ReadLine();
+            int age = int.Parse(Console.ReadLine());
+            if ((age>=0 && age<=18) && day.Equals("Weekday"))
+            {
+                Console.WriteLine("12$");
+            }
+            else if ((age > 18 && age <= 64) && (day.Equals("Weekday")))
+            {
+                Console.WriteLine("18$");
+            }
+            else if ((age > 18 && age <= 122) && (day.Equals("Weekday")))
+            {
+                Console.WriteLine("12$");
+            }
+            else if ((age > 0 && age <= 18) && (day.Equals("Weekend")))
+            {
+                Console.WriteLine("15$");
+            }
+            else if ((age > 18 && age <= 64) && (day.Equals("Weekend")))
+            {
+                Console.WriteLine("20$");
+            }
+            else if ((age > 64 && age <= 122) && (day.Equals("Weekend")))
+            {
+                Console.WriteLine("15$");
+            }
+            else if ((age > 0 && age <= 18) && (day.Equals("Holiday")))
+            {
+                Console.WriteLine("5$");
+            }
+            else if ((age > 18 && age <= 64) && (day.Equals("Holiday")))
+            {
+                Console.WriteLine("12$");
+            }
+            else if ((age > 64 && age <= 122) && (day.Equals("Holiday")))
+            {
+                Console.WriteLine("10$");
+            }
+            else
+            {
+                Console.WriteLine("Error!");
+            }
+        }
+    }
+}
+
+//07. Divisible by 3
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            for (var i = 3; i < 100;) 
+            {
+                Console.WriteLine(i);
+                i=i+3;
+            }
+        }
+    }
+}
+
+//08. Sum of Odd Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int counter = 0;
+            int sum = 0;
+                for (int i = 1; counter<n ; i+=2)
+            {
+                Console.WriteLine(i);
+                counter++;
+                sum += i;
+            }
+            Console.WriteLine($"Sum: {sum}");
+        }
+    }
+}
+
+//09. Multiplication Table
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int num = int.Parse(Console.ReadLine());
+            for (int i = 1; i < 11; i++)
+            {
+                Console.WriteLine("{0} X {1} = {2}", num, i, num * i);
+            }
+        }
+    }
+}
+
+//10. Multiplication Table 2.0
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int num1 = int.Parse(Console.ReadLine());
+            int num2 = int.Parse(Console.ReadLine());
+            if (num2 <= 10)
+            {
+                for (int i = num2; i < 11; i++)
+                {
+                    Console.WriteLine("{0} X {1} = {2}", num1, i, num1 * i);
+                }
+            }
+            else
+            {
+                Console.WriteLine("{0} X {1} = {2}", num1, num2, num1 * num2);
+            }
+
+        }
+    }
+}
+
+//11. Odd Number
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            while (Math.Abs(n)%2==0)
+            {
+                Console.WriteLine("Please write an odd number.");
+                n=int.Parse(Console.ReadLine());
+            }
+            Console.WriteLine("The number is: {0}", Math.Abs(n));
+        }
+    }
+}
+
+//12. Number Checker
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                try
+                {
+                    var n = int.Parse(Console.ReadLine());
+                    Console.WriteLine("It is a number.");
+                    break;
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid input!");
+                    break;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,140 @@
+//01. Variable in Hex Format
+package Exercises;
+import java.util.Scanner;
+
+public class Problem1 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        System.out.println(Integer.parseInt(console.nextLine(), 16));
+    }
+}
+
+//02. Boolean Variable
+import java.util.Scanner;
+
+public class Problem1 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        String input = console.nextLine();
+        boolean wtf = Boolean.parseBoolean(input);
+        if (wtf){
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+    }
+}
+
+//03. Reverse Characters
+package Exercises;
+import java.util.Scanner;
+
+public class Problem3 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            output.append(console.nextLine());
+        }
+        output=output.reverse();
+        System.out.println(output);
+    }
+}
+
+//04. Vowel or Digit
+package Exercises;
+import java.util.Scanner;
+
+public class Problem4 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        String input = console.nextLine();
+        if (input.matches("[aeuio]")){
+            System.out.println("vowel");
+        } else if (input.matches("[0-9]")){
+            System.out.println("digit");
+        } else {
+            System.out.println("other");
+        }
+    }
+}
+
+//22. Intersection of Circles
+import java.util.Scanner;
+
+public class Problem22 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        String[] tokens1 = console.nextLine().split(" ");
+        Point center1 = new Point() {{
+            setX(Double.parseDouble(tokens1[0]));
+            setY(Double.parseDouble(tokens1[1]));
+        }};
+        Circle c1 = new Circle() {{
+            setRadius(Double.parseDouble(tokens1[2]));
+            setCenter(center1);
+        }};
+        String[] tokens2 = console.nextLine().split(" ");
+        Point center2 = new Point() {{
+            setX(Double.parseDouble(tokens2[0]));
+            setY(Double.parseDouble(tokens2[1]));
+        }};
+        Circle c2 = new Circle() {{
+            setRadius(Double.parseDouble(tokens2[2]));
+            setCenter(center2);
+        }};
+        Intersect(c1, c2);
+    }
+    public static void Intersect(Circle c1, Circle c2) {
+        double distanceBetweenCenters = Math.pow(Math.pow(c1.Center.X-c2.Center.X,2)+Math.pow(c1.Center.Y-c2.Center.Y,2), 0.5);
+        double sumR = c1.Radius + c2.Radius;
+        if (distanceBetweenCenters>sumR)
+            System.out.println("No");
+        else
+            System.out.println("Yes");
+    }
+
+    public static class Circle{
+        public Point Center;
+
+        public Point getCenter() {
+            return Center;
+        }
+
+        public void setCenter(Point center) {
+            Center = center;
+        }
+
+        public double getRadius() {
+            return Radius;
+        }
+
+        public void setRadius(double radius) {
+            Radius = radius;
+        }
+
+        public double  Radius;
+    }
+    public static class Point{
+        public double getX() {
+            return X;
+        }
+
+        public void setX(double x) {
+            X = x;
+        }
+
+        public double getY() {
+            return Y;
+        }
+
+        public void setY(double y) {
+            Y = y;
+        }
+
+        public double X;
+        public double Y;
+    }
+}
+
+//

@@ -1,0 +1,26 @@
+// 1. Rhombus of Stars
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        var n = int.Parse(Console.ReadLine());
+        for (int i = 1; i <= n; i++)
+        {
+            DrawLine(i, n);
+        }
+        for (int i = n - 1; i > 0; i--)
+        {
+            DrawLine(i, n);
+        }
+    }
+
+    private static void DrawLine(int i, int n)
+    {
+        var spaces = new string(' ', n - i);
+        var starArr = new string('*', i).ToCharArray();
+        var stars = string.Join(" ", starArr);
+        Console.WriteLine(spaces + stars);
+    }
+}

@@ -1,0 +1,212 @@
+// 1.Welcome to HTML
+<p>I am learning <strong>HTML</strong> and <strong>CSS</strong>!</p>
+
+// 2.Headings
+<h1>Actual site Heading</h1>
+<h2>Sub-heading</h2>
+<h3>Inside sub-heading</h3>
+<h4>Smaller heading</h4>
+<h5>The smallest heading</h5>
+	
+// 3.Paragraphs
+<h1>Paragraphs</h1>
+<p>
+    <em>First</em> paragraph
+</p>
+<p>
+    <em>Second</em> paragraph
+</p>
+<br />
+<p>
+    <em>Third</em> paragraph
+</p>
+
+// 4.My TODO List
+<h1>My TODO List</h1>
+<ul>
+    <li>HTML5 course @ SoftUni</li>
+    <li>Homework HTML &amp; CSS</li>
+    <li>Teddy &dash; birthday present</li>
+</ul>
+
+// 5.Hello HTML
+<h1>Hello HTML!</h1>
+<p>
+    I am <strong>Sabi</strong>. I am from <a href='https://www.kazanlak.com/'>Kazanlak</a>.
+</p>
+<p>
+    I study <em>Software Engineering</em> at <a href='https://softuni.bg/'>SoftUni</a>.
+</p>
+
+// 6.Website
+<h1>Home</h1>
+<ul>
+    <li>
+        <a href='hello.html'>hello.html</a>
+    </li>
+    <li>
+        <a href='todo.html'>todo.html</a>
+    </li>
+</ul>
+	
+// copy from previous problems and add this
+<p>
+    back to <a href='home.html'>home</a>
+</p>
+
+// 7.Fruits
+<p>
+    <img src="images/banana.png" alt="cucked" />
+    <img src="images/orange.png" alt="cucked" />
+    <img src="images/kiwi.png" alt="cucked" />
+    <img src="images/kiwi.png" alt="cucked" />
+    <img src="images/apple.png" alt="cucked" />
+</p>
+<p>
+    <img src="images/apple.png" alt="cucked" />
+    <img src="images/apple.png" alt="cucked" />
+    <img src="images/banana.png" alt="cucked" />
+    <img src="images/kiwi.png" alt="cucked" />
+    <img src="images/orange.png" alt="cucked" />
+</p>
+<p>
+    <img src="images/banana.png" alt="cucked" />
+    <img src="images/banana.png" alt="cucked" />
+    <img src="images/banana.png" alt="cucked" />
+    <img src="images/banana.png" alt="cucked" />
+    <img src="images/banana.png" alt="cucked" />
+</p>
+
+// 8.Receipt
+// separate css or <style> in <head>
+table, th, td {
+  border: 1px solid black;
+}
+// in body
+<table>
+    <tr>
+        <th><strong>Name/Description</strong></th>
+        <th><strong>Qty.</strong></th>
+        <th><strong>Price</strong></th>
+        <th><strong>Cost</strong></th>
+    </tr>
+    <tr>
+        <td>Paperclips</td>
+        <td>1000</td>
+        <td>0.01</td>
+        <td>10.00</td>
+    </tr>
+    <tr>
+        <td>Staples (box)</td>
+        <td>100</td>
+        <td>1.00</td>
+        <td>100.00</td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <strong>Subtotal</strong>
+        </td>
+        <td>
+            $110.00
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <strong>Tax</strong>
+        </td>
+        <td>8%</td>
+        <td>$8.80</td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <strong>Grand Total</strong>
+        </td>
+        <td>$118.80</td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            &copy; <em>2017 - SoftUni Store</em>
+        </td>
+    </tr>
+</table>
+
+// 9.Contact form
+<h1> Contact Us</h1>
+<form>
+    <span>
+        First name: <input type="text" name="firstName" />
+    </span>
+    <br />
+    <span>
+        Second name: <input type="text" name="secondName" />
+    </span>
+    <br />
+    <span>
+        <input type="submit" value="Submit">
+    </span>
+</form>
+	
+// 10.Colors
+<p>
+    Once the <span style="color: blue">blue plum</span> met the <span style="color: red">red tomato</span> playing
+    with the <span style="color: green">green cucumber</span>.
+</p>
+
+// 11.Borders
+<p style="border: solid red; border-radius: 2em; background: gray; text-align: center; width: 15em;">
+    <span style="color: red">Red</span> Border
+</p>
+<p style="border: solid green; border-radius: 2em; background: gray; text-align: center; width: 15em;">
+    <span style="color: green">Red</span> Border
+</p>
+<p style="border: solid blue; border-radius: 2em; background: gray; text-align: center; width: 15em;">
+    <span style="color: blue">Red</span> Border
+</p>
+	
+// 12.Rectangles
+<div style="border: dotted blue; border-radius: 0.5em; padding: 0.5em;">
+    <div style="border: dotted red; border-radius: 0.5em; padding: 0.5em;">
+        <div style="border: solid green; border-radius: 0.5em; padding: 0.5em; text-align: center; font-size: 1em;">
+            I am heavily packed
+            <br />
+            &lt;DIV&gt;
+        </div>
+    </div>
+</div>
+	
+// 13.Languages
+// langs.css
+body {
+    background: #EEE;
+    font-size: 24pt;
+}
+
+span {
+    border: 1px #AAA;
+    border-radius: 5px;
+    background: #CCC;
+    padding: 2px;
+}
+// langs.html body
+<p>
+    Programming languages like <span>PHP</span>, <span>JavaScript</span>, <span>C#</span> and <span>Java</span> are general-purpose.
+</p>
+	
+// 14.Contact Us Form
+<h1> Contact Us</h1>
+<form>
+    <span>First name:</span>
+    <input type="text" name="firstName"><br>
+    <span>Last name:</span>
+    <input type="text" name="lastName"><br>
+    <span>Email:</span>
+    <input type="email" name="email"><br>
+    <span>Town</span>
+    <select name="town">
+        <option value="1">Sofia</option>
+        <option value="2">Varna</option>
+        <option value="3">Burgas</option>
+        <option value="4">Plovdiv</option>
+    </select>
+    <input type="submit" value="Submit">
+</form>

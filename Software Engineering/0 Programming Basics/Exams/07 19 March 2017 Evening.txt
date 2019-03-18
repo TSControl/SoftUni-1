@@ -1,0 +1,163 @@
+//Problem 01 - Grape and Rakia
+import java.util.Scanner;
+
+public class GrapeAndRakia {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        double area = Double.parseDouble(console.nextLine());
+        double debit = Double.parseDouble(console.nextLine());
+        double brak = Double.parseDouble(console.nextLine());
+        double rakia = (area*debit-brak)*0.45*9.8/7.5;
+        double grape = (area*debit-brak)*0.55*1.5;
+        System.out.printf("%.2f%n",rakia);
+        System.out.printf("%.2f%n",grape);
+    }
+}
+
+//Problem 02 - Styrofoam
+import java.util.Scanner;
+
+public class Styrofoam {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        double budget = Double.parseDouble(console.nextLine());
+        double area = Double.parseDouble(console.nextLine());
+        int windowsCount = Integer.parseInt(console.nextLine());
+        double styrofoamAreaPerPacket = Double.parseDouble(console.nextLine());
+        double priceStyrofoam = Double.parseDouble(console.nextLine());
+
+        double totalArea = (area-windowsCount*2.4)*1.1/styrofoamAreaPerPacket;
+        int packets = (int)Math.ceil(totalArea);
+        double totalPrice = packets*priceStyrofoam;
+        if (totalPrice<budget){
+            System.out.printf("Spent: %.2f%n", totalPrice);
+            System.out.printf("Left: %.2f%n", budget-totalPrice);
+        } else {
+            System.out.printf("Need more: %.2f%n", totalPrice-budget);
+        }
+    }
+}
+
+//Problem 03 - Truck Driver
+import java.util.Scanner;
+
+public class TruckDriver {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        String season = console.nextLine();
+        double kpm = Double.parseDouble(console.nextLine());
+
+
+        if ("Spring".equals(season) || "Autumn".equals(season)) {
+            if (kpm<=5000){
+                System.out.printf("%.2f%n",kpm*0.75*3.6);
+            } else if (kpm>5000 && kpm<=10000) {
+                System.out.printf("%.2f%n",kpm*0.95*3.6);
+            } else {
+                System.out.printf("%.2f%n",kpm*1.45*3.6);
+            }
+        }
+        if ("Summer".equals(season)) {
+            if (kpm<=5000){
+                System.out.printf("%.2f%n",kpm*0.90*3.6);
+            } else if (kpm>5000 && kpm<=10000) {
+                System.out.printf("%.2f%n",kpm*1.10*3.6);
+            } else {
+                System.out.printf("%.2f%n",kpm*1.45*3.6);
+            }
+        }
+        if ("Winter".equals(season)) {
+            if (kpm<=5000){
+                System.out.printf("%.2f%n",kpm*1.05*3.6);
+            } else if (kpm>5000 && kpm<=10000) {
+                System.out.printf("%.2f%n",kpm*1.25*3.6);
+            } else {
+                System.out.printf("%.2f%n",kpm*1.45*3.6);
+            }
+        }
+
+    }
+}
+
+//Problem 04 - Bills
+import java.util.Scanner;
+
+public class Bills {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        int months = Integer.parseInt(console.nextLine());
+        double totalPowerBill = 0;
+        for (int i = 0; i < months ; i++) {
+            double powerBill = Double.parseDouble(console.nextLine());
+            totalPowerBill+=powerBill;
+        }
+
+        System.out.printf("Electricity: %.2f lv%n", totalPowerBill);
+        System.out.printf("Water: %.2f lv%n", months*20.00);
+        System.out.printf("Internet: %.2f lv%n", months*15.00);
+        System.out.printf("Other: %.2f lv%n", (months*35.00+totalPowerBill)*1.20);
+        System.out.printf("Average: %.2f lv%n", ((months*35.00+totalPowerBill)*1.20+totalPowerBill+months*35.00)/months);
+
+    }
+}
+
+//Problem 05 - Parallelepiped
+import java.util.Scanner;
+
+public class Parallelepiped {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+
+        String tildas = repeatStr("~",n-2);
+        String topAndBotDots = repeatStr(".",2*n+1);
+        System.out.printf("+%s+%s%n",tildas,topAndBotDots);
+        for (int row = 2; row <2*n+3 ; row++) {
+            String upperLeftDots = repeatStr(".",row-2);
+            String upperRightDots = repeatStr(".",2*n+2-row);
+            System.out.printf("|%s\\%s\\%s%n",upperLeftDots,tildas,upperRightDots);
+        }
+        for (int row = 1; row <2*n+2 ; row++) {
+            String lowerLeftDots = repeatStr(".",row-1);
+            String lowerRightDots = repeatStr(".",2*n+1-row);
+            System.out.printf("%s\\%s|%s|%n",lowerLeftDots,lowerRightDots,tildas);
+        }
+        System.out.printf("%s+%s+%n",topAndBotDots,tildas);
+    }
+    static String repeatStr(String strToRepeat, int count){
+        String text = "";
+        for (int i = 0; i < count ; i++) {
+            text += strToRepeat;
+        }
+        return text;
+    }
+}
+
+//Problem 06 - Control Number
+import java.util.Scanner;
+
+public class ControlNumber {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        byte n = Byte.parseByte(console.nextLine());
+        byte m = Byte.parseByte(console.nextLine());
+        int control = Integer.parseInt(console.nextLine());
+        int sum = 0;
+        int iterations = 0;
+        for (byte i = 1; i <n+1 ; i++) {
+            for (byte j = m; j >0 ; j--) {
+                sum+=i*2+j*3;
+                iterations +=1;
+                if (sum>=control) {
+                    System.out.println(iterations+ " moves");
+                    System.out.printf("Score: %d >= %d%n", sum, control);
+                    return;
+                }
+                if (i==n && j==1 && sum<control){
+                    System.out.println(iterations+ " moves");
+                    return;
+                }
+            }
+        }
+    }
+}

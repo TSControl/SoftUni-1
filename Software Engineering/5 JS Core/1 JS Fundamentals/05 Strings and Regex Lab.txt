@@ -1,0 +1,217 @@
+// 01. Print Letters
+function spellOutString(str) {
+    for (let i in str)
+        console.log(`str[${i}] -> ${str[i]}`);
+}
+
+// 02. Concatenate and Reverse
+function concatenateReversed(arr) {
+    let str = arr.join('');
+    let output = '';
+    for (let i in str)
+        output += str[str.length - i - 1];
+
+    console.log(output);
+}
+
+// 03. Count Occurences
+function countOccurrences(pattern, text) {
+    let count = 0;
+    let index = text.indexOf(pattern);
+
+    while (index > -1) {
+        count++;
+        index = text.indexOf(pattern, index + 1);
+    }
+
+    return count;
+}
+
+// 04. Extract Text
+function extractText(text) {
+    let leftIndex = text.indexOf('(');
+    let rightIndex = text.indexOf(')', leftIndex + 1);
+    let output = [];
+    while (leftIndex > -1 && rightIndex > -1) {
+        let str = text.substring(leftIndex + 1, rightIndex);
+        output.push(str);
+        leftIndex = text.indexOf('(', rightIndex + 1);
+        rightIndex = text.indexOf(')', leftIndex + 1);
+    }
+
+    console.log(output.join(', '));
+}
+
+// 05. Aggregate Table
+function getTownsAndIncome(arr) {
+    let towns = [];
+    let totalIncome = 0;
+    for (let el of arr) {
+        let townAndIncome = el.split('| ').filter(e => e !== '').map(e => e.trim());
+        let town = townAndIncome[0];
+        let income = +townAndIncome[1];
+
+        towns.push(town);
+        totalIncome += income;
+    }
+
+    console.log(towns.join(', '));
+    console.log(totalIncome);
+}
+
+// 06. Restaurant Bill
+function getBill (arr) {
+    let products = [];
+    let totalPrice = 0;
+
+    for (let i = 0; i < arr.length; i += 2) {
+        let product = arr[i];
+        let price = +arr[i + 1];
+
+        products.push(product);
+        totalPrice += price;
+    }
+
+    console.log(`You purchased ${products.join(', ')} for a total sum of ${totalPrice}`);
+}
+
+// 07. Usernames
+function getUsernames(arr) {
+    let usernames = [];
+    for (let email of arr) {
+        let username = email.substring(0, email.indexOf('@'));
+        username += '.' + email[email.indexOf('@') + 1];
+
+        let index = email.indexOf('.', email.indexOf('@') + 1);
+        while (index > -1) {
+            username += email[index + 1];
+            index = email.indexOf('.', index + 1);
+        }
+
+        usernames.push(username);
+    }
+
+    console.log(usernames.join(', '));
+}
+
+// 08. Censorship
+function censureText(text, strArr) {
+    for (let str of strArr) {
+        let regex = new RegExp(str, 'g');
+        text = text.replace(regex, s => '-'.repeat(s.length));
+    }
+
+    return text;
+}
+
+// 09. Escaping (in doc, not in judge)
+function escapeHtml(strArr) {
+    function htmlEscape(str) {
+        return str.replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+    
+    let output = "<ul>\n";
+    for (let str of strArr)
+        output += `\t<li>${htmlEscape(str)}</li>\n`;
+    output += "</ul>";
+
+    return output;
+}
+
+// 09. Match All Words
+function joinWords(text) {
+    console.log(text.match(/\w+/gm).join("|"));
+}
+
+// 10. Email Validation
+function isValidEmail(email) {
+    console.log(email.match(/^[a-zA-Z0-9]+@[a-z]+\.[a-z]+$/g) ? "Valid" : "Invalid");
+}
+
+// 11. Expression Split
+function splitCode(str) {
+    console.log(str.split(/[\s(),;\.]/).filter(e => e !== "").join("\n"));
+}
+
+// 12. Match the Dates
+function extractDates(strArr) {
+    let regex = /\b\d{1,2}-[A-Z][a-z]{2}-\d{4}/g;
+
+    for(let str of strArr) {
+        let matches = str.match(regex);
+        if (matches) {
+            for (let match of matches) {
+                let tokens = match.split("-");
+                let day = tokens[0];
+                let month = tokens[1];
+                let year = tokens[2];
+    
+                console.log(`${match} (Day: ${day}, Month: ${month}, Year: ${year})`);
+            }
+        }
+    }
+}
+
+// 13. Employee Data
+function extractDates(strArr) {
+    let regex = /^([A-Z][A-Za-z]*) - ([1-9][0-9]*) - ([A-Za-z0-9\- ]+)$/;
+
+    for(let str of strArr) {
+        let isMatch = str.match(regex);
+
+        if (isMatch) {
+            let tokens = isMatch[0].split(" - ");
+            let name = tokens[0];
+            let salary = tokens[1];
+			
+            tokens.shift();
+            tokens.shift();
+			
+            let position = tokens.join(" - ");
+
+            console.log(`Name: ${name}\nPosition: ${position}\nSalary: ${salary}`);
+        }
+    }
+}
+
+// 14. Form Filler
+function fillForm(username, email, phoneNumber, strArr) {
+    let usernameRegex = /<![A-Za-z]+!>/g;
+    let emailRegex = /<@[A-Za-z]+@>/g;
+    let phoneNumberRegex = /<\+[A-Za-z]+\+>/g;
+
+    for (let str of strArr) {
+        str = str.replace(usernameRegex, username);
+        str = str.replace(emailRegex, email);
+        str = str.replace(phoneNumberRegex, phoneNumber);
+
+        console.log(str);
+    }
+}
+
+// 15. Match Multiplication
+function multiplicateMatch(str) {
+    let regex = /(-{0,1}\d+(\.\d+)*)\s*\*\s*(-{0,1}\d+(\.\d+)*)/g;
+    while (match = regex.exec(str)) {
+        let num1 = +match[1];
+        let num2 = +match[3];
+        let product = num1 * num2;
+        let startIndex = match.index;
+        let length = match[0].length;
+
+        str = str.substr(0, startIndex) + product + str.substr(startIndex + length);
+    }
+
+    console.log(str);
+}
+
+// 15. Match Multiplication - with overloading I think
+function multiplicateMatch(str) {
+    let regex = /(-{0,1}\d+(\.\d+)*)\s*\*\s*(-{0,1}\d+(\.\d+)*)/g;
+    str = str.replace(regex, m => m.split('*').map(el => el.trim()).map(Number).reduce((acc, el) => acc * el));
+
+    console.log(str);
+}

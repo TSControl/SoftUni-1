@@ -1,0 +1,218 @@
+//01. Softuni Coffee Orders
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            long n = long.Parse(Console.ReadLine());
+            decimal totalPrice = 0M;
+            var output = "";
+            for (long i = 0; i < n; i++)
+            {
+                decimal pricePerCapsule = decimal.Parse(Console.ReadLine());
+                DateTime orderDate = DateTime.ParseExact(Console.ReadLine(), "d/M/yyyy", CultureInfo.InvariantCulture);
+                int capsulesCount = int.Parse(Console.ReadLine());
+                var orderPrice = (decimal)DateTime.DaysInMonth(orderDate.Year, orderDate.Month) * (decimal)capsulesCount * pricePerCapsule;
+                totalPrice += orderPrice;
+                output+=$"The price for the coffee is: ${orderPrice:F2}\n";
+            }
+            output+=$"Total: ${totalPrice:F2}\n";
+            Console.WriteLine(output);
+        }
+    }
+}
+
+//02. Command Interpreter
+using System;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var strArr = Console.ReadLine().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+            var input = Console.ReadLine();
+            while (input != "end")
+            {
+                    if (input.StartsWith("reverse"))
+                    {
+                        var tokens = input.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+                        var start = int.Parse(tokens[2]);
+                        var count = int.Parse(tokens[4]);
+                        if (start < 0 || start > strArr.Count - 1 || count < 0 || count > strArr.Count() - start)
+                        {
+                            Console.WriteLine("Invalid input parameters.");
+                            input = Console.ReadLine();
+                            continue;
+                        }
+                        var startArr = strArr.Take(start).ToList();
+                        var middleArr = strArr.Skip(start).Take(count).Reverse().ToList();
+                        var endArr = strArr.Skip(start + count).ToList();
+                        strArr.Clear();
+                        strArr.AddRange(startArr);
+                        strArr.AddRange(middleArr);
+                        strArr.AddRange(endArr);
+                    }
+                    else if (input.StartsWith("sort"))
+                    {
+                        var tokens = input.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+                        var start = int.Parse(tokens[2]);
+                        var count = int.Parse(tokens[4]);
+                        if (start < 0 || start > strArr.Count - 1 || count < 0 || count > strArr.Count() - start)
+                        {
+                            Console.WriteLine("Invalid input parameters.");
+                            input = Console.ReadLine();
+                            continue;
+                        }
+                        var startArr = strArr.Take(start).ToList();
+                        var middleArr = strArr.Skip(start).Take(count).OrderBy(a => a).ToList();
+                        var endArr = strArr.Skip(start + count).ToList();
+                        strArr.Clear();
+                        strArr.AddRange(startArr);
+                        strArr.AddRange(middleArr);
+                        strArr.AddRange(endArr);
+                    }
+                    else if (input.StartsWith("rollLeft"))
+                    {
+                        var tokens = input.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+                        var count = int.Parse(tokens[1]);
+                        if (count < 0)
+                        {
+                            Console.WriteLine("Invalid input parameters.");
+                            input = Console.ReadLine();
+                            continue;
+                        }
+                        var timesToRotate = count % strArr.Count();
+                        var leftList = strArr.Take(timesToRotate).ToList();
+                        var rightList = strArr.Skip(timesToRotate).ToList();
+                        strArr.Clear();
+                        strArr.AddRange(rightList);
+                        strArr.AddRange(leftList);
+
+                    }
+                    else if (input.StartsWith("rollRight"))
+                    {
+                        var tokens = input.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+                        var count = int.Parse(tokens[1]);
+                        if (count < 0)
+                        {
+                            Console.WriteLine("Invalid input parameters.");
+                            input = Console.ReadLine();
+                            continue;
+                        }
+                        var timesToRotate = count % strArr.Count();
+                        var leftList = strArr.Take(strArr.Count() - timesToRotate).ToList();
+                        var rightList = strArr.Skip(strArr.Count() - timesToRotate).ToList();
+                        strArr.Clear();
+                        strArr.AddRange(rightList);
+                        strArr.AddRange(leftList);
+                    }
+                    input = Console.ReadLine();
+            }
+            Console.WriteLine("[" + string.Join(", ", strArr) + "]");//
+        }
+    }
+}
+
+//03. Rage Quit
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine().ToUpper();
+            Regex regex = new Regex(@"(?<str>[^0-9]+)(?<num>\d+)");//1-20
+            var matches = regex.Matches(input);
+            StringBuilder output = new StringBuilder();
+            foreach (Match match in matches)
+            {
+                var str = match.Groups["str"].Value;
+                var num = int.Parse(match.Groups["num"].Value);
+                for (int i = 1; i <= num; i++)
+                {
+                    output.Append(str);
+                }
+            }
+            Console.WriteLine("Unique symbols used: {0}", output.ToString().ToCharArray().Distinct().Count());
+            Console.WriteLine(output);
+        }
+    }
+}
+
+//04. Files
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        class FileInfo
+        {
+            public string Root { get; set; }
+            public string File { get; set; }
+            public string Extension { get; set; }
+            public long Size { get; set; }
+        }
+        static void Main(string[] args)
+        {
+            var regex = new Regex(@"(?<root>(?:^\w+)|(?:[A-Z]:))(?:\\[\w.\s-]+)*\\(?<file>[\w.\s-]+\.(?<extension>\w+));(?<size>\d+)", RegexOptions.Multiline);
+            var n = int.Parse(Console.ReadLine());
+            //dic
+            var listFiles = new List<FileInfo>();
+            for (int i = 0; i < n; i++)
+            {
+                var input = Console.ReadLine();
+                var match = regex.Match(input);
+                if (match.Success)
+                {
+                    var root = match.Groups["root"].Value;
+                    var file = match.Groups["file"].Value;
+                    var extension = match.Groups["extension"].Value;
+                    var size = long.Parse(match.Groups["size"].Value); //long?
+                    if (listFiles.Any(a => a.File == file && a.Root == root))
+                    {
+                        var indexToRemove = listFiles.IndexOf(listFiles.First(a => a.File == file && a.Root == root));
+                        listFiles.RemoveAt(indexToRemove);
+                    }
+                    var fileInfo = new FileInfo() { Root = root, File = file, Extension = extension, Size = size };
+                    listFiles.Add(fileInfo);
+                }
+                
+            }
+            var line = Console.ReadLine().Split();
+            var extensionName = line[0];
+            var rootName = line[2];
+            var sortedListFiles = listFiles.Where(a => a.Extension == extensionName && a.Root == rootName).OrderByDescending(a => a.Size).ThenBy(a => a.File).ToList();
+            if (sortedListFiles.Count() == 0)
+                Console.WriteLine("No");
+            else
+            {
+                foreach (var file in sortedListFiles)
+                {
+                    Console.WriteLine("{0} - {1} KB", file.File, file.Size);
+                }
+            }
+        }
+    }
+}

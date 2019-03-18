@@ -1,0 +1,11 @@
+SELECT [Category Name], [Reports Number], [Main Status] 
+FROM 
+(
+SELECT c.[Name] AS [Category Name], COUNT(r.Id) AS [Reports Number], s.Label AS [Main Status] --?
+FROM Categories AS c
+JOIN Reports AS r ON r.CategoryId = c.Id
+JOIN Status AS s ON s.Id = r.StatusId
+WHERE s.Label IN ('waiting', 'in progress')
+GROUP BY c.[Name], s.Label
+) AS InnerTable
+ORDER BY [Category Name], [Reports Number], [Main Status]

@@ -1,0 +1,253 @@
+// 01. Data Class
+class Request {
+    constructor (method = '', uri = '', version = '', message = '') {
+        this.method = method;
+        this.uri = uri;
+        this.version = version;
+        this.message = message;
+        this.response = undefined;
+        this.fulfilled = false;
+    }
+}
+
+// 02. Tickets
+function processTickets(ticketsArr, sortingCriteria) {
+    class Ticket {
+        constructor(destination, price, status) {
+            this.destination = destination;
+            this.price = price;
+            this.status = status;
+        }
+    }
+
+    let tickets = [];
+
+    for (let ticket of ticketsArr) {
+        let tokens = ticket.split('|');
+        let destination = tokens[0];
+        let price = Number(tokens[1]);
+        let status = tokens[2];
+
+        tickets.push(new Ticket(destination, price, status));
+    }
+
+    function sortingFunction(a, b) {
+        switch (sortingCriteria) {
+            case 'destination':
+                return a.destination.localeCompare(b.destination);
+            case 'price':
+                return a.price - b.price;
+            case 'status':
+                return a.status.localeCompare(b.status);
+        }
+    }
+
+    tickets.sort(
+        sortingFunction
+    );
+
+    return tickets;
+}
+
+// 03. Unity
+class Rat {
+    constructor(name) {
+        if (typeof name !== 'string')
+            throw new Error('rat should have a name');
+
+        this.name = name;
+        this.rats = [];
+    }
+
+    unite(otherRat) {
+        if ( otherRat instanceof Rat)
+            this.rats.push(otherRat);
+    }
+
+    getRats() {
+        return this.rats;
+    }
+
+    toString() {
+        let output = this.name;
+        for (let rat of this.rats) {
+            output += `\n##${rat.name}`;
+        }
+
+        return output;
+    }
+}
+
+// 04. Length Limit
+class Stringer {
+    constructor(string, length) {
+        this.innerString = string;
+        this.innerLength = length;
+    }
+
+    increase(length) {
+        this.innerLength += length;
+    }
+
+    decrease(length) {
+        this.innerLength = Math.max(0, this.innerLength - length);
+    }
+
+    toString() {
+        let output;
+
+        if (this.innerString.length > this.innerLength) {
+            output = this.innerString.substr(0, this.innerLength) + '...';
+        } else {
+            output = this.innerString;
+        }
+
+        return output;
+    }
+}
+
+// 05. Extensible Class
+//let result = 
+(function () {
+    let id = 0;
+
+    class Extensible {
+        constructor() {
+            this.id = id++;
+        }
+    
+        extend(template) {
+            for (let propToInherit in template) {
+                if (typeof template[propToInherit] === "function") {
+                    Extensible.prototype[propToInherit] = template[propToInherit];
+                } else {
+                    this[propToInherit] = template[propToInherit];
+                }
+            }
+        }
+    }
+
+    return Extensible;
+})()
+//;
+
+// 06. Sorted List
+class SortedList {
+    constructor() {
+        this.list = [];
+        this.size = 0;
+    }
+
+    add(element) {
+        this.list.push(element);
+        this.size++;
+        this.sort();
+    }
+
+    remove(index) {
+        if (index >= 0 && index < this.list.length) {
+            this.list.splice(index, 1);
+            this.size--;
+        }
+    }
+
+    get(index) {
+        if (index >= 0 && index < this.list.length) {
+            return this.list[index];
+        }
+    }
+
+    sort() {
+        this.list.sort((a, b) => a - b);
+    }
+}
+
+// 07. Instance Validation
+class CheckingAccount {
+    constructor(clientId, email, firstName, lastName) {
+        this.clientId = clientId;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.products = [];
+    }
+
+    get clientId() {
+        return this._clientId;
+    }
+
+    set clientId(val) {
+        if (!/^\d{6}$/.test(val))
+            throw new TypeError("Client ID must be a 6-digit number");
+
+        this._clientId = val;
+    }
+
+    get email() {
+        return this._email;
+    }
+
+    set email(val) {
+        if (!/^[0-9a-zA-Z]+@[a-zA-Z\.]+$/.test(val))
+            throw new TypeError("Invalid e-mail");
+
+        this._email = val;
+    }
+
+    get firstName() {
+        return this._firstName;
+    }
+
+    set firstName(val) {
+        if (val.length <= 2 || val.length >= 21)
+            throw new TypeError("First name must be between 3 and 20 characters long");
+
+        if (!/^[a-zA-Z]{3,20}$/.test(val))
+            throw new TypeError("First name must contain only Latin characters");
+
+        this._firstName = val;
+    }
+
+    get lastName() {
+        return this._lastName;
+    }
+
+    set lastName(val) {
+        if (val.length <= 2 || val.length >= 21)
+            throw new TypeError("Last name must be between 3 and 20 characters long");
+
+        if (!/^[a-zA-Z]{3,20}$/.test(val))
+            throw new TypeError("Last name must contain only Latin characters");
+
+        this._lastName = val;
+    }
+}
+
+// 08. View Model
+class Textbox {
+    constructor(selector, regex) {
+        this._elements = $(selector);
+        this._invalidSymbols = regex;
+        $(selector).on('input', function () {
+            $('*[type=text]').val(this.value);
+        });
+    }
+
+    get value() {
+        return this._elements.val();
+    }
+
+    set value(val) {
+        this._elements.val(val);
+    }
+
+    get elements() {
+        return this._elements;
+    }
+
+    isValid() {
+        return !this.value.match(this._invalidSymbols);
+    }
+}
+
+// 09. Custom Form

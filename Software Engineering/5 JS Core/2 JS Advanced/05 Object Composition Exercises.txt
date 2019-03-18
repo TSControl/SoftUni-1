@@ -1,0 +1,290 @@
+// 01. Array extension
+(function () {
+    Array.prototype.last = function () {
+        return this[this.length - 1];
+    }
+    Array.prototype.skip = function (n) {
+        let output = [];
+        for (let i = Math.min(this.length - 1, n); i < this.length; i++) {
+            output.push(this[i]);
+        }
+        return output;
+    }
+    Array.prototype.take = function (n) {
+        let output = [];
+        for (let i = 0; i < Math.min(n, this.length); i++) {
+            output.push(this[i]);
+        }
+        return output;
+    }
+    Array.prototype.sum = function () {
+        return this.reduce((acc, cur) => acc + cur);
+    }
+    Array.prototype.average = function () {
+        return this.sum() / this.length;
+    }
+})();
+
+// 02. Construction Crew
+function solve(workerObj) {
+    if (workerObj.handsShaking) {
+        workerObj.bloodAlcoholLevel += 0.1 * workerObj.weight * workerObj.experience;
+        workerObj.handsShaking = false;
+    }
+
+    return workerObj;
+}
+
+// 03. Car Factory
+function solve(obj) {
+    let output = {};
+
+    output.model = obj.model;
+
+    if (obj.power <= 90) {
+        output.engine = {
+            power: 90,
+            volume: 1800
+        };
+    } else if (obj.power <= 120) {
+        output.engine = {
+            power: 120,
+            volume: 2400
+        };
+    } else {
+        output.engine = {
+            power: 200,
+            volume: 3500
+        };
+    }
+
+    switch (obj.carriage) {
+        case 'hatchback':
+            output.carriage = {
+                type: 'hatchback',
+                color: obj.color
+            }
+            break;
+        case 'coupe':
+            output.carriage = {
+                type: 'coupe',
+                color: obj.color
+            }
+            break;
+    }
+
+    let wheelSize = obj.wheelsize % 2 == 0 ? obj.wheelsize - 1 : obj.wheelsize;
+    output.wheels = [wheelSize, wheelSize, wheelSize, wheelSize];
+
+    return output;
+}
+
+// 04. Extensible Object
+function extensibleObject() {
+    return obj = {
+        extend: function (template) {
+            for (let propToInherit of Object.keys(template))
+            {
+                if (typeof template[propToInherit] === "function") {
+                    Object.getPrototypeOf(obj)[propToInherit] = template[propToInherit];
+                } else {
+                    obj[propToInherit] = template[propToInherit];
+                }
+            }
+        }
+    };
+}
+
+// 05. String extension
+(function () {
+    String.prototype.ensureStart = function (str) {
+        let output = '' + this;
+        if (!output.startsWith(str)) {
+            output = str + output;
+        }
+
+        return output;
+    }
+
+    String.prototype.ensureEnd = function (str) {
+        let output = '' + this;
+        if (!output.endsWith(str)) {
+            output += str;
+        }
+
+        return output;
+    }
+
+    String.prototype.isEmpty = function () {
+        if (this.length === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    String.prototype.truncate = function (n) {
+        let output = '' + this;
+        if (n < 4) {
+            let output = '';
+            for (let i = 1; i <= n; i++) {
+                output += '.';
+            }
+
+            return output;
+        } else if (output.length <= n) {
+            return output;
+        } else if (output.indexOf(' ') === -1) {
+            return output.substr(0, n - 3) + '...';
+        } else {
+            shortenBySpace();
+        }
+
+        return output;
+
+        function shortenBySpace() {
+            let lastSpace = output.lastIndexOf(' ');
+            output = output.substring(0, lastSpace) + '...';
+            if (output.length > n) {
+                shortenBySpace();
+            }
+        }
+    }
+
+    String.format = function (string, ...params) {
+        let placeHoldercount = string.match(/{\d+}/g).length;
+        for (let i = 0; i < Math.min(placeHoldercount, params.length); i++) {
+            let regex = new RegExp(`\\{${i}\\}`, 'g');
+            string = string.replace(regex, params[i]);
+        }
+
+        return string;
+    }
+})();
+
+// 06. Sorted List
+function getSorted() {
+    return {
+        list: [],
+        size: 0,
+        add: function (element) {
+            this.list.push(element);
+            this.size++;
+            this.sort();
+        },
+        remove: function (index) {
+            if (index >= 0 && index < this.list.length) {
+                this.list.splice(index, 1);
+                this.size--;
+            }
+        },
+        get: function (index) {
+            if (index >= 0 && index < this.list.length) {
+                return this.list[index];
+            }
+        },
+        sort: function () {
+            this.list.sort((a, b) => a - b);
+        }
+    }
+}
+
+// 07. DOM Highlighter - I got help from github
+function domTraversal(selector) {
+    let children = $(selector).children();
+
+    if (children.length === 0) {
+        $(selector).addClass("highlight");
+        return;
+    }
+
+    let nextChildren = children;
+
+    while (nextChildren.length) {
+        children = nextChildren;
+        nextChildren = nextChildren.children();
+    }
+
+    children.first().addClass("highlight");
+    children.first().parentsUntil($(selector).parent()).addClass("highlight");
+}
+
+// 08. Bug Tracker
+function result() {
+    let id = 0;
+    let selector = '';
+    let reports = [];
+
+    function report(author, description, reproducible, severity) {
+        let report = {
+            ID: id++,
+            author: author,
+            description: description,
+            reproducible: reproducible,
+            severity: severity,
+            status: 'Open'
+        };
+
+        reports.push(report);
+
+        refreshPage();
+    }
+
+    function setStatus(id, newStatus) {
+        let report = reports.find(r => r.ID === id);
+        report.status = newStatus;
+
+        refreshPage();
+    }
+
+    function remove(id) {
+        reports = reports.filter(r => r.ID !== id);
+
+        refreshPage();
+    }
+
+    function sort(method) {
+        switch (method) {
+            case 'author':
+                reports.sort((r1, r2) => r1.author.localeCompare(r2.author));
+                break;
+            case 'severity':
+                reports.sort((r1, r2) => r1.severity - r2.severity);
+                break;
+            case 'ID':
+                reports.sort((r1, r2) => r1.ID - r2.ID);
+                break;
+        }
+
+        refreshPage();
+    }
+
+    function output(newSelector) {
+        selector = newSelector;
+    }
+
+    function refreshPage() {
+        if (selector) {
+            $(selector).html('');
+
+            for (let report of reports) {
+                let html =
+                    $('<div>').attr('id', 'report_' + report.ID).addClass('report')
+                    .append($('<div>').addClass('body').append($('<p>').text(report.description)))
+                    .append($('<div>')
+                        .addClass('title')
+                        .append($('<span>').addClass('author').text('Submitted by: ' + report.author))
+                        .append($('<span>').addClass('status').text(report.status + ' | ' + report.severity)));
+                $(selector).append(html);
+            }
+        }
+    }
+
+    return {
+        report,
+        setStatus,
+        remove,
+        sort,
+        output
+    };
+};

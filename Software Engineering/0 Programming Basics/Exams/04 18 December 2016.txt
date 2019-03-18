@@ -1,0 +1,184 @@
+//Problem 01. Distance
+import java.util.Scanner;
+
+public class Distance {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int v0 = Integer.parseInt(console.nextLine());
+        int t1 = Integer.parseInt(console.nextLine());
+        int t2 = Integer.parseInt(console.nextLine());
+        int t3 = Integer.parseInt(console.nextLine());
+        double t1Min = t1/60.00;
+        double t2Min = t2/60.00;
+        double t3Min = t3/60.00;
+        System.out.printf("%.2f%n",v0*(t1Min+1.1*t2Min+1.045*t3Min));
+    }
+}
+
+//Problem 02. Change Tiles
+import java.util.Scanner;
+
+public class ChangeTiles {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        double money = Double.parseDouble(console.nextLine());
+        double width = Double.parseDouble(console.nextLine());
+        double length = Double.parseDouble(console.nextLine());
+        double side = Double.parseDouble(console.nextLine());
+        double height = Double.parseDouble(console.nextLine());
+        double tilePrice = Double.parseDouble(console.nextLine());
+        double sumExpert = Double.parseDouble(console.nextLine());
+
+        double floorArea = width*length;
+        double tileArea = side*height/2;
+        int tileCount = (int)Math.ceil(floorArea/tileArea)+5;
+        double totalSum = tileCount*tilePrice+sumExpert;
+        if (totalSum<=money){
+            System.out.printf("%.2f lv left.%n",money-totalSum);
+        } else {
+            System.out.printf("You'll need %.2f lv more.%n",totalSum-money);
+        }
+    }
+}
+
+//Problem 03. Flowers
+import java.util.Scanner;
+
+public class Flowers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        int chrysanthemumCount = Integer.parseInt(console.nextLine());
+        int roseCount = Integer.parseInt(console.nextLine());
+        int tulipCount = Integer.parseInt(console.nextLine());
+        String season = console.nextLine();
+        String holiday = console.nextLine();
+
+        double sum = 0d;
+
+        if ("Spring".equals(season) || "Summer".equals(season)) {
+            sum = chrysanthemumCount * 2.00d + roseCount * 4.10d + tulipCount * 2.50d;
+            if ("Y".equals(holiday)) {
+            sum*=1.15d;
+            }
+            if (tulipCount>7 && "Spring".equals(season)){
+                sum*=0.95d;
+            }
+            if(chrysanthemumCount+roseCount+tulipCount>20){
+                sum*=0.80d;
+            }
+            sum+=2;
+            System.out.printf("%.2f",sum);
+        }
+        sum=0d;
+        if ("Autumn".equals(season) || "Winter".equals(season)) {
+            sum = chrysanthemumCount * 3.75d + roseCount * 4.50d + tulipCount * 4.15d;
+            if ("Y".equals(holiday)) {
+                sum*=1.15d;
+            }
+            if(roseCount>=10 && "Winter".equals(season)){
+                sum*=0.90d;
+            }
+            if(chrysanthemumCount+roseCount+tulipCount>20){
+                sum*=0.80d;
+            }
+            sum+=2;
+            System.out.printf("%.2f%n",sum);
+        }
+    }
+}
+
+//Problem 04. Grades
+import java.util.Scanner;
+
+public class Grades {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int studentCount = Integer.parseInt(console.nextLine());
+        int failCount=0;
+        int threes=0;
+        int fours=0;
+        int tops=0;
+        double totalSum = 0;
+        for (int i = 0; i < studentCount ; i++) {
+            double result = Double.parseDouble(console.nextLine());
+            totalSum+=result;
+            if (result<3d) {
+                failCount+=1;
+            } else if (result>=3d && result<4d){
+                threes+=1;
+            } else if (result>=4d && result<5){
+                fours+=1;
+            } else {
+                tops+=1;
+            }
+        }
+        System.out.printf("Top students: %.2f%%%n",(double)tops*100/studentCount);
+        System.out.printf("Between 4.00 and 4.99: %.2f%%%n",(double)fours*100/studentCount);
+        System.out.printf("Between 3.00 and 3.99: %.2f%%%n",(double)threes*100/studentCount);
+        System.out.printf("Fail: %.2f%%%n",(double)failCount*100/studentCount);
+        System.out.printf("Average: %.2f%n",totalSum/(double)studentCount);
+    }
+}
+
+//Problem 05. Christmas Hat
+import java.util.Scanner;
+
+public class ChristmasHat {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        short n = Short.parseShort(console.nextLine());
+        String topDots = repeatStr(".",2*n-1);
+        System.out.printf("%s/|\\%s%n%s\\|/%s%n",topDots,topDots,topDots,topDots);
+        for (int i = 0; i <2*n ; i++) {
+            String dots = repeatStr(".",2*n-1-i);
+            String dashes = repeatStr("-",i);
+            System.out.printf("%s*%s*%s*%s%n",dots,dashes,dashes,dots);
+        }
+        String rowOfStars = repeatStr("*",4*n+1);
+        String rowAlterating = repeatStr("*.",2*n);
+        System.out.printf("%s%n%s*%n%s%n",rowOfStars,rowAlterating,rowOfStars);
+    }
+    static String repeatStr(String strToRepeat, int count){
+        String text = "";
+        for (int i = 0; i < count ; i++) {
+            text += strToRepeat;
+        }
+        return text;
+    }
+}
+
+//Problem 06. Letters Combinations
+import java.util.Scanner;
+
+public class LettersCombinations {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        char char1 = console.nextLine().charAt(0);
+        char char2 = console.nextLine().charAt(0);
+        char char3 = console.nextLine().charAt(0);
+        int totalNum = 0;
+        StringBuilder out = new StringBuilder();
+        for (char i = char1; i <= char2; i++) {
+            if (i==char3) {
+                continue;
+            }
+            for (char j = char1; j <= char2; j++) {
+                if (j==char3) {
+                    continue;
+                }
+                for (char k = char1; k <= char2; k++) {
+                    if (k==char3) {
+                        continue;
+                    }
+                    out.append(i);
+                    out.append(j);
+                    out.append(k);
+                    out.append(" ");
+                    totalNum++;
+                }
+            }
+        }
+        out.append(totalNum);
+        System.out.println(out);
+    }
+}

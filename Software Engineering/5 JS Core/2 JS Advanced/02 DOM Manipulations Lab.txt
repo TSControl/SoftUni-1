@@ -1,0 +1,136 @@
+// 01. List of Items
+function addItem() {
+  let text = document.getElementById("newItemText").value;
+  let child = document.createElement("li");
+  child.textContent = text;
+  document.getElementById("items").appendChild(child);
+}
+
+// 02. Add / Delete
+function addItem() {
+    let text = document.getElementById("newText").value;
+    let child = document.createElement("li");
+    child.appendChild(document.createTextNode(text + ' '));
+
+    let deleteLink = document.createElement('span');
+    deleteLink.innerHTML = "<a href='#'>[Delete]</a>";
+    deleteLink.firstChild.addEventListener('click', deleteItem);
+
+    child.appendChild(deleteLink);
+    document.getElementById("items").appendChild(child);
+    document.getElementById("newText").value = '';
+
+
+    function deleteItem() {
+        let itemToDelete = this.parentNode.parentNode;
+        let parent = itemToDelete.parentNode;
+        parent.removeChild(itemToDelete);
+    }
+}
+
+// 03. Delete from Table
+function deleteByEmail() {
+    document.getElementById("result").innerHTML = '';
+    let emailToDelete = document.getElementsByTagName('input')[0].value;
+    let tds = Array.from(document.getElementsByTagName('td'));
+    let td = tds.find(td => td.textContent === emailToDelete);
+
+    if (td === undefined) {
+        let errorDiv = document.createElement("div");
+        errorDiv.textContent = "Not found.";
+        document.getElementById("result").appendChild(errorDiv);
+    } else {
+        let tdParent = td.parentNode;
+        let tdGrandParent = td.parentNode.parentNode;
+        tdGrandParent.removeChild(tdParent);
+    }
+
+    document.getElementsByTagName('input')[0].value = '';
+}
+
+// 04. Stopwatch
+function stopwatch() {
+    let startButton = document.getElementById("startBtn");
+    startButton.addEventListener("click", startTimer);
+
+    function startTimer() {
+        let currentSecondsElapsed = 0;
+        let stopButton = document.getElementById("stopBtn");
+        startButton.setAttribute("disabled", "true");
+        stopButton.removeAttribute("disabled");
+        stopButton.addEventListener("click", stopTimer);
+
+        document.getElementById("time").textContent = '00:00';
+
+
+
+        let timer = setInterval(incrementTime, 1000);
+
+        function incrementTime() {
+            currentSecondsElapsed++;
+            let minutesToDisplay = Math.floor(currentSecondsElapsed / 60);
+            let secondsToDisplay = currentSecondsElapsed % 60;
+            let timeToDisplay = `${('00' + minutesToDisplay).slice(-2)}:${('00' + secondsToDisplay).slice(-2)}`;
+
+            document.getElementById("time").textContent = timeToDisplay;
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+
+            startButton.removeAttribute("disabled");
+            stopButton.setAttribute("disabled", "disabled");
+        }
+    }
+}
+
+// 05. Mouse Gradient //impossible problem without looking at the solution..... and why "- 1"?
+function attachGradientEvents() {
+    let divToPutOutputIn = document.getElementById("result");
+    let gradient = document.getElementById("gradient");
+
+    gradient.addEventListener('mouseout', gradientMouseOut);
+    gradient.addEventListener('mousemove', gradientMouseMove);
+
+    function gradientMouseMove(event) {
+        let part = event.offsetX / (event.target.clientWidth - 1);
+        let percentage = Math.trunc(part * 100);
+        divToPutOutputIn.textContent = percentage + "%";
+    }
+
+    function gradientMouseOut() {
+        divToPutOutputIn.textContent = '';
+    }
+}
+
+// 06. Highlight Active
+function focus() {
+    let inputs = Array.from(document.getElementsByTagName("input"));
+    
+    for (let input of inputs) {
+        input.addEventListener("focus", setActive);
+        input.addEventListener("blur", setInactive);
+    }
+
+    function setActive(event) {
+        event.target.parentNode.setAttribute("class", "focused");
+    }
+
+    function setInactive(event) {
+        event.target.parentNode.removeAttribute("class");
+    }
+}
+
+// 07. Dynamic Validation
+function validate() {
+    let input = document.getElementById("email");
+
+    input.addEventListener("change", validateInput);
+
+    function validateInput(event) {
+        if (!event.target.value.match(/^[a-z]+@[a-z]+\.[a-z]+$/))
+            event.target.setAttribute("class", "error");
+        else
+            event.target.removeAttribute("class");
+    }
+}

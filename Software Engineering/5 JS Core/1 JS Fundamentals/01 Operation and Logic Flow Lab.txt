@@ -1,0 +1,139 @@
+//1. Multiply Numbers 
+function multiplyTwoNumbers(n1, n2) {
+  let result = n1 * n2;
+  return result;
+}
+
+//2. Boxes and Bottles 
+function boxes(n, k) {
+  let result = Math.ceil(n / k);
+  return result;
+}
+
+//3. Leap Year 
+function yearIsLeap(year) {
+  let isLeap = (year % 4 === 0 && year % 100 != 0)
+  || (year % 400 == 0);
+  console.log(isLeap ? "yes" : "no");
+}
+
+//4. Circle Area
+function calcCircleArea(r) {
+  let area = Math.PI * Math.pow(r, 2);
+  console.log (area);
+  console.log(Number(area.toFixed(2)));
+}
+
+//5. Triangle Area 
+function calcTriangleArea(a, b, c) {
+  let p = (a + b + c) / 2;
+  let area = Math.sqrt(p * (p - a) * (p - b) * (p - c));
+  return area;
+}
+
+//6. Cone 
+function calcCone(r, h) {
+  let baseArea = Math.PI * Math.pow(r, 2);
+  let volume =  baseArea * h / 3;
+  let area = baseArea + Math.PI * r * Math.sqrt(r ** 2 + h ** 2);
+  console.log("volume = " + Number(volume).toFixed(4));
+  console.log("area = " + Number(area).toFixed(4));
+}
+
+//7. Odd / Even
+function isEven(n) {
+  n = Math.abs(n);
+  if (n % 2 === 0) {
+    console.log("even");
+  } else if (n % 2 === 1) {
+    console.log("odd");
+  } else {
+    console.log("invalid");
+  }
+}
+
+//8. Fruit or Vegetable 
+function getType(fruit) {
+switch (fruit) {
+  case "banana":
+  case "apple":
+  case "kiwi":
+  case "cherry":
+  case "lemon":
+  case "grapes":
+  case "peach":
+  console.log("fruit");
+  break;
+  case "tomato":
+  case "cucumber":
+  case "pepper":
+  case "onion":
+  case "garlic":
+  case "parsley":
+  console.log("vegetable");
+  break;
+  default:
+  console.log("unknown");
+  break;
+}
+}
+
+//9. Colorful Numbers 
+function printLines(n) {
+  console.log("<ul>");
+
+  for (let i = 1; i <= n; i++) {
+    let color = i % 2 == 1 ? "green" : "blue";
+    console.log("  <li><span style='color:" + color + "'>" + i + "</span></li>")
+  }
+
+  console.log("</ul>");
+}
+
+//10. Chessboard 
+function printChessBoard(n) {
+  let html = '<div class="chessboard">\n';
+  let colorNum = 1;
+  let color = "black";
+  for (let row = 1; row <= n; row++) {
+    html += '\t<div>\n';
+    for (let col = 1; col <= n; col++) {
+      if (colorNum % 2 == 1)
+      color = "black";
+      else
+      color = "white";
+
+      html += '\t\t<span class="' + color + '"></span>\n';
+
+      colorNum += 1;
+    }
+
+    html += '\t</div>\n';
+
+    colorNum += n - 1;
+  }
+
+  html += '</div>\n';
+
+  return html;
+}
+
+//11. Binary Logarithm
+function getLogs(arr) {
+  for (let value of arr) {
+    console.log(Math.log2(value));
+  }
+}
+
+//12. Prime Number Checker 
+function primeChecker(n) {
+  if (n == 1 || n <=0)
+  return "false";
+
+  for (let i = 2; i < n; i++) {
+    if (n % i == 0)
+    return "false";
+  }
+
+  return true;
+}

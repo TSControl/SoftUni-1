@@ -1,0 +1,87 @@
+// 01. Github Commits
+function loadCommits() {
+    let username = $('#username').val();
+    let repo = $('#repo').val();
+    let commits = $('#commits');
+    commits.empty();
+
+    let url = `https://api.github.com/repos/${username}/${repo}/commits`;
+    $.get(url)
+        .then(appendLi)
+        .catch(appendError);
+
+    function appendLi(data) {
+        for (let item of data)
+            commits.append($('<li>').text(`${item['commit']['author']['name']}: ${item['commit']['message']}`));
+    }
+
+    function appendError(error) {
+        commits.append($('<li>').text(`Error: ${error.status} (${error.statusText})`))
+    }
+}
+
+// 02. Blog
+function attachEvents() {
+    let posts = $('#posts');
+    $('#btnLoadPosts').click(clickLoadPosts);
+    $('#btnViewPost').click(clickViewPost);
+    const baseUrl = "https://baas.kinvey.com/appdata/kid_HyDfatWRm";
+    const base64Auth = btoa('guest:guest');
+    const authHeather = {
+        "Authorization": "Basic " + base64Auth
+    };
+
+    function clickLoadPosts() {
+        let postsUrl = baseUrl + "/posts";
+
+        $.ajax({
+                url: postsUrl,
+                headers: authHeather
+            })
+            .then(processData)
+            .catch(throwError);
+
+        function processData(arr) {
+            posts.empty();
+
+            for (let obj of arr) {
+                let id = obj['_id'];
+                let title = obj['title'];
+
+                posts.append($('<option>').val(id).text(title));
+            }
+        }
+
+        function throwError(error) {}
+    }
+
+    function clickViewPost() {
+        let postId = posts.val();
+
+        let requestPostsObj = $.ajax({
+            url: baseUrl + `/posts/${postId}`,
+            headers: authHeather
+        });
+
+        let requestCommentsObj = $.ajax({
+            url: baseUrl + `/comments/?query={"post_id":"${postId}"}`,
+            headers: authHeather
+        });
+
+        Promise.all([requestPostsObj, requestCommentsObj])
+            .then(viewPost)
+            .catch(postError);
+
+        function viewPost([post, comments]) {
+            $('#post-title').text(post['title']);
+            $('#post-body').text(post['body']);
+
+            let ul = $('#post-comments');
+            ul.empty();
+            for (let comment of comments)
+                ul.append($('<li>').text(comment['text']));
+        }
+
+        function postError() {}
+    }
+}

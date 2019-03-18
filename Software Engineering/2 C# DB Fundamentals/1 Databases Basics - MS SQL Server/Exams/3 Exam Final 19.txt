@@ -1,0 +1,12 @@
+CREATE TRIGGER tr_Close ON Reports AFTER UPDATE
+AS
+  BEGIN
+
+		IF (EXISTS(
+        SELECT * FROM inserted
+        WHERE OpenDate IS NOT NULL))
+		BEGIN
+			UPDATE Reports
+			SET StatusId = 'completed'
+		END
+  END

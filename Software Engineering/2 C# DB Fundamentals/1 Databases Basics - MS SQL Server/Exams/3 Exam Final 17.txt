@@ -1,0 +1,18 @@
+CREATE OR ALTER FUNCTION udf_GetReportsCount(@employeeId INT, @statusId INT)
+RETURNS INT
+AS
+BEGIN
+	DECLARE @output INT = 0
+	SET  @output = (SELECT COUNT(*)
+	FROM Reports AS r
+	JOIN [Status] AS s ON s.Id = r.StatusId
+	WHERE r.EmployeeId = @employeeId AND s.Id = @statusId)
+
+RETURN @output
+END
+GO
+
+
+SELECT Id, FirstName, Lastname, dbo.udf_GetReportsCount(Id, 2) AS ReportsCount
+FROM Employees
+ORDER BY Id

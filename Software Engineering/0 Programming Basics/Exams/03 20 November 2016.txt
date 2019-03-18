@@ -1,0 +1,146 @@
+//01. House Price
+import java.util.Scanner;
+
+public class HousePrice {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        double minArea = Double.parseDouble(console.nextLine());
+        double kitchenArea = Double.parseDouble(console.nextLine());
+        double pricePerMeter = Double.parseDouble(console.nextLine());
+        System.out.printf("%.2f%n",(minArea*3.81+kitchenArea)*1.05*pricePerMeter);
+    }
+}
+
+//02. Flower Shop
+import java.util.Scanner;
+
+public class FlowerShop {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        short magnolii = Short.parseShort(console.nextLine());
+        short zumbuli = Short.parseShort(console.nextLine());
+        short roses = Short.parseShort(console.nextLine());
+        short cactuses = Short.parseShort(console.nextLine());
+        double giftPrice = Double.parseDouble(console.nextLine());
+        double diff = (magnolii*3.25+zumbuli*4.0+roses*3.50+cactuses*8.0)*0.95-giftPrice;
+        if (diff>=0) {
+            System.out.printf("She is left with %d leva.%n", (int)Math.floor(diff));
+        } else {
+            System.out.printf("She will have to borrow %d leva.", (int)Math.ceil(-diff));
+        }
+    }
+}
+
+//03. Bike Race
+import java.util.Scanner;
+
+public class BikeRace {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        short juniors = Short.parseShort(console.nextLine());
+        short seniors = Short.parseShort(console.nextLine());
+        String trace = console.nextLine();
+        if ("trail".equals(trace)) {
+            System.out.printf("%.2f%n",(5.5*juniors+7*seniors)*0.95);
+        } else if ("cross-country".equals(trace) && juniors+seniors>=50){
+            System.out.printf("%.2f%n",(8*juniors+9.5*seniors)*0.7125);
+        } else if ("cross-country".equals(trace) && juniors+seniors<50){
+            System.out.printf("%.2f%n",(8*juniors+9.5*seniors)*0.95);
+        } else if ("downhill".equals(trace)){
+            System.out.printf("%.2f%n",(12.25*juniors+13.75*seniors)*0.95);
+        } else if ("road".equals(trace)) {
+            System.out.printf("%.2f%n",(20*juniors+21.5*seniors)*0.95);
+        }
+    }
+}
+
+//04. Logistics
+import java.util.Scanner;
+
+public class Logistics {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int sum = 0;
+        int microbus = 0;
+        int truck = 0;
+        int train = 0;
+        for (int i = 0; i < n; i++) {
+            int dailyLoad = Integer.parseInt(console.nextLine());
+            if (dailyLoad<=3) {
+                sum+=dailyLoad*200;
+                microbus+=dailyLoad;
+            } else if (dailyLoad>3 && dailyLoad<12) {
+                sum+=dailyLoad*175;
+                truck+=dailyLoad;
+            } else {
+                sum+=dailyLoad*120;
+                train+=dailyLoad;
+            }
+        }
+        double load = microbus+truck+train;
+        System.out.printf("%.2f%n",(double)sum/load);
+        System.out.printf("%.2f%%%n",microbus*100/load);
+        System.out.printf("%.2f%%%n",truck*100/load);
+        System.out.printf("%.2f%%%n",train*100/load);
+    }
+}
+
+//05. Rocket
+import java.util.Scanner;
+
+public class Rocket {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        short n = Short.parseShort(console.nextLine());
+
+        for (int i = 0; i < n ; i++) {
+            String topDashes = repeatStr(" ", 2*i);
+            String topDots = repeatStr(".",3*n/2-1-i);
+            System.out.printf("%s/%s\\%s%n",topDots,topDashes,topDots);
+        }
+        String topStars = repeatStr("*",2*n);
+        String midDots = repeatStr(".",n/2);
+        String midTildas = repeatStr("\\",2*n-2);
+        System.out.printf("%s%s%s%n",midDots,topStars,midDots);
+        for (int i = 0; i < 2*n; i++) {
+            System.out.printf("%s|%s|%s%n",midDots,midTildas,midDots);
+        }
+        for (int i = n/2; i >0 ; i--) {
+            String botDots = repeatStr(".",i);
+            String botStars = repeatStr("*",3*n-2-2*i);
+            System.out.printf("%s/%s\\%s%n",botDots,botStars,botDots);
+        }
+
+    }
+    static String repeatStr(String strToRepeat, int count){
+        String text = "";
+        for (int i = 0; i < count ; i++) {
+            text += strToRepeat;
+        }
+        return text;
+    }
+}
+
+//06. Max Combination
+import java.util.Scanner;
+
+public class MaxCombination {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        int start = Integer.parseInt(console.nextLine());
+        int end = Integer.parseInt(console.nextLine());
+        int maxCombiations = Integer.parseInt(console.nextLine());
+        int counter = 0;
+        for (int i = start; i <= end; i++) {
+            for (int j = start; j <= end; j++) {
+                if (counter == maxCombiations) {
+                    return;
+                }
+                System.out.printf("<%d-%d>",i,j);
+                counter++;
+            }
+
+        }
+    }
+}

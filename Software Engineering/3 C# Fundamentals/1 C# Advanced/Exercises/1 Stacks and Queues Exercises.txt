@@ -1,0 +1,393 @@
+// 01. Reverse Numbers
+using System;
+using System.Collections.Generic;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var input = Console.ReadLine().Split();
+        var stack = new Stack<string>(input);
+        while (stack.Count != 0)
+            Console.Write(stack.Pop() + " ");
+        Console.WriteLine();
+    }
+}
+
+// 02. Basic Stack Operations
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var nums = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        var n = nums[0];
+        var s = nums[1];
+        var x = nums[2];
+        var stack = new Stack<int>();
+        var numsToStack = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        for (int i = 0; i < n; i++)
+        {
+            stack.Push(numsToStack[i]);
+        }
+        for (int i = 0; i < s; i++)
+        {
+            stack.Pop();
+        }
+		if (stack.Count() == 0)
+			Console.WriteLine(0);
+        else if (stack.Contains(x))
+            Console.WriteLine("true");
+        else
+            Console.WriteLine(stack.Min());
+    }
+}
+
+// 03. Maximum Element
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var stack = new Stack<int>();
+		var stackMax = new Stack<int>();
+		var n = int.Parse(Console.ReadLine());
+		stackMax.Push(int.MinValue);
+		for (int i = 0; i < n; i++)
+		{
+			var input = Console.ReadLine();
+			switch (input)
+			{
+				case "2":
+				if (stackMax.Peek() == stack.Peek())
+					stackMax.Pop();
+				stack.Pop();
+				break;
+				case "3":
+				Console.WriteLine(stackMax.Peek());
+				break;
+				default:
+				var tokens = input.Split();
+				var element = int.Parse(tokens[1]);
+				stack.Push(element);
+				if (element > stackMax.Peek())
+					stackMax.Push(element);
+				break;
+			}
+		}
+    }
+}
+
+// 04. Basic Queue Operations
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var nums1 = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        var nums2 = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        var queue = new Queue<int>();
+        for (int i = 0; i < nums1[0]; i++)
+        {
+            queue.Enqueue(nums2[i]);
+        }
+        for (int i = 0; i < nums1[1]; i++)
+        {
+            queue.Dequeue();
+        }
+        var numToFind = nums1[2];
+        if (queue.Count() == 0)
+            Console.WriteLine(0);
+        else if (queue.Contains(numToFind))
+            Console.WriteLine("true");
+        else
+            Console.WriteLine(queue.Min());
+    }
+}
+
+// 05. Sequence With Queue
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var queue = new Queue<double>();
+        var queueToUse = new Queue<double>();
+        var n = double.Parse(Console.ReadLine());
+        queue.Enqueue(n);
+        queueToUse.Enqueue(n);
+        for (int i = 0; i < 17; i++)
+        {
+            var m = queueToUse.Dequeue();
+            queue.Enqueue(m + 1);
+            queue.Enqueue(2 * m + 1);
+            queue.Enqueue(m + 2);
+            if (queueToUse.Count() < 17)
+            {
+                queueToUse.Enqueue(m + 1);
+                queueToUse.Enqueue(2 * m + 1);
+                queueToUse.Enqueue(m + 2);
+            }
+        }
+        for (int i = 0; i < 50; i++)
+        {
+            Console.Write(queue.Dequeue() + " ");
+        }
+        Console.WriteLine();
+    }
+}
+
+// 06. Truck Tour
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var n = int.Parse(Console.ReadLine());
+        var queue = new Queue<int>();
+        var array = new int[2*n - 1];
+        var finalQueue = new Queue<int>();
+        for (int i = 0; i < n; i++)
+        {
+            var tokens = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var petrolAmount = tokens[0];
+            var distanceToNext = tokens[1];
+            queue.Enqueue(petrolAmount - distanceToNext);
+            finalQueue.Enqueue(petrolAmount - distanceToNext);
+        }
+        for (int i = 0; i < n-1; i++)
+        {
+            finalQueue.Enqueue(queue.Dequeue());
+        }
+        finalQueue.CopyTo(array, 0);
+        for (int i = 0; i < n; i++)
+        {
+            var sum = 0;
+            for (int j = 0; j < n; j++)
+            {
+                sum += array[i + j];
+                if (sum < 0)
+                    break;
+            }
+            if (sum >= 0)
+            {
+                Console.WriteLine(i);
+                return;
+            }
+        }
+    }
+}
+
+// 07. Balanced Parenthesis
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var input = Console.ReadLine();
+        var openingStack = new Stack<char>();
+        for (int i = 0; i < input.Length; i++)
+        {
+            if ("{[(".Contains(input[i]))
+                openingStack.Push(input[i]);
+            else
+            {
+                switch (input[i])
+                {
+                    case '}':
+                        if (openingStack.Count == 0)
+                        {
+                            Console.WriteLine("NO");
+                            return;
+                        }
+                        else if (openingStack.Peek() == '{')
+                            openingStack.Pop();
+                        else
+                        {
+                            Console.WriteLine("NO");
+                            return;
+                        }
+                        break;
+                    case ']':
+                        if (openingStack.Count == 0)
+                        {
+                            Console.WriteLine("NO");
+                            return;
+                        }
+                        else if (openingStack.Peek() == '[')
+                            openingStack.Pop();
+                        else
+                        {
+                            Console.WriteLine("NO");
+                            return;
+                        }
+                        break;
+                    case ')':
+                        if (openingStack.Count == 0)
+                        {
+                            Console.WriteLine("NO");
+                            return;
+                        }
+                        else if (openingStack.Peek() == '(')
+                            openingStack.Pop();
+                        else
+                        {
+                            Console.WriteLine("NO");
+                            return;
+                        }
+                        break;
+                }
+            }
+        }
+        if (openingStack.Count >= 1)
+            Console.WriteLine("NO");
+        else
+            Console.WriteLine("YES");
+    }
+}
+
+// 08. Recursive Fibonacci
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var n = int.Parse(Console.ReadLine());
+        var stack = new Stack<long>();
+        stack.Push(1L);
+        stack.Push(1L);
+        var num1 = 1L;
+        for (int i = 2; i < n; i++)
+        {
+            var num2 = stack.Peek();
+            var num3 = num1 + num2;
+            num1 = num2;
+            stack.Push(num3);
+        }
+        Console.WriteLine(stack.Peek());
+    }
+}
+
+// 09. Stack Fibonacci
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var n = int.Parse(Console.ReadLine());
+        var stack = new Stack<long>();
+        stack.Push(1L);
+        stack.Push(1L);
+        var num1 = 1L;
+        for (int i = 2; i < n; i++)
+        {
+            var num2 = stack.Peek();
+            var num3 = num1 + num2;
+            num1 = num2;
+            stack.Push(num3);
+        }
+        Console.WriteLine(stack.Peek());
+    }
+}
+
+// 10. Simple Text Editor
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+class StartUp
+{
+    static void Main(string[] args)
+    {
+        var n = int.Parse(Console.ReadLine());
+        var stack = new Stack<string>();
+        var builder = new StringBuilder();
+        stack.Push("");
+        for (int i = 0; i < n; i++)
+        {
+            var tokens = Console.ReadLine().Split().ToArray();
+            switch (tokens[0])
+            {
+                case "1":
+                    var strToAppend = tokens[1];
+                    builder.Append(strToAppend);
+                    stack.Push(builder.ToString());
+                    break;
+                case "2":
+                    var countToRemove = int.Parse(tokens[1]);
+                    builder.Remove(builder.Length - countToRemove, countToRemove);
+                    stack.Push(builder.ToString());
+                    break;
+                case "3":
+                    var index = int.Parse(tokens[1]);
+                    Console.WriteLine(builder.ToString()[index - 1]);
+                    break;
+                case "4":
+                    stack.Pop();
+                    builder.Clear();
+                    builder.Append(stack.Peek());
+                    break;
+            }
+        }
+    }
+}
+
+// 11. Poisonous Plants not mine but f* this
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace PoisonousPlants
+{
+    public class StartUp
+    {
+        static void Main()
+        {
+            var n = int.Parse(Console.ReadLine());
+            var plants = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var days = new int[n];
+            var proximityStack = new Stack<int>();
+            proximityStack.Push(0);
+            for (int i = 1; i < plants.Length; i++)
+            {
+                int maxDays = 0;
+                while (proximityStack.Count > 0 && plants[proximityStack.Peek()] >= plants[i])
+                {
+                    maxDays = Math.Max(maxDays, days[proximityStack.Pop()]);
+                }
+
+                if(proximityStack.Count > 0)
+                {
+                    days[i] = maxDays + 1;
+                }
+                proximityStack.Push(i);
+            }
+            Console.WriteLine(days.Max());
+        }
+    }
+}

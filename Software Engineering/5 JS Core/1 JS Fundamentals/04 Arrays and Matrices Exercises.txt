@@ -1,0 +1,218 @@
+// 01. Print Array with Given Delimiter
+function printArr(arr) {
+    console.log(arr.slice(0, arr.length - 1).join(arr[arr.length - 1]));
+}
+
+// 02. Print every N-th Element from an Array
+function printElements(arr) {
+    let step = +arr[arr.length - 1];
+
+    arr = arr.slice(0, arr.length - 1).filter((e, i) => i % step === 0);
+
+    let output = arr.join('\n');
+    console.log(output);
+}
+
+// 03. Add and Remove Elements
+function addOrRemove(arr) {
+    let nums = [];
+    let currNum = 0;
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === 'add') {
+            nums.push(++currNum);
+        } else if (arr[i] === 'remove') {
+            nums.pop();
+            currNum++;
+        }
+    }
+
+    console.log(nums.length === 0 ? 'Empty' : nums.join('\n'));
+}
+
+// 04. Rotate Array
+function rotateArr(arr) {
+    let rotations = +arr.pop();
+    let rotationCount = rotations % arr.length;
+    let rotatedArr = arr.splice(arr.length - rotationCount).concat(arr);
+
+    console.log(rotatedArr.join(' '));
+}
+
+// 05. Extract Increasing Subsequence from Array
+function extractSequence(arr) {
+    arr = arr.map(e => +e);
+
+    let currNum = arr[0];
+    let newArr = arr.slice(0, 1);
+
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] >= currNum) {
+            newArr.push(arr[i]);
+            currNum = arr[i];
+        }
+    }
+
+    console.log(newArr.join('\n'));
+}
+
+// 06. Sort Array
+function sortStringArr(arr) {
+    function compareTwoStrings(str1, str2) {
+        if (str1.length > str2.length)
+            return 1;
+        else if (str1.length < str2.length)
+            return -1;
+        else {
+            if (str1.toLowerCase() < str2.toLowerCase())
+                return -1;
+            else if (str1.toLowerCase() > str2.toLowerCase())
+                return 1;
+            else
+                return 0;
+        }
+    }
+
+    arr.sort((a, b) => compareTwoStrings(a, b));
+    console.log(arr.join('\n'));
+}
+
+// 07. Magic Matrices
+function isMagical(matrix) {
+    let sum = matrix[0].reduce((a, b) => a + b);
+
+    for (let row = 1; row < matrix.length; row++) {
+        if (matrix[row].reduce((a, b) => a + b) !== sum)
+            return false;
+    }
+
+    for (let col = 0; col < matrix[0].length; col++) {
+        let tempSum = 0;
+
+        for (let row = 0; row < matrix.length; row++) {
+            tempSum += matrix[row][col];
+        }
+
+        if (tempSum != sum)
+            return false;
+    }
+
+    return true;
+}
+
+// 08. Spiral Matrix
+function generateMatrix(totalRowCount, totalColCount) {
+    let matrix = [];
+
+    function getNewRowAndCol(r, c, direction) {
+        if (direction === "right") {
+            if (c === totalColCount - 1)
+                return [r + 1, c, "down"];
+            else if (matrix[r][c + 1] !== 0)
+                return [r + 1, c, "down"];
+            else
+                return [r, c + 1, "right"];
+        } else if (direction === "left") {
+            if (c === 0)
+                return [r - 1, c, "up"];
+            else if (matrix[r][c - 1] !== 0)
+                return [r - 1, c, "up"];
+            else
+                return [r, c - 1, "left"];
+        } else if (direction === "up") {
+            if (r === 0)
+                return [r, c + 1, "right"];
+            else if (matrix[r - 1][c] !== 0)
+                return [r, c + 1, "right"];
+            else
+                return [r - 1, c, "up"];
+        } else if (direction === "down") {
+            if (r === totalRowCount - 1)
+                return [r, c - 1, "left"];
+            else if (matrix[r + 1][c] !== 0)
+                return [r, c - 1, "left"];
+            else
+                return [r + 1, c, "down"];
+        }
+    }
+
+    for (let row = 0; row < totalRowCount; row++) {
+        matrix[row] = [];
+        for (let col = 0; col < totalColCount; col++) {
+            matrix[row][col] = 0;
+        }
+    }
+
+    let row = 0;
+    let col = 0;
+    let direction = "right";
+
+    for (let n = 1; n < totalRowCount * totalColCount + 1; n++) {
+        matrix[row][col] = n;
+        let arr = getNewRowAndCol(row, col, direction);
+        row = arr[0];
+        col = arr[1];
+        direction = arr[2];
+    }
+
+    for (let row of matrix)
+        console.log(row.join(" "));
+}
+
+// 09. Diagonal Attack
+function printDiagonalMatrix(strArr) {
+    let matrix = [];
+
+    for (let str of strArr) {
+        let nums = str.split(" ").map(Number);
+        matrix.push(nums);
+    }
+    
+    let rightSum = 0;
+    let leftSum = 0;
+    for (let row = 0; row < strArr.length; row++) {
+        rightSum += matrix[row][row];
+        leftSum += matrix[row][strArr.length - row - 1];
+    }
+
+    if (rightSum === leftSum) {
+        for (let row = 0; row < strArr.length; row++) {
+            for (let col = 0; col < strArr.length; col++) {
+                if (col !== row && col !== strArr.length - row - 1)
+                    matrix[row][col] = rightSum;
+            }
+        }
+    }
+
+    for (let row of matrix)
+    console.log(row.join(" "));
+}
+
+// 10. Orbit
+function orbit(numsArr) {
+    let width = numsArr[0];
+    let height = numsArr[1];
+    let impactX = numsArr[2];
+    let impactY = numsArr[3];
+
+    function calculateDistance(x, y) {
+        if (x === impactX && y === impactY)
+            return 0;
+        else
+            return Math.max(Math.abs(x - impactX), Math.abs(y - impactY));
+    }
+
+    let matrix = [];
+    for (let row = 0; row < height; row++) {
+        matrix[row] = [];
+        for (let col = 0; col < width; col++)
+            matrix[row].push(1);
+    }
+
+    for (let row = 0; row < height; row++) {
+        for (let col = 0; col < width; col++)
+            matrix[row][col] += calculateDistance(row, col);
+    }
+
+    for (let row of matrix)
+        console.log(row.join(" "));
+}

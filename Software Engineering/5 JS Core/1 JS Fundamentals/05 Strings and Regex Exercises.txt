@@ -1,0 +1,81 @@
+// 01. Split a String with a Delimiter
+function splitString(str, delimiter) {
+    let arr = str.split(delimiter);
+    arr.forEach(s => console.log(s));
+}
+
+// 02. Repeat a String N Times
+function repeatString(str, count) {
+    return str.repeat(count);
+}
+
+// 03. Starts With
+function strStartsWith(str, part) {
+    if (str.startsWith(part))
+        return true;
+    else
+        return false;
+}
+
+// 04. Ends With
+function strEndsWith(str, part) {
+    if (str.endsWith(part))
+        return true;
+    else
+        return false;
+}
+
+// 05. Capitalize the Words
+function capitalizeWords(str) {
+    let arr = str.split(' ');
+
+    arr = arr.map(w => w[0].toUpperCase() + w.slice(1).toLowerCase());
+
+    return arr.join(' ');
+}
+
+// 06. Capture the Numbers
+function getNums(arr) {
+    let nums = [];
+    let regex = /\d+/g;
+    let fullText = arr.join('');
+
+    while (match = regex.exec(fullText))
+        nums.push(match[0]);
+
+    console.log(nums.join(' '));
+}
+
+// 07. Find Variable Names in Sentences
+function getVariableNames(str) {
+    console.log(str.match(/\b_[a-zA-Z0-9]+\b/gm).map(e => e.slice(1)).join(','));
+}
+
+// 08. Word Occurences
+function getCount(str, word) {
+    let regex = RegExp(`\\b` + word + `\\b`, 'gmi');
+    let matches = [];
+
+    if (matches = str.match(regex))
+        console.log(matches.length);
+    else
+        console.log(0);
+}
+
+// 09. Extract Links
+function extractLinks(arr) {
+    let fullText = arr.join(' ');
+    let regex = /www\.[-a-zA-Z0-9]+(\.[a-z]+)+/gm;
+    let emails = fullText.match(regex);
+
+    if (emails)
+        console.log(emails.join('\n'));
+}
+
+// 10. Secret Data
+function censure(strArr) {
+    let text = strArr.join('\n');
+    let regex =  /(\*[A-Z][a-zA-Z]*)(?= |\t|$)|(\+[0-9-]{10})(?= |\t|$)|(![0-9a-zA-Z]+)(?= |\t|$)|(_[0-9a-zA-Z]+)(?= |\t|$)/gm;
+    
+    console.log(text.replace(regex, m => '|'.repeat(m.length)));
+}

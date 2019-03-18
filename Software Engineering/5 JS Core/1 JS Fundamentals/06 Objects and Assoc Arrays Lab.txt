@@ -1,0 +1,229 @@
+// 01. Towns to JSON
+function parseArr(arr) {
+    arr.shift();
+
+    let objects = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        let properties = arr[i].split('|').filter(e => e !== '').map(e => e.trim());
+        let townName = properties[0];
+        let latitude = +properties[1];
+        let longitude = +properties[2];
+
+        let object = {
+            "Town": townName,
+            "Latitude": +latitude,
+            "Longitude": +longitude
+        };
+
+        objects.push(object);
+    }
+
+    return JSON.stringify(objects);
+}
+
+// 02. Score to HTML
+function generateHtml(jsonString) {
+    function escapeHtml(unsafe) {
+        return ('' + unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+
+    let objects = JSON.parse(jsonString);
+    let html = "<table>\n\t<tr><th>name</th><th>score</th></tr>\n";
+
+    for (let object of objects)
+        html += `\t<tr><td>${escapeHtml(object.name)}</td><td>${escapeHtml(object.score)}</td></tr>\n`;
+
+    html += "</table>";
+
+    console.log(html);
+}
+
+// 03. JSON to HTML Table
+function fromJSONToHTMLTable(str) {
+    function escapeHtml(unsafe) {
+        return ('' + unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    let objArr = JSON.parse(str);
+    let keysArr = [...Object.keys(objArr[0])];
+
+    let html = "<table>\n   <tr>";
+    for (let i = 0; i < keysArr.length; i++)
+        html += `<th>${escapeHtml(keysArr[i])}</th>`;
+    html += "</tr>\n";
+
+    for (let obj of objArr) {
+        html += "   <tr>";
+        for (let i = 0; i < keysArr.length; i++)
+            html += `<td>${escapeHtml(String(obj[keysArr[i]]))}</td>`;
+        html += "</tr>\n";
+    }
+
+    html += "</table>";
+
+    console.log(html);
+}
+
+// 04. Sum by Town
+function getSumsByTown(strArr) {
+    let mapObj = {};
+
+    for (let i = 0; i < strArr.length - 1; i += 2) {
+        let townName = strArr[i];
+        let num = +strArr[i + 1];
+
+        if (!mapObj.hasOwnProperty(townName))
+            mapObj[townName] = num;
+        else
+            mapObj[townName] += num;
+    }
+
+    console.log(JSON.stringify(mapObj));
+}
+
+// 05. Count Words in a Text
+function countWords(strArr) {
+    let text = strArr[0];
+    let mapObj = {};
+    let regex = /\w+/g;
+
+    let matches = text.match(regex);
+    for (let match of matches) {
+        if (!mapObj.hasOwnProperty(match))
+            mapObj[match] = 1;
+        else
+            mapObj[match]++;
+    }
+
+    console.log(JSON.stringify(mapObj));
+}
+
+// 06. Count Words with Maps
+function countWords(strArr) {
+    let text = strArr[0];
+    let map = new Map();
+    let regex = /\w+/g;
+
+    let matches = text.match(regex).map(s => s.toLowerCase());
+    for (let match of matches) {
+        if (!map.has(match))
+            map.set(match, 1);
+        else
+            map.set(match, map.get(match) + 1);
+    }
+
+    let mapArr = [...map];
+    mapArr.sort((a1, a2) => a1[0].localeCompare(a2[0]));
+    mapArr.forEach(arr => console.log(`'${arr[0]}' -> ${arr[1]} times`));
+}
+
+// 07. Population in Towns
+function createRegister(strArr) {
+    let map = new Map();
+
+    for (let str of strArr) {
+        let tokens = str.split(' <-> ');
+        let townName = tokens[0];
+        let townPolulation = +tokens[1];
+        if (!map.has(townName))
+            map.set(townName, townPolulation);
+        else
+            map.set(townName, map.get(townName) + townPolulation);
+    }
+
+    map.forEach((v, k) => console.log(`${k} : ${v}`));
+}
+
+// 08. City Markets
+function inventorise(strArr) {
+    let map = new Map();
+
+    for (let str of strArr) {
+        let tokens = str.split(' -> ');
+        let townName = tokens[0];
+        let productName = tokens[1];
+        let tokens2 = tokens[2].split(' : ');
+        let saleCount = +tokens2[0];
+        let pricePerUnit = +tokens2[1];
+        let income = saleCount * pricePerUnit;
+
+        if (!map.has(townName)) {
+            map.set(townName, new Map());
+            map.get(townName).set(productName, income);
+        } else if (!map.get(townName).has(productName))
+            map.get(townName).set(productName, income);
+        else {
+            let oldIncome = map.get(townName).get(productName);
+            map.get(townName).set(productName, oldIncome + income);
+        }
+    }
+
+    for (let townName of map.keys()) {
+        console.log(`Town - ${townName}`);
+        let productNames = map.get(townName).keys();
+        for (let productName of productNames)
+            console.log(`$$$${productName} : ${map.get(townName).get(productName)}`);
+    }
+}
+
+// 09. Lowest Prices in Cities
+function getLowestPrices(strArr) {
+    let map = new Map();
+
+    for (let str of strArr) {
+        let tokens = str.split(' | ');
+        let townName = tokens[0];
+        let productName = tokens[1];
+        let productPrice = +tokens[2];
+
+        if (!map.has(townName)) {
+            map.set(townName, new Map());
+            map.get(townName).set(productName, productPrice);
+        } else
+            map.get(townName).set(productName, productPrice);
+    }
+
+    let productPriceTownMap = new Map();
+
+    for (let townName of map.keys()) {
+        for (let productName of map.get(townName).keys()) {
+            let currentPrice = map.get(townName).get(productName);
+            
+            if (!productPriceTownMap.has(productName) || (+productPriceTownMap.get(productName).split(' ')[0] > currentPrice))
+                productPriceTownMap.set(productName, `${currentPrice} (${townName})`);
+        }
+    }
+
+    for (let productName of productPriceTownMap.keys())
+        console.log(`${productName} -> ${productPriceTownMap.get(productName)}`);
+}
+
+// 10. Extract Unique Words
+function extractUniqueWords(strArr) {
+    let uniqueWords = [];
+
+    for (let str of strArr) {
+        str = str.toLowerCase();
+
+        let words = str.split(/\W+/g).filter(s => s !== '');
+
+        for (let word of words) {
+            if (uniqueWords.indexOf(word) === -1)
+                uniqueWords.push(word);
+        }
+    }
+
+    console.log(uniqueWords.join(', '));
+}

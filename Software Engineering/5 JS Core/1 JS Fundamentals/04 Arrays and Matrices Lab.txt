@@ -1,0 +1,133 @@
+// 01. Sum First Last
+function getSum(arr) {
+    let sum = +arr[0] + +arr[arr.length - 1];
+    return sum;
+}
+
+// 02. Even Position Elements
+function getEvens(arr) {
+    let evenArr = [];
+    for (let i = 0; i <= arr.length - 1; i += 2) {
+        evenArr.push(arr[i]);
+    }
+
+    let output = evenArr.join(' ');
+    return output;
+}
+
+// 03. Negative / Positive Numbers
+function rearrangeArr(arr) {
+    let positiveElems = [];
+    let negativeElems = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] < 0)
+            negativeElems.push(arr[i]);
+        else
+            positiveElems.push(arr[i]);
+    }
+
+    console.log(negativeElems.reverse().join('\n') + '\n' + positiveElems.join('\n'));
+}
+
+// 04. First and Last K Numbers
+function printKElems(arr) {
+    let k = +arr[0];
+    let arr1 = [];
+    let arr2 = [];
+
+    for (let i = 1; i < k + 1; i++)
+        arr1.push(arr[i]);
+
+    for (let i = arr.length - k; i < arr.length; i++)
+        arr2.push(arr[i]);
+
+    console.log(arr1.join(' '));
+    console.log(arr2.join(' '));
+}
+
+// 05. Last K Numbers Sequence
+function lastKNums(str1, str2) {
+    let n = +str1;
+    let k = +str2;
+
+    let arr = [1];
+
+    for (let i = 1; i < n; i++) {
+        let sum = 0;
+        for (let j = i - 1; j >= i - k && j > -1; j--) {
+            sum += arr[j];
+        }
+
+        arr.push(sum);
+    }
+
+    console.log(arr.join(' '));
+}
+
+// 06. Process Odd Numbers
+function processOdds(arr) {
+    let odds = [];
+
+    for (let i = 1; i < arr.length; i += 2)
+        odds.push(+arr[i] * 2);
+
+    console.log(odds.reverse().join(' '));
+}
+
+// 07. Smallest Two Numbers
+function printSmallest(arr) {
+    arr.sort((a, b) => a - b);
+
+    console.log(`${arr[0]} ${arr[1]}`);
+}
+
+// 08. Biggest Element
+function getBiggest(matrix) {
+    let maxElement = Number.NEGATIVE_INFINITY;
+
+    for (let arr of matrix) {
+        for (let element of arr) {
+            if (element > maxElement)
+                maxElement = element;
+        }
+    }
+
+    return maxElement;
+}
+
+// 09. Diagonal Sums
+function diagonalSums(matrix) {
+    let sum1 = 0;
+    let sum2 = 0;
+
+    for (let i = 0; i < matrix.length; i++) {
+        sum1 += matrix[i][i];
+        sum2 += matrix[i][matrix.length - 1 - i];
+    }
+
+    console.log(`${sum1} ${sum2}`);
+}
+
+// 10. Equal Neighbors
+function getEqualCount(matrix) {
+    let output = 0;
+    for (let row = 0; row < matrix.length - 1; row++) {
+        for (let col = 0; col < matrix[row].length; col++) {
+            let currentElement = matrix[row][col];
+
+            if (currentElement === matrix[row + 1][col])
+                output++;
+        }
+    }
+
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[row].length - 1; col++) {
+            let currentElement = matrix[row][col];
+
+            if (currentElement === matrix[row][col + 1])
+                output++;
+        }
+    }
+
+    return output;
+}

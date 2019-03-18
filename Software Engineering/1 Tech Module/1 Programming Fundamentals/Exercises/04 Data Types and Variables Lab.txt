@@ -1,0 +1,247 @@
+//01. Centuries to Minutes
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int centuries = int.Parse(Console.ReadLine());
+            int years = centuries * 100;
+            int days = (int)(years * 365.2422);
+            int hours = 24 * days;
+            int minutes = 60 * hours;
+            Console.WriteLine("{0} centuries = {1} years = {2} days = {3} hours = {4} minutes", centuries, years, days, hours, minutes);
+        }
+    }
+}
+
+//02. Circle Area (Precision 12)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double r = double.Parse(Console.ReadLine());
+            Console.WriteLine($"{Math.PI * r * r:F12}");
+        }
+    }
+}
+
+//03. Exact Sum of Real Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            decimal sum = 0;
+            for (int i =1; i<=n; i++)
+            {
+                sum += decimal.Parse(Console.ReadLine());
+            }
+            Console.WriteLine(sum);
+        }
+    }
+}
+
+//04. Elevator
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int p = int.Parse(Console.ReadLine());
+            if (n%p!=0)
+            {
+                Console.WriteLine(n / p + 1);
+            }
+            else
+            {
+                Console.WriteLine(n / p);
+            }
+        }
+    }
+}
+
+//05. Special Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            
+            for (int i = 1; i<=n; i++)
+            {
+                int sum = 0;
+                int num = i;
+                while (num != 0)
+                {
+                    sum += num % 10;
+                    num = (num - num%10) / 10;
+                }
+
+
+
+                if (sum==5 || sum==7 || sum==11)
+                {
+                    Console.WriteLine("{0} -> True", i);
+                }
+                else
+                {
+                    Console.WriteLine("{0} -> False", i);
+                }
+            }
+        }
+    }
+}
+
+//06. Triples of Letters
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            for (char i = 'a'; i<='a'+n-1; i++)
+            {
+                for (char j = 'a'; j <= 'a' + n-1; j++)
+                {
+                    for (char k = 'a'; k <= 'a' + n-1; k++)
+                    {
+                        Console.WriteLine("{0}{1}{2}",i,j,k);
+                    }
+                }
+            }
+        }
+    }
+}
+
+//07. Greeting
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string firstName = Console.ReadLine();
+            string lastName = Console.ReadLine();
+            int age = int.Parse(Console.ReadLine());
+            Console.WriteLine("Hello, {0} {1}. You are {2} years old.", firstName, lastName, age);
+
+        }
+    }
+}
+
+//08. Refactor Volume of Pyramid
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Length: ");
+            double length = double.Parse(Console.ReadLine());
+            Console.Write("Width: ");
+            double width = double.Parse(Console.ReadLine());
+            Console.Write("Height: ");
+            double heigth = double.Parse(Console.ReadLine());
+            Console.WriteLine("Pyramid Volume: {0:F2}", length * heigth * width / 3);
+
+        }
+    }
+}
+
+//09. Refactor Special Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            
+            for (int i = 1; i<=n; i++)
+            {
+                int sum = 0;
+                int num = i;
+                while (num != 0)
+                {
+                    sum += num % 10;
+                    num = (num - num%10) / 10;
+                }
+
+
+
+                if (sum==5 || sum==7 || sum==11)
+                {
+                    Console.WriteLine("{0} -> True", i);
+                }
+                else
+                {
+                    Console.WriteLine("{0} -> False", i);
+                }
+            }
+        }
+    }
+}

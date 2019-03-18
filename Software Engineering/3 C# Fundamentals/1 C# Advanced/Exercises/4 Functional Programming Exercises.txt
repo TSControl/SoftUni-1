@@ -1,0 +1,481 @@
+// 01. Action Print
+using System;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var strings = Console.ReadLine().Split().ToList();
+            strings.ForEach(s => Console.WriteLine(s));
+        }
+    }
+}
+
+// 02. Knights of Honor
+using System;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var strings = Console.ReadLine().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+            strings.ForEach(s => Console.WriteLine("Sir " + s));
+        }
+    }
+}
+
+
+// 03. Custom Min Function
+using System;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            Console.WriteLine(nums.Min());
+        }
+    }
+}
+
+// 04. Find Evens or Odds
+using System;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var firstNum = Math.Min(nums[0], nums[1]);
+            var lastNum = Math.Max(nums[0], nums[1]);
+            var command = Console.ReadLine();
+            switch (command)
+            {
+                case "even":
+                    var lowerLimit = firstNum += firstNum % 2;
+                    var upperLimit = lastNum -= lastNum % 2;
+                    var count = (upperLimit - lowerLimit) / 2;
+                    for (int i = 0; i < count + 1; i++)
+                    {
+                        Console.Write(lowerLimit + " ");
+                        lowerLimit += 2;
+                    }
+                    Console.WriteLine();
+                    break;
+                case "odd":
+                    if (firstNum % 2 == 0)
+                        firstNum++;
+                    if (lastNum % 2 == 0)
+                        lastNum--;
+                    var count2 = (lastNum - firstNum) / 2;
+                    for (int i = 0; i < count2 + 1; i++)
+                    {
+                        Console.Write(firstNum + " ");
+                        firstNum += 2;
+                    }
+                    Console.WriteLine();
+                    break;
+            }
+        }
+    }
+}
+
+// 05. Applied Arithmetics
+using System;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                switch (command)
+                {
+                    case "add":
+                        for (int i = 0; i < nums.Length; i++)
+                        {
+                            nums[i] = ++nums[i];
+                        }
+                        break;
+                    case "multiply":
+                        for (int i = 0; i < nums.Length; i++)
+                        {
+                            var newValue = nums[i] * 2;
+                            nums[i] = newValue;
+                        }
+                        break;
+                    case "subtract":
+                        for (int i = 0; i < nums.Length; i++)
+                        {
+                            nums[i] = --nums[i];
+                        }
+                        break;
+                    case "print":
+                        Console.WriteLine(string.Join(" ", nums));
+                        break;
+                }
+            }
+            
+        }
+    }
+}
+
+// 06. Reverse And Exclude
+using System;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split().Select(int.Parse).ToList();
+            var n = int.Parse(Console.ReadLine());
+            nums = nums.Where(num => num % n != 0).Reverse().ToList();
+            Console.WriteLine(string.Join(" ", nums));
+        }
+    }
+}
+
+// 07. Predicate For Names
+using System;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var n = int.Parse(Console.ReadLine());
+            var strings = Console.ReadLine().Split().ToList();
+            Console.WriteLine(string.Join("\n", strings.Where(s => s.Length <= n)));
+        }
+    }
+}
+
+// 08. Custom Comparator
+using System;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split().Select(int.Parse).ToList();
+            var evens = nums.Where(n => n % 2 == 0).OrderBy(n => n).ToList();
+            var odds = nums.Where(n => Math.Abs(n) % 2 == 1).OrderBy(n => n).ToList();
+            evens.AddRange(odds);
+            Console.WriteLine(string.Join(" ", evens));
+        }
+    }
+}
+
+// 09. List Of Predicates
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var n = int.Parse(Console.ReadLine());
+            var nums = Console.ReadLine().Split().Select(int.Parse).ToList();
+            var output = new List<int>();
+            for (int num = 1; num < n + 1; num++)
+            {
+                bool isDivisible = true;
+                foreach (var divisor in nums)
+                {
+                    if (num % divisor != 0)
+                    {
+                        isDivisible = false;
+                        break;
+                    }  
+                }
+                if (isDivisible)
+                    output.Add(num);
+            }
+            Console.WriteLine(string.Join(" ", output));
+        }
+    }
+}
+
+// 10. Predicate Party!
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var people = Console.ReadLine().Split().ToList();
+            string commands;
+            while ((commands = Console.ReadLine()) != "Party!")
+            {
+                var tokens = commands.Split().ToArray();
+                var criteria = tokens[1];
+                var argument = tokens[2];
+                switch (criteria)
+                {
+                    case "StartsWith":
+                        if (tokens[0] == "Double")
+                        {
+                            var newList = new List<string>();
+                            foreach (var person in people)
+                            {
+                                newList.Add(person);
+                                if (person.StartsWith(argument))
+                                    newList.Add(person);
+
+                            }
+                            people = newList;
+                        }
+                        else
+                        {
+                            people.RemoveAll(p => p.StartsWith(argument));
+                        }
+                        break;
+                    case "EndsWith":
+                        if (tokens[0] == "Double")
+                        {
+                            var newList = new List<string>();
+                            foreach (var person in people)
+                            {
+                                newList.Add(person);
+                                if (person.EndsWith(argument))
+                                    newList.Add(person);
+
+                            }
+                            people = newList;
+                        }
+                        else
+                        {
+                            people.RemoveAll(p => p.EndsWith(argument));
+                        }
+                        break;
+                    case "Length":
+                        var length = int.Parse(argument);
+                        if (tokens[0] == "Double")
+                        {
+                            var newList = new List<string>();
+                            foreach (var person in people)
+                            {
+                                newList.Add(person);
+                                if (person.Length == length)
+                                    newList.Add(person);
+
+                            }
+                            people = newList;
+                        }
+                        else
+                        {
+                            people.RemoveAll(p => p.Length == length);
+                        }
+                        break;
+                }
+            }
+            if (!people.Any())
+                Console.WriteLine("Nobody is going to the party!");
+            else
+                Console.WriteLine(string.Join(", ", people) + " are going to the party!");
+        }
+    }
+}
+
+// 11. The Party Reservation Filter Module
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var dic = new Dictionary<string, List<string>>();
+            var people = Console.ReadLine().Split().ToList();
+            string commands;
+            while ((commands = Console.ReadLine()) != "Print")
+            {
+                var tokens = commands.Split(';').ToArray();
+                var command = tokens[0];
+                var key = tokens[1];
+                var value = tokens[2];
+                if (command == "Add filter")
+                {
+                    if (!dic.ContainsKey(key))
+                        dic[key] = new List<string>();
+                    dic[key].Add(value);
+                }
+                else
+                {
+                    dic[key].Remove(value);
+                }
+            }
+            foreach (var kvp in dic)
+            {
+                var key = kvp.Key;
+                var value = kvp.Value;
+                switch (key)
+                {
+                    case "Starts with":
+                        foreach (var begginningStr in value)
+                        {
+                            people.RemoveAll(p => p.StartsWith(begginningStr));
+                        }
+                        break;
+                    case "Ends with":
+                        foreach (var endingStr in value)
+                        {
+                            people.RemoveAll(p => p.StartsWith(endingStr));
+                        }
+                        break;
+                    case "Length":
+                        foreach (var length in value.Select(int.Parse).ToList())
+                        {
+                            people.RemoveAll(p => p.Length == length);
+                        }
+                        break;
+                    case "Contains":
+                        foreach (var containingStr in value)
+                        {
+                            people.RemoveAll(p => p.Contains(containingStr));
+                        }
+                        break;
+                }
+            }
+            Console.WriteLine(string.Join(" ", people));
+        }
+    }
+}
+
+//12. Inferno III TO FINISH
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Inferno
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var gems = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var exclusionList = new List<string>();
+            string line = "";
+            while ((line = Console.ReadLine()) != "Forge")
+            {
+                var tokens = line.Split(';').ToArray();
+                var command = tokens[0];
+                var filterType = tokens[1];
+                var filterParameter = int.Parse(tokens[2]);
+                if (command.Equals("Reverse"))
+                {
+                    exclusionList.Remove(filterType + ";" + filterParameter);
+                }
+                else
+                {
+                    switch (filterType)
+                    {
+                        case "Sum Left":
+                            if (gems[0] == filterParameter)
+                                exclusionList.Add("Sum Left" + ";" + "0");
+                            for (int i = 1; i < gems.Length; i++)
+                            {
+                                if (gems[i] + gems[i - 1] == filterParameter)
+                                    exclusionList.Add("Sum Left" + ";" + $"{i}");
+                            }
+                            break;
+                        case "Sum Right":
+                            for (int i = 0; i < gems.Length; i++)
+                            {
+                                if (gems[i] + gems[i + 1] == filterParameter)
+                                    exclusionList.Add("Sum Left" + ";" + $"{i}");
+                            }
+                            if (gems[gems.Length - 1] == filterParameter)
+                                exclusionList.Add("Sum Left" + ";" + $"{gems.Length - 1}");
+                            break;
+                        case "Sum Left Right":
+                            if (gems[0] + gems[1] == filterParameter)
+                                exclusionList.Add("Sum Left" + ";" + "0");
+                            for (int i = 1; i < gems.Length - 1; i++)
+                            {
+                                if (gems[i] + gems[i - 1] + gems[i + 1] == filterParameter)
+                                    exclusionList.Add("Sum Left" + ";" + $"{i}");
+                            }
+                            if (gems[gems.Length - 1] + gems[gems.Length - 2] == filterParameter)
+                                exclusionList.Add("Sum Left" + ";" + $"{gems.Length - 1}");
+                            break;
+                    }
+                }
+            }
+
+            //
+            var exclusionIndexes = new List<int>();
+            Console.WriteLine(string.Join("; ", exclusionList));
+            foreach (var tokens in exclusionList)
+            {
+                var index = int.Parse(tokens.Split(';').ToArray()[1]);
+                exclusionIndexes.Add(index);
+            }
+            Console.WriteLine(string.Join("; ", exclusionIndexes));
+
+            //after "Forge"
+            for (int i = 0; i < gems.Length; i++)
+            {
+                if (exclusionIndexes.Contains(i))
+                    continue;
+                Console.Write($"{gems[i]} ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+
+// 13. TriFunction
+using System;
+using System.Linq;
+
+namespace Problem1
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var n = int.Parse(Console.ReadLine());
+            var names = Console.ReadLine().Split().ToList();
+            var name = names.FirstOrDefault(str => str.ToCharArray().Select(ch => (int)ch).Sum() >= n);
+            Console.WriteLine(name);
+        }
+    }
+}

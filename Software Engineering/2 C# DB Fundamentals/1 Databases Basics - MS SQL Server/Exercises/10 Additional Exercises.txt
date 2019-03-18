@@ -1,0 +1,114 @@
+--04. * User in Games with Their Statistics
+WITH help AS (SELECT ug.UserId,
+					 ug.GameId,
+					 SUM(s.Strength) AS Strength,
+					 SUM(s.Defence) AS Defence,
+					 SUM(s.Speed) AS Speed,
+					 SUM(s.Mind) AS Mind,
+					 SUM(s.Luck) AS Luck
+				FROM UsersGames AS ug
+			   INNER JOIN UserGameItems AS ugi
+			      ON ugi.UserGameId = ug.Id
+			   INNER JOIN Items AS i
+				  ON ugi.ItemId = i.Id
+			   INNER JOIN [Statistics] AS s
+			      ON s.Id = i.StatisticId
+			   GROUP BY ug.UserId, ug.GameId)
+SELECT DISTINCT u.Username,
+	   g.[Name] AS 'Game',
+	   MAX(c.[Name]) AS 'Character',
+	   MAX(s1.Strength) + MAX(s2.Strength) + MAX(h.Strength) AS 'Strength',
+	   MAX(s1.Defence) + MAX(s2.Defence) + MAX(h.Defence) AS 'Defence',
+	   MAX(s1.Speed) + MAX(s2.Speed) + MAX(h.Speed) AS 'Speed',
+	   MAX(s1.Mind) + MAX(s2.Mind) + MAX(h.Mind) AS 'Mind',
+	   MAX(s1.Luck) + MAX(s2.Luck) + MAX(h.Luck) AS 'Luck'
+  FROM UsersGames AS ug
+ INNER JOIN Users AS u
+    ON u.Id = ug.UserId
+ INNER JOIN Games AS g
+    ON g.Id = ug.GameId
+ INNER JOIN UserGameItems AS ugi
+    ON ugi.UserGameId = ug.Id
+ INNER JOIN Items AS i
+    ON ugi.ItemId = i.Id
+ INNER JOIN Characters AS c
+    ON c.Id = ug.CharacterId
+ INNER JOIN GameTypes AS gt
+    ON gt.Id = g.GameTypeId
+ INNER JOIN [Statistics] AS s1
+    ON s1.Id = c.StatisticId
+ INNER JOIN [Statistics] AS s2
+    ON s2.Id = gt.BonusStatsId
+ INNER JOIN help AS h
+    ON h.UserId = u.Id
+   AND h.GameId = g.Id
+ GROUP BY u.Username, g.[Name]
+ ORDER BY Strength DESC, Defence DESC, Speed DESC, Mind DESC, Luck DESC
+
+--13. Monasteries by Country - да направя сам
+CREATE TABLE Monasteries(
+  Id INT PRIMARY KEY IDENTITY,
+  Name NVARCHAR(50),
+  CountryCode CHAR(2) FOREIGN KEY REFERENCES Countries(CountryCode)
+);
+
+INSERT INTO Monasteries(Name, CountryCode) VALUES
+('Rila Monastery “St. Ivan of Rila”', 'BG'), 
+('Bachkovo Monastery “Virgin Mary”', 'BG'),
+('Troyan Monastery “Holy Mother''s Assumption”', 'BG'),
+('Kopan Monastery', 'NP'),
+('Thrangu Tashi Yangtse Monastery', 'NP'),
+('Shechen Tennyi Dargyeling Monastery', 'NP'),
+('Benchen Monastery', 'NP'),
+('Southern Shaolin Monastery', 'CN'),
+('Dabei Monastery', 'CN'),
+('Wa Sau Toi', 'CN'),
+('Lhunshigyia Monastery', 'CN'),
+('Rakya Monastery', 'CN'),
+('Monasteries of Meteora', 'GR'),
+('The Holy Monastery of Stavronikita', 'GR'),
+('Taung Kalat Monastery', 'MM'),
+('Pa-Auk Forest Monastery', 'MM'),
+('Taktsang Palphug Monastery', 'BT'),
+('Sümela Monastery', 'TR')
+
+ALTER TABLE Countries
+ADD IsDeleted BIT NOT NULL
+DEFAULT 0
+
+UPDATE Countries
+SET IsDeleted = 1
+WHERE CountryCode IN (
+	SELECT c.CountryCode
+	FROM Countries c
+	  JOIN CountriesRivers cr ON c.CountryCode = cr.CountryCode
+	  JOIN Rivers r ON r.Id = cr.RiverId
+	GROUP BY c.CountryCode
+	HAVING COUNT(r.Id) > 3
+)
+
+SELECT 
+  m.Name AS Monastery, c.CountryName AS Country
+FROM 
+  Countries c
+  JOIN Monasteries m ON m.CountryCode = c.CountryCode
+WHERE c.IsDeleted = 0
+ORDER BY m.Name
+
+--14. Monasteries by Continents and Countries - да направя сам
+UPDATE Countries
+SET CountryName = 'Burma'
+WHERE CountryName = 'Myanmar'
+
+INSERT INTO Monasteries(Name, CountryCode) VALUES
+('Hanga Abbey', (SELECT CountryCode FROM Countries WHERE CountryName = 'Tanzania'))
+INSERT INTO Monasteries(Name, CountryCode) VALUES
+('Myin-Tin-Daik', (SELECT CountryCode FROM Countries WHERE CountryName = 'Maynmar'))
+
+SELECT ct.ContinentName, c.CountryName, COUNT(m.Id) AS MonasteriesCount
+FROM Continents ct
+  LEFT JOIN Countries c ON ct.ContinentCode = c.ContinentCode
+  LEFT JOIN Monasteries m ON m.CountryCode = c.CountryCode
+WHERE c.IsDeleted = 0
+GROUP BY ct.ContinentName, c.CountryName
+ORDER BY MonasteriesCount DESC, c.CountryName

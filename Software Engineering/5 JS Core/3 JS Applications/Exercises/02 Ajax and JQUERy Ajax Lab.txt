@@ -1,0 +1,103 @@
+// 01. XHR
+function loadRepos() {
+    // TODO
+    let req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            $('#res').text(this.responseText);
+        }
+    };
+    req.open("GET", "https://api.github.com/users/testnakov/repos", true);
+    req.send();
+}
+
+// 02. AJAX Load
+function loadTitle() {
+    $('#text').load("text.html");
+}
+
+// 03. Github Repos
+function loadRepos() {
+    let repos = $('#repos');
+    repos.empty();
+
+    let url = 'https://api.github.com/users/' +
+        $('#username').val() +
+        '/repos';
+    	
+    $.ajax({
+        url,
+        success: printRepos,
+        error: printError
+    });
+
+    function printRepos(responses) {
+        for (let response of responses) {
+            let linkToDisplay = $('<a>').text(response.full_name);
+            linkToDisplay.attr('href', response.html_url);
+            repos.append($('<li>').append(linkToDisplay));
+        }
+    }
+
+    function printError(error) {
+        repos.append($('<li>').text('Error'));
+    }
+}
+
+// 04. Phonebook
+function attachEvents() {
+    let loadButtonElement = $('#btnLoad');
+    loadButtonElement.click(loadContacts);
+    let contactsUrl = 'https://phonebook-nakov.firebaseio.com/phonebook.json';
+    let createButtonElement = $('#btnCreate');
+    createButtonElement.click(createContact);
+
+    function loadContacts() {
+        $('#phonebook').empty();
+
+        $.get(contactsUrl)
+            .then(displayContacts)
+            .catch(displayErrorMessage);
+    }
+
+    function displayContacts(contactsObj) {
+        for (let key in contactsObj) {
+            let person = contactsObj[key]['person'];
+            let phone = contactsObj[key]['phone'];
+
+            let newLi = $('<li>').text(`${person}: ${phone} `);
+            let deleteBtn = $('<button>').text('Delete').click(() => {
+                deleteContact(key)
+            });
+            newLi.append(deleteBtn);
+            $('#phonebook').append(newLi);
+        }
+    }
+
+    function createContact() {
+        let contactToPostObj = {
+            person: $('#person').val(),
+            phone: $('#phone').val()
+        }
+
+        $.post(contactsUrl, JSON.stringify(contactToPostObj))
+            .then(loadContacts)
+            .catch(displayErrorMessage);
+
+        $('#person').val('');
+        $('#phone').val('');
+    }
+
+    function deleteContact(keyToDelete) {
+        $.ajax({
+            url: `https://phonebook-nakov.firebaseio.com/phonebook/${keyToDelete}.json`,
+            type: 'DELETE',
+            success: loadContacts,
+            error: displayErrorMessage
+        });
+    }
+
+    function displayErrorMessage(error) {
+        //alert('you suck');
+    }
+}

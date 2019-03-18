@@ -1,0 +1,74 @@
+CREATE FUNCTION udf_GetOpenedN (@inputId INT)
+RETURNS INT
+AS
+BEGIN
+DECLARE @output INT
+		SET @output = (SELECT xn.SearchedNum FROM (SELECT e.Id, COUNT(*) AS SearchedNum
+FROM Employees AS e
+JOIN Reports AS r ON r.EmployeeId = e.Id
+WHERE (YEAR(r.OpenDate) = 2016 AND r.CloseDate IS NULL) AND e.Id = @inputId
+GROUP BY e.Id) AS xn)
+
+IF (@output IS NULL)
+BEGIN
+SET @output = 0
+END
+
+RETURN @output
+
+END
+GO
+
+CREATE FUNCTION udf_GetClosedN (@inputId INT)
+RETURNS INT
+AS
+BEGIN
+DECLARE @output INT
+		SET @output = (SELECT xn.SearchedNum FROM (SELECT e.Id, COUNT(*) AS SearchedNum
+FROM Employees AS e
+JOIN Reports AS r ON r.EmployeeId = e.Id
+WHERE (YEAR(r.CloseDate) = 2016 AND YEAR(r.OpenDate) < 2016) AND e.Id = @inputId
+GROUP BY e.Id) AS xn)
+
+IF (@output IS NULL)
+BEGIN
+SET @output = 0
+END
+
+RETURN @output
+
+END
+GO
+
+SELECT CONCAT(e.FirstName, ' ', e.LastName) AS [Name], CONCAT(dbo.udf_GetClosedN(e.Id), '/', dbo.udf_GetOpenedN(e.Id)) AS [Closed Open Reports]
+FROM Employees AS e
+JOIN Reports AS r ON r.EmployeeId = e.Id
+WHERE (YEAR(r.OpenDate) = 2016 AND r.CloseDate IS NULL) 
+OR
+(YEAR(r.CloseDate) = 2016 AND YEAR(r.OpenDate) < 2016)
+GROUP BY CONCAT(e.FirstName, ' ', e.LastName), e.Id
+ORDER BY [Name] ASC, e.Id ASC
+
+
+
+
+
+-- opened all names
+SELECT e.Id, COUNT(*) AS SearchedNum
+FROM Employees AS e
+JOIN Reports AS r ON r.EmployeeId = e.Id
+WHERE (YEAR(r.OpenDate) = 2016 AND r.CloseDate IS NULL)
+GROUP BY e.Id
+--closed all names
+SELECT CONCAT(e.FirstName, ' ', e.LastName) AS [Name]
+FROM Employees AS e
+JOIN Reports AS r ON r.EmployeeId = e.Id
+WHERE (YEAR(r.CloseDate) = 2016 AND YEAR(r.OpenDate) < 2016)
+--
+SELECT *
+FROM Employees AS e
+JOIN Reports AS r ON r.EmployeeId = e.Id
+WHERE (YEAR(r.OpenDate) = 2016 AND r.CloseDate IS NULL) 
+OR
+(YEAR(r.CloseDate) = 2016 AND YEAR(r.OpenDate) < 2016)
+ORDER BY e.Id ASC

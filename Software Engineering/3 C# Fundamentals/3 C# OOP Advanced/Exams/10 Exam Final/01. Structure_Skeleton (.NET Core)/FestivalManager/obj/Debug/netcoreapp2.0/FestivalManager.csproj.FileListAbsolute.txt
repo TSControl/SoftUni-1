@@ -1,0 +1,4 @@
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager\obj\Debug\netcoreapp2.0\FestivalManager.csprojResolveAssemblyReference.cache
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager\obj\Debug\netcoreapp2.0\FestivalManager.csproj.CoreCompileInputs.cache
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager\obj\Debug\netcoreapp2.0\FestivalManager.AssemblyInfoInputs.cache
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager\obj\Debug\netcoreapp2.0\FestivalManager.AssemblyInfo.cs

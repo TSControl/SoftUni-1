@@ -1,0 +1,268 @@
+//Rectangle of 10 x 10 Stars
+public class RectangleOf10x10Stars {
+    public static void main(String[] args) {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(repeatStr("*", 10));
+
+        }
+    }
+    public static String repeatStr(String str, int count){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            sb.append(str);
+        }
+
+        return sb.toString();
+    }
+}
+
+//Rectangle of N x N Stars
+import java.util.Scanner;
+
+public class RectangleOfNxNStars {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        for (int i = 0; i < n; i++) {
+            System.out.println(repeatStr("*", n));
+
+        }
+    }
+    public static String repeatStr(String str, int count){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            sb.append(str);
+        }
+
+        return sb.toString();
+    }
+}
+
+//Square of Stars
+import java.util.Scanner;
+
+public class SquareOfStars {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        for (int i = 0; i < n; i++) {
+            System.out.println(repeatStr("* ", n));
+
+        }
+    }
+    public static String repeatStr(String str, int count){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            sb.append(str);
+        }
+
+        return sb.toString();
+    }
+}
+
+//Triangle of Dollars
+import java.util.Scanner;
+
+public class TriangleOfDollars {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        for (int row = 1; row <= n; row++) {
+            for (int col = 1; col <= row; col++) {
+                System.out.print("$ ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+//Square Frame
+import java.util.Scanner;
+
+public class SquareFrame {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        System.out.print("+ ");
+        for (int i = 1; i < n-1; i++) {
+            System.out.print("- ");
+        }
+        System.out.print("+");
+        System.out.println();
+        for (int row = 0; row < n-2 ; row++) {
+            System.out.print("| ");
+            for (int col = 0; col < n-2; col++) {
+                System.out.print("- ");
+            }
+            System.out.print("|");
+            System.out.println();
+        }
+        System.out.print("+ ");
+        for (int i = 1; i < n-1; i++) {
+            System.out.print("- ");
+        }
+        System.out.print("+");
+    }
+}
+
+//Rhombus of Stars
+import java.util.Scanner;
+
+public class RhombusOfStars {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        for (int row = 1; row <= n; row++) {
+            for (int i = n; i > row; i--) {
+                System.out.print(" ");
+            }
+            for (int c = 0; c < row; c++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+        for (int row = n-1; row > 0; row--) {
+            for (int i = n; i > row; i--) {
+                System.out.print(" ");
+            }
+            for (int col = 0; col < row; col++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+//Christmas Tree
+import java.util.Scanner;
+
+public class ChristmasTree {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        for (int i = 0; i <=n ; i++) {
+            for (int j = 0; j < n-i ; j++) {
+                System.out.print(" ");
+            }
+            for (int j = 0; j <i ; j++) {
+                System.out.print("*");
+            }
+            System.out.print(" | ");
+            for (int j = 0; j <i; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+            }
+        }
+}
+
+//Sunglasses
+import java.util.Scanner;
+
+public class SunglassesDelete {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        String firstRowStars=repeatStr("*",n*2);
+        String spaces = repeatStr(" ", n);
+        String firstAndLastRow = firstRowStars + spaces + firstRowStars;
+        System.out.println(firstAndLastRow);
+        for (int r = 0; r < n-2; r++) {
+            String slashes = repeatStr("/", n*2-2);
+            if (r==(n-1)/2-1){
+                String pipes = repeatStr("|", n);
+                System.out.println("*" + slashes + "*" + pipes + "*" + slashes + "*");
+        } else{
+            System.out.println("*" + slashes + "*" + spaces + "*" + slashes + "*");
+        }
+    } System.out.println(firstAndLastRow);
+}
+static String repeatStr(String strToRepeat, int count){
+    String text = "";
+    for (int i = 0; i < count ; i++) {
+        text += strToRepeat;
+    }
+    return text;
+    }
+}
+
+//House
+import java.util.Scanner;
+
+public class House {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int starCount = 0;
+        if (n%2==0){
+            starCount=2;
+        } else {
+            starCount=1;
+        }
+        for (int i = 0; i <(n+1)/2 ; i++) {
+            String stars = repeatStr("*", starCount);
+            String dashes = repeatStr("-",(n-starCount)/2);
+            starCount+=2;
+            System.out.println(dashes + stars + dashes);
+        }
+        for (int i = 0; i <n/2 ; i++) {
+            String stars = repeatStr("*", n-2);
+            System.out.println("|"+ stars +"|");
+        }
+    }
+    static String repeatStr(String strToRepeat, int count){
+        String text = "";
+        for (int i = 0; i < count ; i++) {
+            text += strToRepeat;
+        }
+        return text;
+    }
+}
+
+//Diamond
+import java.util.Scanner;
+
+public class Diamond {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        int sideDashCount = (n-1)/2;
+        int centerDashCount = 0;
+        for (int i = 0; i <n/2+n%2 ; i++) {
+            String sideDashes = repeatStr("-", sideDashCount);
+            centerDashCount = n-2-2*sideDashCount;
+            String centerDashes = "";
+            if (centerDashCount>0){
+                centerDashes = repeatStr("-", centerDashCount);
+            }
+            if((i==0 || i== n-1) && n%2!=0){
+                 System.out.println(sideDashes + "*" + sideDashes);
+            } else {
+                System.out.println(sideDashes + "*" + centerDashes + "*" + sideDashes);
+            }
+            sideDashCount--;
+        }
+        sideDashCount+=2;
+        for (int i = 0; i <n/2+n%2-1 ; i++) {
+            String sideDashes = repeatStr("-", sideDashCount);
+            String centerDashes = "";
+            centerDashCount = n-2-2*sideDashCount;
+            if (centerDashCount>0){
+                centerDashes = repeatStr("-", centerDashCount);
+            }
+            if(i==n/2+n%2-2 && n%2 !=0){
+                System.out.println(sideDashes + "*" + sideDashes);
+            } else {
+                System.out.println(sideDashes + "*" + centerDashes + "*" + sideDashes);
+            }
+            sideDashCount++;
+        }
+    }
+    static String repeatStr(String strToRepeat, int count){
+        String text = "";
+        for (int i = 0; i < count ; i++) {
+            text += strToRepeat;
+        }
+        return text;
+    }
+}

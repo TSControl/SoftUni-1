@@ -1,0 +1,250 @@
+// 01. Recursive Array Sum
+using System;
+using System.Linq;
+
+class StartUp
+{
+	static void Main(string[] args)
+	{
+		var nums = Console.ReadLine().Split().Select(int.Parse).ToArray();
+
+		Console.WriteLine(Sum(nums, 0));
+
+		int Sum(int[] numsArr, int index)
+		{
+			if (index == numsArr.Length - 1)
+			{
+				return numsArr[index];
+			}
+
+			return numsArr[index] + Sum(numsArr, index + 1);
+		}
+	}
+}
+
+// 02. Recursive Factorial
+using System;
+using System.Linq;
+
+class StartUp
+{
+	static void Main(string[] args)
+	{
+		var n = int.Parse(Console.ReadLine());
+
+		Console.WriteLine(GetFactorial(n, 1, 1));
+
+		long GetFactorial(int maxElement, int currentElement, long result)
+		{
+			currentElement++;
+
+			if (currentElement == n + 1)
+			{
+				return result;
+			}
+
+			result *= currentElement;
+			return GetFactorial(n, currentElement, result);
+		}
+	}
+}
+
+// 03. Recursive Drawing
+using System;
+
+class StartUp
+{
+	static void Main(string[] args)
+	{
+		var n = int.Parse(Console.ReadLine());
+
+		DrawStars(n);
+
+		DrawDashes(1, n);
+	}
+
+	private static void DrawStars(int n)
+	{
+		if (n <= 0)
+		{
+			return;
+		}
+
+		Console.WriteLine(new string('*', n--));
+
+		DrawStars(n);
+	}
+
+	private static void DrawDashes(int index, int n)
+	{
+		if (index > n)
+		{
+			return;
+		}
+
+		Console.WriteLine(new string('#', index++));
+
+		DrawDashes(index, n);
+	}
+}
+
+
+// 04. Generating 0/1 Vectors
+using System;
+
+class StartUp
+{
+	static void Main(string[] args)
+	{
+		var n = int.Parse(Console.ReadLine());
+
+		var arr = new int[n];
+
+		Gen01(arr, 0);
+	}
+
+	private static void Gen01(int[] vector, int index)
+	{
+		if (index > vector.Length - 1)
+		{
+			Console.WriteLine(string.Join("", vector));
+			return;
+		}
+
+		for (int i = 0; i <= 1; i++)
+		{
+			vector[index] = i;
+			Gen01(vector, index + 1);
+		}
+	}
+}
+
+// 05. Generating Combinations
+using System;
+using System.Linq;
+
+class StartUp
+{
+	static void Main(string[] args)
+	{
+		var nums = Console.ReadLine().Split().Select(int.Parse).ToArray();
+
+		var n = nums.Length;
+
+		var k = int.Parse(Console.ReadLine());
+
+		var vector = new int[k];
+
+		GenCombs(nums, vector, 0, 0);
+	}
+
+	private static void GenCombs(int[] set, int[] vector, int index, int border)
+	{
+		if (index == vector.Length)
+		{
+			Console.WriteLine(string.Join(" ", vector));
+		}
+		else
+		{
+			for (int i = border; i < set.Length; i++)
+			{
+				vector[index] = set[i];
+				GenCombs(set, vector, index + 1, i + 1);
+			}
+		}
+	}
+}
+
+// 06. 8 Queens Puzzle
+using System;
+using System.Collections.Generic;
+
+class StartUp
+{
+	static void Main()
+	{
+		EightQueens.PutQueens(0);
+	}
+}
+
+static class EightQueens
+{
+	const int SIZE = 8;
+
+	static int solutionsFound = 0;
+
+	static bool[,] chessboard = new bool[SIZE, SIZE];
+
+	static HashSet<int> attackedColumns = new HashSet<int>();
+	static HashSet<int> attackedLeftDiagonals = new HashSet<int>();
+	static HashSet<int> attackedRightDiagonals = new HashSet<int>();
+
+	public static void PutQueens(int row)
+	{
+		if (row == SIZE)
+		{
+			PrintSolution();
+		}
+		else
+		{
+			for (int col = 0; col < SIZE; col++)
+			{
+				if (CanPlaceQueen(row, col))
+				{
+					MarkAllAttackedPositions(row, col);
+					PutQueens(row + 1);
+					UnmarkAllAttackedPositions(row, col);
+				}
+			}
+		}
+	}
+
+	static bool CanPlaceQueen(int row, int col)
+	{
+		var positionOccupied = attackedColumns.Contains(col) ||
+							   attackedLeftDiagonals.Contains(col - row) ||
+							   attackedRightDiagonals.Contains(row + col);
+
+		return !positionOccupied;
+	}
+
+	static void MarkAllAttackedPositions(int row, int col)
+	{
+		attackedColumns.Add(col);
+		attackedLeftDiagonals.Add(col - row);
+		attackedRightDiagonals.Add(row + col);
+		chessboard[row, col] = true;
+	}
+
+	static void UnmarkAllAttackedPositions(int row, int col)
+	{
+		attackedColumns.Remove(col);
+		attackedLeftDiagonals.Remove(col - row);
+		attackedRightDiagonals.Remove(row + col);
+		chessboard[row, col] = false;
+	}
+
+	static void PrintSolution()
+	{
+		for (int row = 0; row < SIZE; row++)
+		{
+			for (int col = 0; col < SIZE; col++)
+			{
+				if (chessboard[row, col] == false)
+				{
+					Console.Write("- ");
+				}
+				else
+				{
+					Console.Write("* ");
+				}
+			}
+			Console.WriteLine();
+		}
+		Console.WriteLine();
+
+		solutionsFound++;
+	}
+}
+
+// 07. Paths in Labyrinth

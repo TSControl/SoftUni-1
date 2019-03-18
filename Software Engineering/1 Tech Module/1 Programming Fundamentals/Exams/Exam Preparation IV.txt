@@ -1,0 +1,347 @@
+//01. Sweet Dessert
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var startCash = double.Parse(Console.ReadLine());
+            var guestsCount = int.Parse(Console.ReadLine());
+            var priceBanana = double.Parse(Console.ReadLine());
+            var priceEgg = double.Parse(Console.ReadLine());
+            var priceBerry = double.Parse(Console.ReadLine());
+            var portions = Math.Ceiling(guestsCount / 6d);
+            //Console.WriteLine(portions);
+            var pricePerPortion = 2 * priceBanana + 4 * priceEgg + 0.2 * priceBerry;
+            var totalPrice = portions * pricePerPortion;
+            if (totalPrice<=startCash)
+            {
+                Console.WriteLine("Ivancho has enough money - it would cost {0:F2}lv.", totalPrice);
+            }
+            else
+            {
+                Console.WriteLine("Ivancho will have to withdraw money - he will need {0:F2}lv more.", totalPrice-startCash);
+            }
+        }
+    }
+}
+
+//02. Array Manipulator
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split().Select(int.Parse).ToList();
+            var input = Console.ReadLine();
+            while (input != "end")
+            {
+                var tokens = input.Split().ToArray();
+                var command = tokens[0];
+                if (command == "exchange")
+                {
+                    var index = int.Parse(tokens[1]);
+                    if (index < 0 || index > nums.Count() - 1)
+                    {
+                        Console.WriteLine("Invalid index");
+                        input = Console.ReadLine();
+                        continue;
+                    }
+                    var leftArr = nums.Take(index + 1).ToList();
+                    var rightArr = nums.Skip(index + 1).ToList();
+                    nums.Clear();
+                    nums.AddRange(rightArr);
+                    nums.AddRange(leftArr);
+                }
+                //
+                else if (command == "max")
+                {
+                    if (tokens[1] == "even")
+                    {
+                        nums.Reverse();
+                        var sortedNums = nums.Where(a => a % 2 == 0).ToList();
+                        if (sortedNums.Count()==0)
+                        {
+                            nums.Reverse();
+                            Console.WriteLine("No matches");
+                            input = Console.ReadLine();
+                            continue;
+                        }
+                        var index = nums.Count() - nums.IndexOf(sortedNums.Max()) - 1;
+                        Console.WriteLine(index);
+                        nums.Reverse();
+                    }
+                    else if (tokens[1] == "odd")
+                    {
+                        nums.Reverse();
+                        var sortedNums = nums.Where(a => a % 2 == 1).ToList();
+                        if (sortedNums.Count() == 0)
+                        {
+                            nums.Reverse();
+                            Console.WriteLine("No matches");
+                            input = Console.ReadLine();
+                            continue;
+                        }
+                        var index = nums.Count() - nums.IndexOf(sortedNums.Max()) - 1;
+                        Console.WriteLine(index);
+                        nums.Reverse();
+                    }
+
+                }
+                else if (command == "min")
+                {
+                    if (tokens[1] == "even")
+                    {
+                        nums.Reverse();
+                        var sortedNums = nums.Where(a => a % 2 == 0).ToList();
+                        if (sortedNums.Count() == 0)
+                        {
+                            nums.Reverse();
+                            Console.WriteLine("No matches");
+                            input = Console.ReadLine();
+                            continue;
+                        }
+                        var index = nums.Count() - nums.IndexOf(sortedNums.Min()) - 1;
+                        Console.WriteLine(index);
+                        nums.Reverse();
+                    }
+                    else if (tokens[1] == "odd")
+                    {
+                        nums.Reverse();
+                        var sortedNums = nums.Where(a => a % 2 == 1).ToList();
+                        if (sortedNums.Count() == 0)
+                        {
+                            nums.Reverse();
+                            Console.WriteLine("No matches");
+                            input = Console.ReadLine();
+                            continue;
+                        }
+                        var index = nums.Count() - nums.IndexOf(sortedNums.Min()) - 1;
+                        Console.WriteLine(index);
+                        nums.Reverse();
+                    }
+                }
+                //
+                else if (command == "first")
+                {
+                    var count = int.Parse(tokens[1]);
+                    if (count > nums.Count())
+                    {
+                        Console.WriteLine("Invalid count");
+                        input = Console.ReadLine();
+                        continue;
+                    }
+                    if (tokens[2] == "even")
+                    {
+                        var countToTake = nums.Where(a => a % 2 == 0).Count();
+                        var countToReallyTake = Math.Min(countToTake, count);
+                        var arrToPrint = nums.Where(a => a % 2 == 0).Take(countToReallyTake).ToList();
+                        Console.WriteLine("[" + string.Join(", ", arrToPrint) + "]");
+                    }
+                    else if (tokens[2] == "odd")
+                    {
+                        var countToTake = nums.Where(a => a % 2 == 1).Count();
+                        var countToReallyTake = Math.Min(countToTake, count);
+                        var arrToPrint = nums.Where(a => a % 2 == 1).Take(countToReallyTake).ToList();
+                        Console.WriteLine("[" + string.Join(", ", arrToPrint) + "]");
+                    }
+                }
+                else if (command == "last")
+                {
+                    var count = int.Parse(tokens[1]);
+                    if (count > nums.Count())
+                    {
+                        Console.WriteLine("Invalid count");
+                        input = Console.ReadLine();
+                        continue;
+                    }
+                    if (tokens[2] == "even")
+                    {
+                        nums.Reverse();
+                        var countToTake = nums.Where(a => a % 2 == 0).Count();
+                        var countToReallyTake = Math.Min(countToTake, count);
+                        var arrToPrint = nums.Where(a => a % 2 == 0).Take(countToReallyTake).ToList();
+                        arrToPrint.Reverse();
+                        Console.WriteLine("[" + string.Join(", ", arrToPrint) + "]");
+                        nums.Reverse();
+                    }
+                    else if (tokens[2] == "odd")
+                    {
+                        nums.Reverse();
+                        var countToTake = nums.Where(a => a % 2 == 1).Count();
+                        var countToReallyTake = Math.Min(countToTake, count);
+                        var arrToPrint = nums.Where(a => a % 2 == 1).Take(countToReallyTake).ToList();
+                        arrToPrint.Reverse();
+                        Console.WriteLine("[" + string.Join(", ", arrToPrint) + "]");
+                        nums.Reverse();
+                    }
+                }
+                //Console.WriteLine("[" + string.Join(", ", nums) + "]");//
+                input = Console.ReadLine();
+            }
+            Console.WriteLine("[" + string.Join(", ", nums) + "]");
+        }
+    }
+}
+
+//03. Football League
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Scores
+    {
+        public long Goals { get; set; }
+        public long Score { get; set; }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string key = Console.ReadLine();
+            var dic = new Dictionary<string, Scores>();
+
+            string escapedKey = "";
+            foreach (var ch in key)
+            {
+                if (@".\+*?[^]$(){}=!<>|:-".Contains(ch))
+                    escapedKey += "\\" + ch;
+                else
+                    escapedKey += ch;
+            }
+            var regex = new Regex(@"(?:" + escapedKey + ")(?<str>.*?)(?:" + escapedKey + ")");
+            var regexScores = new Regex(@"(?<leftScore>\d+)(?::)(?<rightScore>\d+)");
+            //var regex = new Regex(@"(?:\?\?)(?<str>.*?)(?:\?\?)");
+            string line = Console.ReadLine();
+            while (line != "final")
+            {
+                MatchCollection matches = regex.Matches(line);
+                var teams = new List<string>();
+                foreach (Match match in matches)
+                {
+                    teams.Add(match.Groups["str"].Value.ToUpper());
+                }
+                var leftTeam = string.Join("", teams[0].ToCharArray().Reverse());
+                var rightTeam = string.Join("", teams[1].ToCharArray().Reverse());
+                var scoresMatch = regexScores.Match(line);
+                var leftScore = int.Parse(scoresMatch.Groups["leftScore"].ToString());
+                var rightScore = int.Parse(scoresMatch.Groups["rightScore"].ToString());
+                if (!dic.ContainsKey(leftTeam))
+                {
+                    dic[leftTeam] = new Scores();
+                    dic[leftTeam].Goals = 0;
+                }
+
+                if (!dic.ContainsKey(rightTeam))
+                {
+                    dic[rightTeam] = new Scores();
+                    dic[rightTeam].Goals = 0;
+                }
+                dic[leftTeam].Goals += leftScore;
+                dic[rightTeam].Goals += rightScore;
+                if (leftScore > rightScore)
+                {
+                    dic[leftTeam].Score += 3;
+                    dic[rightTeam].Score += 0;
+                }
+                else if (rightScore > leftScore)
+                {
+                    dic[leftTeam].Score += 0;
+                    dic[rightTeam].Score += 3;
+                }
+                else
+                {
+                    dic[leftTeam].Score += 1;
+                    dic[rightTeam].Score += 1;
+                }
+
+                line = Console.ReadLine();
+            }
+            
+            Console.WriteLine("League standings:");
+            int i = 1;
+            foreach (var kvp in dic.OrderBy(a => -a.Value.Score).ThenBy(a => a.Key).ToDictionary(a => a.Key, a => a.Value))
+            {
+                Console.WriteLine(i + ". {0} {1}", kvp.Key, kvp.Value.Score);
+                i++;
+            }
+            Console.WriteLine("Top 3 scored goals:");
+            foreach (var kvp in dic.OrderBy(a=>-a.Value.Goals).ThenBy(a=>a.Key).Take(3).ToDictionary(a=>a.Key, a=>a.Value))
+                Console.WriteLine("- {0} -> {1}", kvp.Key, kvp.Value.Goals);
+        }
+    }
+}
+
+//04. Cubic Messages
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string line = Console.ReadLine();
+            var regex = new Regex(@"^(?<before>[0-9]+)(?<criptedMessage>[a-zA-Z]+)(?<after>\d*)(?:[^a-zA-Z]*)$", RegexOptions.Multiline);
+            while (line!= "Over!")
+            {
+                int m = int.Parse(Console.ReadLine());
+                if (!regex.IsMatch(line))
+                {
+                    line = Console.ReadLine();
+                    continue;
+                }
+                Match match = regex.Match(line);
+                string criptedMsg = match.Groups["criptedMessage"].Value;
+                if (criptedMsg.Length != m)
+                {
+                    line = Console.ReadLine();
+                    continue;
+                }
+                string key = match.Groups["before"].Value + match.Groups["after"].Value;
+                List<int> indexes = new List<int>();
+                for (int i = 0; i < key.Length; i++)
+                {
+                    int index = 0;
+                    bool isNumber = int.TryParse(key[i].ToString(), out index);
+                    if (isNumber)
+                        indexes.Add(index);
+                }
+                StringBuilder result = new StringBuilder();
+                foreach (int index in indexes)
+                {
+                    if (index < m && index >= 0)
+                        result.Append(criptedMsg[index]);
+                    else
+                        result.Append(" ");
+                }
+                Console.WriteLine("{0} == {1}", criptedMsg, result.ToString());
+                line = Console.ReadLine();
+            }
+
+        }
+    }
+}

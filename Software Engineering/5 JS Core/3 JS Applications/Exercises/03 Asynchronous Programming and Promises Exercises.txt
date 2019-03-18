@@ -1,0 +1,240 @@
+// 01. Forecaster
+function attachEvents() {
+    let locationsUrl = 'https://judgetests.firebaseio.com/locations.json';
+    let conditionDic = {
+        'Sunny': "&#x2600;",
+        'Partly sunny': "&#x26C5;",
+        'Overcast': "&#x2601;",
+        'Rain': "&#x2614;",
+        'Degrees': "&#176;"
+    };
+
+    $('#submit').click(clickSubmit);
+
+    function clickSubmit() {
+        let location = $('#location').val();
+        $('#location').val('');
+
+        $.get(locationsUrl)
+            .then(processLocations)
+            .catch(catchLocationsError);
+
+        function processLocations(locations) {
+            let locationObj = locations.find(l => l.name === location);
+
+            if (locationObj !== undefined) {
+                let locationCode = locationObj.code;
+                let todayUrl = `https://judgetests.firebaseio.com/forecast/today/${locationCode}.json`;
+                let upcomingUrl = `https://judgetests.firebaseio.com/forecast/upcoming/${locationCode}.json`;
+
+                Promise.all([$.get(todayUrl), $.get(upcomingUrl)])
+                    .then(processResponses)
+                    .catch(processLocationError);
+
+                function processResponses([todayObj, upcomingObj]) {
+                    let fullLocation = todayObj.name;
+                    let todayLow = todayObj.forecast.low;
+                    let todayHigh = todayObj.forecast.high;
+                    let todayCondition = todayObj.forecast.condition;
+                    let firstLow = upcomingObj.forecast[0].low;
+                    let firstHigh = upcomingObj.forecast[0].high;
+                    let firstCondition = upcomingObj.forecast[0].condition;
+                    let secondLow = upcomingObj.forecast[1].low;
+                    let secondHigh = upcomingObj.forecast[1].high;
+                    let secondCondition = upcomingObj.forecast[1].condition;
+                    let thirdLow = upcomingObj.forecast[2].low;
+                    let thirdHigh = upcomingObj.forecast[2].high;
+                    let thirdCondition = upcomingObj.forecast[2].condition;
+
+                    $('#forecast').removeAttr('style');
+
+                    $('#current')
+                        .append($('<span>').addClass('condition symbol').html(conditionDic[todayCondition]))
+                        .append($('<span>').addClass('condition')
+                            .append($('<span>').addClass('forecast-data').text(fullLocation))
+                            .append($('<span>').addClass('forecast-data').text(`${todayLow}°/${todayHigh}°`))
+                            .append($('<span>').addClass('forecast-data').text(todayCondition)));
+
+                    $('#upcoming')
+                        .append($('<span>').addClass('upcoming')
+                            .append($('<span>').addClass('symbol').html(conditionDic[firstCondition]))
+                            .append($('<span>').addClass('forecast-data').text(`${firstLow}°/${firstHigh}°`))
+                            .append($('<span>').addClass('forecast-data').text(firstCondition)))
+                        .append($('<span>').addClass('upcoming')
+                            .append($('<span>').addClass('symbol').html(conditionDic[secondCondition]))
+                            .append($('<span>').addClass('forecast-data').text(`${secondLow}°/${secondHigh}°`))
+                            .append($('<span>').addClass('forecast-data').text(secondCondition)))
+                        .append($('<span>').addClass('upcoming')
+                            .append($('<span>').addClass('symbol').html(conditionDic[thirdCondition]))
+                            .append($('<span>').addClass('forecast-data').text(`${thirdLow}°/${thirdHigh}°`))
+                            .append($('<span>').addClass('forecast-data').text(thirdCondition)));
+                }
+
+                function processLocationError(err) {
+                    console.log("Error on getting forecast");
+                }
+            }
+        }
+
+        function catchLocationsError(err) {
+            $('#forecast').removeAttr('style');
+            $('#forecast').html('Error');
+        }
+    }
+}
+
+// 02. Fisher Game
+function attachEvents() {
+    $(() => {
+        clickLoad();
+    });
+
+    let baseUrl = 'https://baas.kinvey.com/appdata/kid_HyDfatWRm/biggestCatches/';
+    let username = 'guest';
+    let password = 'guest';
+    let base64Auth = btoa(`${username}:${password}`);
+    let authHeaders = {
+        'Authorization': 'Basic ' + base64Auth
+    };
+    let authAndContentTypeHeaders = {
+        'Authorization': 'Basic ' + base64Auth,
+        'Content-type': 'application/json'
+    };
+
+    $('.load').click(clickLoad);
+    $('.add').click(clickAdd);
+
+    function clickLoad() {
+        let requestObj = {
+            url: baseUrl,
+            method: 'GET',
+            headers: authHeaders
+        };
+
+        $.ajax(requestObj)
+            .then(loadData)
+            .catch(catchDataError);
+
+        function loadData(catches) {
+            $('#catches').empty();
+
+            for (let fish of catches) {
+                //console.log(fish);
+                $('#catches')
+                    .append($('<div>').addClass('catch').attr('data-id', fish._id)
+                        .append($('<label>').text('Angler'))
+                        .append($('<input>').attr('type', 'text').addClass('angler').val(fish.angler))
+                        .append($('<label>').text('Weight'))
+                        .append($('<input>').attr('type', 'number').addClass('weight').val(fish.weight))
+                        .append($('<label>').text('Species'))
+                        .append($('<input>').attr('type', 'text').addClass('species').val(fish.species))
+                        .append($('<label>').text('Location'))
+                        .append($('<input>').attr('type', 'text').addClass('location').val(fish.location))
+                        .append($('<label>').text('Bait'))
+                        .append($('<input>').attr('type', 'text').addClass('bait').val(fish.bait))
+                        .append($('<label>').text('Capture Time'))
+                        .append($('<input>').attr('type', 'number').addClass('captureTime').val(fish.captureTime))
+                        .append($('<button>').addClass('update').text('Update').click(clickUpdate))
+                        .append($('<button>').addClass('delete').text('Delete').click(clickDelete))
+                    );
+            }
+        }
+
+        function catchDataError(err) {
+            console.log(err);
+        }
+    }
+
+
+    function clickUpdate() {
+        let idToUpdate = $(this).parent().attr('data-id');
+        let angler = $(this).parent().find('.angler').val();
+        let weight = Number($(this).parent().find('.weight').val());
+        let species = $(this).parent().find('.species').val();
+        let location = $(this).parent().find('.location').val();
+        let bait = $(this).parent().find('.bait').val();
+        let captureTime = Number($(this).parent().find('.captureTime').val());
+
+        let updatedData = JSON.stringify({
+            angler,
+            weight,
+            species,
+            location,
+            bait,
+            captureTime
+        });
+
+        let requestObj = {
+            method: 'PUT',
+            url: baseUrl + idToUpdate,
+            headers: authAndContentTypeHeaders,
+            data: updatedData
+        }
+
+        $.ajax(requestObj)
+            .then(clickLoad)
+            .catch(catchUpdateError);
+
+        function catchUpdateError(err) {
+            console.log(err);
+        }
+    }
+
+    function clickDelete() {
+        let idToRemove = $(this).parent().attr('data-id');
+
+        let requestObj = {
+            url: baseUrl + idToRemove,
+            method: 'DELETE',
+            headers: authHeaders
+        };
+
+        $.ajax(requestObj)
+            .then(clickLoad)
+            .catch(catchDeleteError);
+
+        function catchDeleteError(err) {
+            console.log(err);
+        }
+    }
+
+    function clickAdd() {
+        let angler = $('#addForm .angler').val();
+        let weight = Number($('#addForm .weight').val());
+        let species = $('#addForm .species').val();
+        let location = $('#addForm .location').val();
+        let bait = $('#addForm .bait').val();
+        let captureTime = Number($('#addForm .captureTime').val());
+
+        let fishToSend = JSON.stringify({
+            angler,
+            weight,
+            species,
+            location,
+            bait,
+            captureTime
+        });
+
+        let requestObj = {
+            method: 'POST',
+            url: baseUrl,
+            headers: authAndContentTypeHeaders,
+            data: fishToSend
+        }
+
+        $.ajax(requestObj)
+            .then(clickLoad)
+            .catch(catchAddError);
+
+        function catchAddError(err) {
+            console.log(err);
+        }
+
+        $('#addForm .angler').val('');
+        $('#addForm .weight').val('');
+        $('#addForm .species').val('');
+        $('#addForm .location').val('');
+        $('#addForm .bait').val('');
+        $('#addForm .captureTime').val('');
+    }
+}

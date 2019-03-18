@@ -1,0 +1,135 @@
+//01. Expression
+public class Problem_1 {
+    public static void main(String[] args) {
+        double m = ((30+21)*0.5*(35-12-0.5));
+        double n = Math.pow(m,2);
+        System.out.println(n);
+    }
+}
+
+//02. Sum Two Numbers
+import java.util.Scanner;
+
+
+public class Problem_1 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        float n1 = Float.parseFloat(console.nextLine());
+        float n2 = Float.parseFloat(console.nextLine());
+        System.out.println(n1+n2);
+    }
+}
+
+//03. 3 Integers Sum
+import javax.swing.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class Problem_1 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n1 = console.nextInt();
+        int n2 = console.nextInt();
+        int n3 = console.nextInt();
+        if(n1+n2==n3){
+            System.out.printf("%d + %d = %d", Math.min(n1, n2), Math.max(n1,n2), n3);
+        } else if (n1+n3==n2){
+            System.out.printf("%d + %d = %d", Math.min(n1, n3), Math.max(n1,n3), n2);
+        } else if (n2+n3==n1){
+            System.out.printf("%d + %d = %d", Math.min(n3, n2), Math.max(n3,n2), n1);
+        } else {
+            System.out.println("No");
+        }
+
+    }
+}
+
+//04. Sum N Integers
+import java.util.Scanner;
+
+public class Problem_1 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        long sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum+=Integer.parseInt(console.nextLine());
+        }
+        System.out.printf("Sum = %d",sum);
+    }
+}
+
+//05. Symmetric Numbers
+import java.util.Scanner;
+
+public class Problem_5 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        for (int i = 1; i <= n; i++) {
+            if(isSymmetrical((long)i)){
+                System.out.printf("%d ", i);
+            }
+        }
+        System.out.println();
+    }
+
+    private static boolean isSymmetrical(long number) {
+        if (number == 0) return true;
+        else if (number < 0) return false;
+        long DEG_10 = (long)(Math.pow(10, (int)Math.log10(number)));
+
+        while (number > 0){
+            long dStart = number / DEG_10;
+            long dEnd = number % 10;
+            if (dStart != dEnd) return false;
+            number = (number - dStart * DEG_10 - dEnd) / 10;
+            DEG_10 /= 100;
+        }
+
+        return true;
+    }
+}
+
+//06. Largest 3 Numbers
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Problem_6 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int[] nums = Arrays.stream(console.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        Arrays.sort(nums);
+        int count = Math.min(3, nums.length);
+        for (int i = nums.length-1; i >nums.length-1-count ; i--) {
+            System.out.println(nums[i]);
+        }
+    }
+}
+
+//07. Sums by Town
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class Problem_7 {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        int n = Integer.parseInt(console.nextLine());
+        TreeMap<String, Double> dic = new TreeMap<>();
+        for (int i = 0; i < n; i++) {
+            String[] tokens = console.nextLine().split(" \\| ");
+            String town = tokens[0].trim();
+            double income = Double.parseDouble(tokens[1].trim());
+            if (dic.containsKey(town)){
+                dic.put(town, dic.get(town) + income);
+            } else {
+                dic.put(town, income);
+            }
+        }
+        for (String key : dic.keySet()) {
+            System.out.println(key + " -> " + dic.get(key));
+        }
+    }
+}

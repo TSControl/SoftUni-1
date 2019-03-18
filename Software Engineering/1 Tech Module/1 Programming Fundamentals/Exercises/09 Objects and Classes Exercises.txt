@@ -1,0 +1,610 @@
+//01. Count Working Days
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var holidays = new [] {"01 01", "03 03", "01 05", "06 05", "24 05", "06 09", "22 09", "01 11", "24 12", "25 12", "26 12" }.Select(a=>DateTime.ParseExact(a, "dd MM", CultureInfo.InvariantCulture)).ToArray();
+            var startDate = DateTime.ParseExact(Console.ReadLine(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            var endDate = DateTime.ParseExact(Console.ReadLine(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            var workingDaysCount = 0;
+            for (DateTime currentDate = startDate; currentDate<=endDate; currentDate=currentDate.AddDays(1))
+            {
+                var isSaturdayOrSunday = currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek==DayOfWeek.Sunday;
+                var isHoliday = holidays.Any(d => d.Day == currentDate.Day && d.Month == currentDate.Month);
+                var isWorkingDay = !(isSaturdayOrSunday || isHoliday);
+                if (isWorkingDay)
+                {
+                    workingDaysCount++;
+                }
+            }
+            Console.WriteLine(workingDaysCount);
+        }
+    }
+}
+
+//02. Advertisement Message
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        class Sale
+        {
+            public string Town { get; set; }
+            public string Product { get; set; }
+            public decimal Price { get; set; }
+            public decimal Quantity { get; set; }
+            //public double Sales => this.Price * this.Quantity;
+        }
+        static void Main(string[] args)
+        {
+            var phrase = new List<string> { "Excellent product.", "Such a great product.", "I always use that product.", "Best product of its category.", "Exceptional product.", "I can’t live without this product."};
+            var events = new List<string> { "Now I feel good.", "I have succeeded with this product.", "Makes miracles. I am happy of the results!", "I cannot believe but now I feel awesome.", "Try it yourself, I am very satisfied.", "I feel great!" };
+            var authors = new List<string> { "Diana", "Petya", "Stella", "Elena", "Katya", "Iva", "Annie", "Eva" };
+            var cities = new List<string> { "Burgas", "Sofia", "Plovdiv", "Varna", "Ruse"};
+            var randGen = new Random();
+            //Console.WriteLine(randGen.Next(0,5));
+            var n = int.Parse(Console.ReadLine());
+            for (int i = 0; i<n; i++)
+            {
+                Console.WriteLine(phrase[randGen.Next(0,phrase.Count())] + " " + events[randGen.Next(0, events.Count())] + " " + authors[randGen.Next(0, authors.Count())] + " - " + cities[randGen.Next(0, cities.Count())]);
+            }
+        }
+    }
+}
+
+//03. Circles Intersection
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        class Circle
+        {
+            public Point Center { get; set; }
+            public double Radius { get; set; }
+            //public double Sales => this.Price * this.Quantity;
+        }
+        class Point
+        {
+            public double X { get; set; }
+            public double Y { get; set; }
+            
+        }
+        static void Main(string[] args)
+        {
+            var tokens1 = Console.ReadLine().Split().Select(double.Parse).ToArray();
+            var tokens2 = Console.ReadLine().Split().Select(double.Parse).ToArray();
+            var c1 = new Circle() { Center = new Point() { X = tokens1[0], Y = tokens1[1] }, Radius = tokens1[2] };
+            var c2 = new Circle() { Center = new Point() { X = tokens2[0], Y = tokens2[1] }, Radius = tokens2[2] };
+            //var c1 = Circle (){ Center =  }
+            if (Intersect(c1, c2))
+                Console.WriteLine("Yes");
+            else
+                Console.WriteLine("No");
+        }
+        static bool Intersect (Circle c1, Circle c2)
+        {
+            if (Math.Sqrt(Math.Pow(c1.Center.X - c2.Center.X, 2) + Math.Pow(c1.Center.Y - c2.Center.Y, 2)) <= c1.Radius + c2.Radius)
+                return true;
+            else
+                return false;
+        }
+    }
+}
+
+//04. Average Grades
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var students = new List<Student>();
+            var studentsCount = int.Parse(Console.ReadLine());
+            for (int i = 0; i<studentsCount; i++)
+            {
+                var tokens = Console.ReadLine().Split();
+                var name = tokens.First();
+                var grades = tokens.Skip(1).Select(double.Parse).ToArray();
+                var student = new Student()
+                {
+                    Name = name,
+                    Grades = grades
+                };
+                students.Add(student);
+            }
+            students = students.Where(a=> a.AverageGrade>=5.00).OrderBy(a => a.Name).ThenByDescending(a => a.AverageGrade).ToList();
+            foreach (var student in students)
+            {
+                Console.WriteLine($"{student.Name} -> {student.AverageGrade:F2}");
+            }
+        }
+    }
+    class Student
+    {
+        public string Name { get; set; }
+        public double[] Grades { get; set; }
+        public double AverageGrade => this.Grades.Average();
+    }
+}
+
+//05. Book Library
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+using System.IO;
+using System.Text.RegularExpressions;
+//using Microsoft.Office.Interop.Excel;
+using System.Globalization;
+
+
+
+namespace DoNow
+{
+    class Program
+    {
+        class Book
+        {
+            public string Title { get; set; }
+            public string Author { get; set; }
+            public string Publisher { get; set; }
+            public DateTime ReleaseDate { get; set; }
+            public string ISBN { get; set; }
+            public double Price { get; set; }
+        }
+        class Library
+        {
+            public string Name { get; set; }
+            public List<Book> Books { get; set; }
+        }
+        static void Main()
+        {
+            int n = int.Parse(Console.ReadLine());
+            var library = new Library() { Name = "Bard", Books = new List<Book>() };
+            var dic = new Dictionary<string, double>();
+            for (int i = 0; i < n; i++)
+            {
+                var tokens = Console.ReadLine().Split().ToArray();
+                var title = tokens[0];
+                var author = tokens[1];
+                var publisher = tokens[2];
+                var releaseDate = DateTime.ParseExact(tokens[3], "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                var isbn = tokens[4];
+                var price = double.Parse(tokens[5]);
+                var book = new Book() {
+                Title=title, Author=author, Publisher=publisher, ReleaseDate=releaseDate, ISBN=isbn, Price=price};
+                library.Books.Add(book);
+
+            }
+            foreach (var book in library.Books)
+            {
+                if (!dic.ContainsKey(book.Author))
+                    dic[book.Author] = 0;
+                dic[book.Author] += book.Price;
+            }
+            foreach (var kvp in dic.OrderByDescending(p=>p.Value).ThenBy(p=>p.Key))
+            {
+                Console.WriteLine("{0} -> {1:F2}", kvp.Key, kvp.Value);
+            }
+        }
+    }
+}
+
+//06. Book Library Modification
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+using System.IO;
+using System.Text.RegularExpressions;
+//using Microsoft.Office.Interop.Excel;
+using System.Globalization;
+
+
+
+namespace DoNow
+{
+    class Program
+    {
+        class Book
+        {
+            public string Title { get; set; }
+            public string Author { get; set; }
+            public string Publisher { get; set; }
+            public DateTime ReleaseDate { get; set; }
+            public string ISBN { get; set; }
+            public double Price { get; set; }
+        }
+        class Library
+        {
+            public string Name { get; set; }
+            public List<Book> Books { get; set; }
+        }
+        static void Main()
+        {
+            int n = int.Parse(Console.ReadLine());
+            var library = new Library() { Name = "Bard", Books = new List<Book>() };
+            var dic = new Dictionary<string, DateTime>();
+            for (int i = 0; i < n; i++)
+            {
+                var tokens = Console.ReadLine().Split().ToArray();
+                var title = tokens[0];
+                var author = tokens[1];
+                var publisher = tokens[2];
+                var releaseDate = DateTime.ParseExact(tokens[3], "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                var isbn = tokens[4];
+                var price = double.Parse(tokens[5]);
+                var book = new Book() {
+                Title=title, Author=author, Publisher=publisher, ReleaseDate=releaseDate, ISBN=isbn, Price=price};
+                library.Books.Add(book);
+                
+
+            }
+            var givenDate = DateTime.ParseExact(Console.ReadLine(), "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            foreach (var book in library.Books)
+            {
+                if (!dic.ContainsKey(book.Title))
+                    dic[book.Title] = new DateTime();
+                dic[book.Title] = book.ReleaseDate;
+            }
+            foreach (var kvp in dic.Where(p=> DateTime.Compare(p.Value,givenDate)>0).OrderBy(p=>p.Value).ThenBy(p=>p.Key))
+            {
+                Console.WriteLine("{0} -> {1:dd.MM.yyyy}", kvp.Key, kvp.Value);
+            }
+        }
+    }
+}
+
+//07. Andrey and Billiard
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Andrey
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            var productPriceDic = new Dictionary<string, double>(); //DIC product-price
+            var nameProductQuantity = new SortedDictionary<string, Dictionary<string, long>>();
+            for (int i = 0; i < n; i++)
+            {
+                var tokens = Console.ReadLine().Split('-').ToArray();
+                var product = tokens[0];
+                var price = double.Parse(tokens[1]);
+                if (!productPriceDic.ContainsKey(product))
+                    productPriceDic.Add(product, price); //add
+                else
+                    productPriceDic[product] = price; //or replace
+            }
+            var input = Console.ReadLine();
+            while (input!="end of clients")
+            {
+                var tokens = input.Split("-,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+                var name = tokens[0];
+                var product = tokens[1];
+                var quantity = long.Parse(tokens[2]);
+                if (!productPriceDic.ContainsKey(product))
+                {
+                    input = Console.ReadLine();
+                    continue;
+                }
+                if (!nameProductQuantity.ContainsKey(name))
+                    nameProductQuantity.Add(name, new Dictionary<string, long>());
+                if (!nameProductQuantity[name].ContainsKey(product))
+                    nameProductQuantity[name][product] = quantity;
+                else
+                    nameProductQuantity[name][product] += quantity;
+                input = Console.ReadLine();
+            }
+            //print shit
+            var totalBill = 0d;
+            foreach (var bigKvp in nameProductQuantity)
+            {
+                Console.WriteLine(bigKvp.Key);
+                var bill = 0d;
+                foreach (var kvp in bigKvp.Value)
+                {
+                    Console.WriteLine("-- {0} - {1}", kvp.Key, kvp.Value); //product, quantity
+                    bill += kvp.Value * productPriceDic[kvp.Key]; //quantity*price
+                }
+                Console.WriteLine("Bill: {0:F2}", bill);
+                totalBill += bill;
+            }
+            Console.WriteLine("Total bill: {0:F2}", totalBill);
+        }
+    }
+}
+
+//08. Mentor Group
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Globalization;
+
+class Program
+{
+    class Student
+    {
+        public string Name { get; set; }
+        public List<DateTime> Dates { get; set; }
+        public List<string> Comments { get; set; }
+    }
+    static void Main()
+    {
+        var students = new List<Student>();
+        var input = Console.ReadLine();
+        while (input!="end of dates")
+        {
+            var tokens = input.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+            var name = tokens[0];
+            //check if name already entered, if not, initialize him
+            if (students.Where(a=>a.Name==name).Count()==0)
+            {
+                students.Add(new Student() { Name = name, Dates = new List<DateTime>(), Comments = new List<string>() });
+            }
+            //check if there are any dates to add
+            if (tokens.Length==2)
+            {
+                var dates = tokens[1].Split(',').Select(a=>DateTime.ParseExact(a ,"dd/MM/yyyy", CultureInfo.InvariantCulture)).ToList();
+                //add dates to student.Dates
+                foreach (var student in students.Where(a=>a.Name==name))
+                {
+                    student.Dates.AddRange(dates);
+                }
+
+            }
+            input = Console.ReadLine();
+        }
+        input = Console.ReadLine();
+        while (input!="end of comments")
+        {
+            var tokens = input.Split('-').ToArray();
+            var name = tokens[0];
+            //check if name has attendances, if not continue; check if there is comment after name
+            if (!students.Any(a=>a.Name==name) || tokens.Length==1)
+            {
+                input = Console.ReadLine();
+                continue;
+            }
+            var comment = tokens[1];
+            //add comments to student with Name = name
+            foreach (var student in students.Where(a => a.Name == name))
+            {
+                student.Comments.Add(comment);
+            }
+            input = Console.ReadLine();
+        }
+        //print shit
+        var orderedStudents = students.OrderBy(a => a.Name).ToList();
+        foreach (var student in orderedStudents)
+        {
+            Console.WriteLine(student.Name);
+            Console.WriteLine("Comments:");
+            var comments = string.Join("\n- ", student.Comments);
+            if (comments!="")
+                Console.WriteLine("- "+comments);
+            Console.WriteLine("Dates attended:");
+            foreach (var date in student.Dates.OrderBy(a=>a))
+            {
+                Console.WriteLine("-- {0:dd/MM/yyyy}", date);
+            }
+        }
+    }
+}
+
+//09. Teamwork Projects
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Homework
+{
+    class Program
+    {
+        class Team
+        {
+            public string Leader { get; set; }
+            public string TeamName { get; set; }
+            public List<string> Teammates { get; set; }
+            public void AddTeammate(string teammate)
+            {
+                Teammates.Add(teammate);
+            }
+        }
+        static void Main(string[] args)
+        {
+            var n = int.Parse(Console.ReadLine());
+            var teams = new List<Team>();
+            for (int i = 0; i < n; i++)
+            {
+                var tokens = Console.ReadLine().Split('-').ToArray();
+                var leader = tokens[0];
+                var teamName = tokens[1];
+                if (teams.Any(a => a.TeamName == teamName))
+                {
+                    Console.WriteLine("Team {0} was already created!", teamName);
+                    //i++;
+                    continue;
+                }
+                else if (teams.Any(a => a.Leader == leader))
+                {
+                    Console.WriteLine("{0} cannot create another team!", leader);
+                    //i++;
+                    continue;
+                }
+                else
+                {
+                    var team = new Team() { Leader = leader, TeamName = teamName, Teammates = new List<string>() };
+                    Console.WriteLine("Team {0} has been created by {1}!", teamName, leader);
+                    teams.Add(team);
+                }
+            }
+            var input = Console.ReadLine();
+            while (input != "end of assignment")
+            {
+                var tokens = input.Split("->".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToArray();
+                var teammate = tokens[0];
+                var teamName = tokens[1];
+                if (!teams.Any(a => a.TeamName == teamName))
+                {
+                    Console.WriteLine("Team {0} does not exist!", teamName);
+                    input = Console.ReadLine();
+                    continue;
+                }
+                else if (teams.Any(a => a.Teammates.Contains(teammate)) || teams.Any(a => a.Leader == teammate))
+                {
+                    Console.WriteLine("Member {0} cannot join team {1}!", teammate, teamName);
+                    input = Console.ReadLine();
+                    continue;
+                }
+                else
+                {
+                    //add teammate to team
+                    teams[teams.FindIndex(x => x.TeamName == teamName)].Teammates.Add(teammate);
+                    input = Console.ReadLine();
+                }
+            }
+            //print shit 
+            var orderedTeams = teams.OrderByDescending(a => a.Teammates.Count()).ThenBy(a => a.TeamName).ToList();
+            foreach (var team in orderedTeams.Where(a => a.Teammates.Count() != 0))
+            {
+                Console.WriteLine(team.TeamName);
+                Console.WriteLine("- {0}", team.Leader);
+                foreach (var teammate in team.Teammates.OrderBy(a => a))
+                {
+                    Console.WriteLine("-- {0}", teammate);
+                }
+            }
+            Console.WriteLine("Teams to disband:");
+            foreach (var team in orderedTeams.Where(a => a.Teammates.Count() == 0))
+            {
+                Console.WriteLine("{0}", team.TeamName);
+            }
+        }
+    }
+}
+
+//10. Student Groups
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ToDelete
+{
+    class Program
+    {
+        class Town
+        {
+            public string TownName { get; set; }
+            public int SeatCount { get; set; }
+            public List<Student> Students { get; set; }
+        }
+        class Student
+        {
+            public string Name { get; set; }
+            public string Email { get; set; }
+            public DateTime RegistrationDate { get; set; }
+        }
+        class Group
+        {
+            public string Town { get; set; }
+            //public int Capacity { get; set; }
+            public List<Student> Students { get; set; }
+        }
+        static void Main(string[] args)
+        {
+            var line = Console.ReadLine();
+            var towns = new List<Town>();
+            var groups = new List<Group>();
+            var townName = "";
+            var seatCount = 0;
+            while (line.Contains("=>") && line != "End")
+            {
+                //town line
+                var tokens = line.Split().ToArray();
+                townName = string.Join(" ", tokens.Take(tokens.Length -3));
+                seatCount = int.Parse(tokens[tokens.Length-2]);
+                var town = new Town() { TownName = townName, SeatCount = seatCount, Students = new List<Student>() };
+
+                line = Console.ReadLine();
+                while (!line.Contains("=>") && line!="End")
+                {
+                    var tokens1 = line.Split('|').Select(a => a.Trim()).ToArray(); //remove eampty?
+                    var name = tokens1[0];
+                    var email = tokens1[1];
+                    var registrationDate = DateTime.ParseExact(tokens1[2], "d-MMM-yyyy", CultureInfo.InvariantCulture); //right format?
+                    var student = new Student() { Name = name, Email = email, RegistrationDate = registrationDate };
+                    town.Students.Add(student);
+                    line = Console.ReadLine();
+                }
+                towns.Add(town);
+            }
+            //do shit in case of end
+            towns = towns.OrderBy(a => a.TownName).ToList();
+            foreach (var town in towns)
+            {
+                
+                town.Students = town.Students.OrderBy(a=>a.RegistrationDate).ThenBy(a=>a.Name).ThenBy(a=>a.Email).ToList();
+                while (town.Students.Any())
+                {
+                    var group = new Group() { Town = town.TownName, Students = town.Students.Take(Math.Min(town.SeatCount, town.Students.Count())).ToList() };
+                    town.Students = town.Students.Skip(Math.Min(town.SeatCount, town.Students.Count())).ToList();
+                    groups.Add(group);
+                }
+            }
+            //print shit
+            Console.WriteLine("Created {0} groups in {1} towns:", groups.Count, towns.Count);
+            foreach (var group in groups)
+            {
+                var output = new List<string>();
+                foreach (var student in group.Students)
+                {
+                    output.Add(student.Email);
+                }
+                Console.WriteLine($"{group.Town} => " + string.Join(", ", output));
+            }
+        }
+    }
+}

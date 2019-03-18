@@ -1,0 +1,452 @@
+//01. Hello JavaScript! 
+function greetPerson(name) {
+  let greeting = "Hello, " + name + ", I am JavaScript!";
+  console.log(greeting);
+}
+
+//02. Area and Perimeter 
+function calcAreaAndPerim(a, b) {
+  let area = a * b;
+  let perimeter = 2 * (a + b);
+  console.log(area + "\n" + perimeter);
+}
+
+//03. Distance over Time 
+function calcDistance(arr) {
+  let v1 = arr[0];
+  let v2 = arr[1];
+  let t = arr[2] / 3600;
+  let distance = Math.abs(v1 - v2) * t * 1000;
+  console.log(distance);
+}
+
+//04. Distance in 3D
+function calcDistance(arr) {
+  let x1 = arr[0];
+  let y1 = arr[1];
+  let z1 = arr[2];
+  let x2 = arr[3];
+  let y2 = arr[4];
+  let z2 = arr[5];
+
+  let distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2);
+
+  console.log(distance);
+}
+
+//05. Grads to Radians 
+function retardedMetrics(grads) {
+  let degrees = (grads / 400 * 360) % 360;
+
+  if (degrees < 0)
+  degrees += 360;
+
+  console.log(degrees);
+}
+
+//06. Compound Interest 
+function banksSuck(arr) {
+let principalSum = arr[0];
+let interestRate = arr[1] / 100;
+let compoundingPeriod = arr[2];
+let totalTimeSpan = arr[3];
+
+let totalSum = principalSum * Math.pow(1 + interestRate / 12 * compoundingPeriod, 12 / compoundingPeriod * totalTimeSpan);
+
+console.log(Number(totalSum).toFixed(2));
+}
+
+//07. Rounding 
+function roundTo(arr) {
+    let n = arr[0];
+    let i = arr[1];
+
+    if (i > 15)
+    i = 15;
+
+    let result = Math.round(n * Math.pow(10, i)) / Math.pow(10, i);
+
+    console.log(result);
+}
+
+//08. Imperial Units
+function convertForIdiots(n) {
+    let inches = n % 12;
+    let feet = (n - inches) / 12;
+
+    console.log(feet + "'-" + inches + "\"");
+}
+
+//09. Now Playing 
+function trackInfo(arr) {
+    let trackName = arr[0];
+    let artistName = arr[1];
+    let duration = arr[2];
+
+    console.log("Now Playing: " + artistName + " - " + trackName + " [" + duration + "]");
+}
+
+//10. Compose Tag 
+function generateTag(arr) {
+    let fileLocation = arr[0];
+    let alternateText = arr[1];
+
+    console.log("<img src=\"" + fileLocation + "\" alt=\"" + alternateText + "\">");
+}
+
+//11. Binary to Decimal 
+function binaryToDecimal(n) {
+    let decimal = 0;
+    for (let i = 0; i < n.length; i++) {
+        decimal += n[n.length - 1 - i] * Math.pow(2, i);
+    }
+
+    console.log(decimal);
+}
+
+//12. Assign Properties 
+function objectFactory(arr) {
+    let key1 = arr[0];
+    let val1 = arr[1];
+    let key2 = arr[2];
+    let val2 = arr[3];
+    let key3 = arr[4];
+    let val3 = arr[5];
+    let obj = {};
+
+    obj[key1] = val1;
+    obj[key2] = val2;
+    obj[key3] = val3;
+
+    console.log(obj);
+}
+
+//13. Last Month
+function lastMonth(arr) {
+    let day = arr[0];
+    let month = arr[1];
+    let year = arr[2];
+
+    let date = new Date(year, month - 1, 0);
+
+    let days = date.getDate();
+
+    console.log(days);
+}
+
+//14. Biggest of 3 Numbers 
+function getBiggestN(arr) {
+    let n1 = arr[0];
+    let n2 = arr[1];
+    let n3 = arr[2];
+    
+    let result = n1 > n2 ? (n1 > n3 ? n1 : n3) : (n2 > n3 ? n2 : n3);
+
+    console.log(result);
+}
+
+//15. Point in Rectangle 
+function pointInRec([x, y, xMin, xMax, yMin, yMax]) {
+    [x, y, xMin, xMax, yMin, yMax].map(Number);
+    if (x <= xMax && x >= xMin && y >= yMin && y <= yMax)
+    console.log('inside');
+    else
+    console.log('outside');
+}
+
+//16. Odd Numbers 1 to N 
+function oddNums(n) {
+    for (let i = 1; i <= n; i += 2)
+    console.log(i);
+}
+
+//17. Triangle of Dollars 
+function illuminati(n) {
+    for (let row = 1; row <= n; row++)
+    console.log('$'.repeat(row));
+}
+
+//18. Movie Prices
+function getPrice(arr) {
+    let movieName = arr[0].toLowerCase();
+    let day = arr[1].toLowerCase();
+
+    let price = 0;
+
+    switch (day) {
+        case "monday":
+        switch (movieName) {
+            case "the godfather":
+            price = 12;
+            break;
+            case "schindler's list":
+            price = 8.50;
+            break;case "casablanca":
+            price = 8;
+            break;case "the wizard of oz":
+            price = 10;
+            break;
+        }
+        break;
+
+        case "tuesday":
+        switch (movieName) {
+            case "the godfather":
+            price = 10;
+            break;
+            case "schindler's list":
+            price = 8.50;
+            break;case "casablanca":
+            price = 8;
+            break;case "the wizard of oz":
+            price = 10;
+            break;
+        }
+        break;
+
+        case "wednesday":
+        switch (movieName) {
+            case "the godfather":
+            price = 15;
+            break;
+            case "schindler's list":
+            price = 8.50;
+            break;case "casablanca":
+            price = 8;
+            break;case "the wizard of oz":
+            price = 10;
+            break;
+        }
+        break;
+
+        case "thursday":
+        switch (movieName) {
+            case "the godfather":
+            price = 12.50;
+            break;
+            case "schindler's list":
+            price = 8.50;
+            break;case "casablanca":
+            price = 8;
+            break;case "the wizard of oz":
+            price = 10;
+            break;
+        }
+        break;
+
+        case "friday":
+        switch (movieName) {
+            case "the godfather":
+            price = 15;
+            break;
+            case "schindler's list":
+            price = 8.50;
+            break;case "casablanca":
+            price = 8;
+            break;case "the wizard of oz":
+            price = 10;
+            break;
+        }
+        break;
+
+        case "saturday":
+        switch (movieName) {
+            case "the godfather":
+            price = 25;
+            break;
+            case "schindler's list":
+            price = 15;
+            break;case "casablanca":
+            price = 10;
+            break;case "the wizard of oz":
+            price = 15;
+            break;
+        }
+        break;
+
+        case "sunday":
+        switch (movieName) {
+            case "the godfather":
+            price = 30;
+            break;
+            case "schindler's list":
+            price = 15;
+            break;case "casablanca":
+            price = 10;
+            break;case "the wizard of oz":
+            price = 15;
+            break;
+        }
+        break;
+    }
+
+    if (price === 0)
+    console.log("error");
+    else
+    console.log(price);
+}
+
+//19. Quadratic Equation
+function quadraticSolver(a, b, c) {
+    let det = Math.pow(b, 2) - 4 * a * c;
+
+    if (det < 0) {
+        console.log("No");
+        return;
+    } else if (det === 0) {
+        let x = - b / (2 * a);
+        console.log(x);
+    } else {
+        let x1 = ((- b + Math.sqrt(det)) / (2 * a));
+        let x2 = ((- b - Math.sqrt(det)) / (2 * a));
+
+        console.log(Math.round(Math.min(x1, x2) * Math.pow(10, 5)) / Math.pow(10, 5));
+        console.log(Math.round(Math.max(x1, x2) * Math.pow(10, 5)) / Math.pow(10, 5));
+    }
+}
+
+//20. Multiplication Table
+function multiTable(n) {
+    let html = "<table border=\"1\">\n";
+
+    let row0 = "<tr><th>x</th>";
+    for (let col = 1; col <= n; col++) {
+        row0 += "<th>" + col + "</th>";
+    }
+    row0 += "</tr>\n";
+
+    html += row0;
+
+    for (let row = 1; row <= n; row++) {
+        let rowText = "<tr><th>" + row + "</th>";
+        for (let col = 1; col <= n; col++) {
+            rowText += "<td>" + row * col + "</td>";
+        }
+        rowText += "</tr>\n";
+        html += rowText;
+    }
+
+    html += "</table>";
+
+    console.log(html);
+}
+
+//21. Figure of 4 Squares
+function printSquares(n) {
+    let dashes = "+" + '-'.repeat(n - 2) + "+" + '-'.repeat(n - 2) + "+\n";
+    let spaces = "|" + ' '.repeat(n - 2) + "|" + ' '.repeat(n - 2) + "|\n";
+
+    let linesCount = n % 2 == 1 ? n : n - 1;
+    let spacesCount = linesCount - 3;
+
+    if (n === 2) {
+        console.log('+++');
+        return;
+    }
+
+    if (spacesCount % 2 == 0)
+    spacesCount /= 2;
+    else if (spacesCount % 2 == 1 && spacesCount > 2)
+    spacesCount = (spacesCount - 1) / 2;
+    else
+    spacesCount = 0;
+
+    let output = dashes;
+    output += spaces.repeat(spacesCount);
+    output += dashes;
+    output += spaces.repeat(spacesCount);
+    output += dashes;
+
+    console.log(output);
+}
+
+//22. Monthly Calendar
+function calendar(arr) {
+    let day = +arr[0];
+    let month = +arr[1];
+    let year = +arr[2];
+
+    let html = "<table>\n\t<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n\t<tr>";
+
+    let lastMonthDate = new Date(year, month - 1, 0);
+    let lastDateOfWeek = lastMonthDate.getDay();
+    let lastDate = lastMonthDate.getDate();
+
+    let currentDate = 1;
+
+    if (lastDateOfWeek != 6) {
+        for (let col = 1; col <= lastDateOfWeek + 1; col++) {
+            html += "<td class=\"prev-month\">" + (lastDate - lastDateOfWeek + col - 1) + "</td>"
+        }
+    
+
+    
+        for (let col = lastDateOfWeek + 2; col <= 7; col++) {
+            let stringToAdd = "";
+            if (currentDate === day)
+            stringToAdd +=  ' class=\"today\"';
+    
+            html += "<td" + stringToAdd + `>${currentDate}</td>`;
+            currentDate++; 
+        }
+    } else {
+        for (let i = 1; i <= 7; i++) {
+            let stringToAdd = "";
+            if (currentDate === day)
+            stringToAdd +=  ' class=\"today\"';
+
+            html += "<td" + stringToAdd + `>${currentDate}</td>`;
+            currentDate++;
+        }
+    }
+
+    html += "</tr>\n";
+
+    let currentMonthLastDate = new Date(year, month, 0);
+    let currentMonthLastDateDayOfWeek = currentMonthLastDate.getDay();
+    let currentMonthLastDateNumber = currentMonthLastDate.getDate();
+
+    let fullWeeksFromThisMonthCount = Math.floor((currentMonthLastDateNumber - currentDate) / 7); //how many weeks with no prev or next-month
+
+    for (let row = 1; row <= fullWeeksFromThisMonthCount; row++) {
+        html += "\t<tr>";
+        for (let col = 1; col <= 7; col++) {
+            let stringToAdd = "";
+            if (currentDate === day)
+            stringToAdd +=  ' class=\"today\"';
+
+            html += "<td" + stringToAdd + `>${currentDate}</td>`;
+            currentDate++;
+        }
+        html += "</tr>\n";
+    }
+
+    html += "\t<tr>";
+
+    let lastWeekDayNumber = 0;
+
+    for (let col = currentDate; col <= currentMonthLastDateNumber; col++) {
+        let stringToAdd = "";
+        if (currentDate === day)
+        stringToAdd +=  ' class=\"today\"';
+
+        html += "<td" + stringToAdd + `>${currentDate}</td>`;
+        currentDate++;
+        lastWeekDayNumber++;
+    }
+
+    if (lastWeekDayNumber === 7) {
+        html += "</tr>\n</table>";
+        console.log(html);
+        return;
+    }
+
+    let nextMonthDayNumber = 1;
+    for (col = lastWeekDayNumber + 1; col <= 7; col++) {
+        html += "<td class=\"next-month\">" + nextMonthDayNumber + "</td>"
+        nextMonthDayNumber++;
+    }
+    html += "</tr>\n</table>";
+    
+    console.log(html);
+}

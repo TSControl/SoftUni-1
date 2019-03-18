@@ -1,0 +1,163 @@
+//01. Sino The Walker
+using System;
+using System.Globalization;
+
+namespace ExamPrep1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var time = DateTime.ParseExact(Console.ReadLine(), "HH:mm:ss", CultureInfo.InvariantCulture);
+            var steps = long.Parse(Console.ReadLine());
+            var secondsPerStep = long.Parse(Console.ReadLine());
+            var secondsToAdd = (steps * secondsPerStep) % 86400;
+            var arrivalTime = time.AddSeconds(secondsToAdd);
+            Console.WriteLine("Time Arrival: {0:HH:mm:ss}", arrivalTime);
+        }
+    }
+}
+
+//02. SoftUni Karaoke
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace SoftUniKaraoke
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var listParticipants = Regex.Split(Console.ReadLine(), @"\s*,\s*");
+            var listSongs = Regex.Split(Console.ReadLine(), @"\s*,\s*");
+            var input = Console.ReadLine();
+            var dic = new Dictionary<string, List<string>>(); //participant, awards
+            var output = "";
+            while (input != "dawn")
+            {
+                var tokens = input.Split(',').Select(a => a.Trim()).ToList();
+                var participant = tokens[0];
+                var song = tokens[1];
+                var award = tokens[2];
+                if (!listParticipants.Contains(participant) || !listSongs.Any(s=>s==song))
+                {
+                    input = Console.ReadLine();
+                    continue;
+                }
+                if (!dic.ContainsKey(participant))
+                    dic.Add(participant, new List<string>());
+                dic[participant].Add(award);
+                input = Console.ReadLine();
+            }
+            //do shit in case of dawn
+            var kvps = dic.OrderByDescending(a => a.Value.Distinct().ToList().Count()).ThenBy(a => a.Key);
+            foreach (var kvp in kvps)
+            {
+                if (kvp.Value.Distinct().ToList().Count() != 0)
+                {
+                    output += $"{kvp.Key}: {kvp.Value.Distinct().ToList().Count()} awards\n";
+                    foreach (var award in kvp.Value.Distinct().ToList().OrderBy(a => a))
+                        output += $"--{award}\n";
+                }
+            }
+            if (output == "")
+                output += "No awards\n";
+            Console.Write(output);
+        }
+    }
+}
+
+//03. Endurance Rally
+using System;
+using System.Linq;
+
+namespace EnduranceRally
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var names = Console.ReadLine().Split().ToList();
+            var trackLayout = Console.ReadLine().Split().Select(double.Parse).ToList();
+            var checkpoints = Console.ReadLine().Split().Select(int.Parse).ToList();
+            var output = "";
+            foreach (var name in names)
+            {
+                double fuel = (double)(int)name[0];
+                for (int i = 0; i < trackLayout.Count(); i++)
+                {
+                    if (checkpoints.Contains(i))
+                        fuel += trackLayout[i];
+                    else
+                        fuel -= trackLayout[i];
+                    if (fuel <= 0)
+                    {
+                        output+=$"{name} - reached {i}\n";
+                        break;
+                    }
+                    if (i == trackLayout.Count() - 1 && fuel >= 0)
+                    {
+                        output+=$"{name} - fuel left {fuel:F2}\n";
+                    }
+                }
+            }
+            Console.Write(output);
+        }
+    }
+}
+
+//04. Winning Ticket
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WinningTicket
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var tickets = Console.ReadLine().Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(a=>a.Trim()).ToList();
+            var chars = "@#$^".ToCharArray();
+            for (int i = 0; i < tickets.Count; i++)
+            {
+                var ticket = tickets[i];
+                var maxCount = 0;
+                char maxChar = new Char();
+                if (ticket.Length==20)
+                {
+                    var left = string.Join("", ticket.Take(10));
+                    var right = string.Join("", ticket.Skip(10));
+                    foreach (var ch in chars)
+                    {
+                        for (int j = 10; j>5; j--)
+                        {
+                            var strOfChars = new string(ch, j);
+                            if (left.Contains(strOfChars) && right.Contains(new string(ch, j)))
+                            {
+                                maxCount = j;
+                                maxChar = ch;
+                                break;
+                            }
+                        }
+                       
+                    }
+                    if (maxCount == 10)
+                        Console.WriteLine("ticket \"{0}\" - 10{1} Jackpot!", ticket, maxChar);
+                    else if (maxCount > 5 && maxCount < 10)
+                        Console.WriteLine("ticket \"{0}\" - {1}{2}", ticket, maxCount, maxChar);
+                    else
+                        Console.WriteLine("ticket \"{0}\" - no match", ticket);
+                }
+                else
+                {
+                    Console.WriteLine("invalid ticket");
+                }
+            }
+        }
+    }
+}

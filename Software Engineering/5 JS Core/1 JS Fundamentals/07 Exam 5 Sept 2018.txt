@@ -1,0 +1,152 @@
+// 1. Kompot
+function makeCompotes(strArr) {
+    let totalFruitKgs = {
+        peach: 0,
+        plum: 0,
+        cherry: 0,
+        other: 0
+    }
+
+    for (let str of strArr) {
+        let tokens = str.split(/\s+/gm);
+        let fruitName = tokens[0];
+        let weight = +tokens[1];
+
+        switch (fruitName) {
+            case "peach":
+            totalFruitKgs.peach += weight;
+            break;
+            case "plum":
+            totalFruitKgs.plum += weight;
+            break;
+            case "cherry":
+            totalFruitKgs.cherry += weight;
+            break;
+            default:
+            totalFruitKgs.other += weight;
+            break;
+        }
+    }
+
+    let cherryCompoteCount = Math.floor((totalFruitKgs.cherry * 1000) / 9 / 25);
+    let peachCompoteCount = Math.floor((totalFruitKgs.peach * 1000) / 140 / 2.5);
+    let plumCompoteCount = Math.floor((totalFruitKgs.plum * 1000) / 20 / 10);
+    let rakiyaLiters = totalFruitKgs.other * 0.2;
+
+    console.log(`Cherry kompots: ${cherryCompoteCount}`);
+    console.log(`Peach kompots: ${peachCompoteCount}`);
+    console.log(`Plum kompots: ${plumCompoteCount}`);
+    console.log(`Rakiya liters: ${rakiyaLiters.toFixed(2)}`);
+}
+
+// 2. F1 Race
+function doRace(strArr) {
+    let namesArr = strArr.shift().split(" ");
+    for (let str of strArr) {
+        let tokens = str.split(" ");
+        let name = tokens[1];
+        let action = tokens[0].toLowerCase();
+
+        switch (action) {
+            case "join":
+            namesArr.push(name);
+            break;
+
+            case "crash":
+            let j = namesArr.indexOf(name);
+            namesArr.splice(j, 1);
+            break;
+
+            case "pit":
+            let i = namesArr.indexOf(name);
+            if (i === namesArr.length - 1 || i === -1)
+                break;
+            let adjacentPilot = namesArr[i + 1];
+            namesArr[i + 1] = name;
+            namesArr[i] = adjacentPilot;
+            break;
+
+            case "overtake":
+            let index = namesArr.indexOf(name);
+            if (index === -1 || index === 0)
+                break;
+            let otherPilot = namesArr[index - 1];
+            namesArr[index - 1] = name;
+            namesArr[index] = otherPilot;
+            break;
+        }
+    }
+    console.log(namesArr.join(" ~ "));
+}
+
+// 3. DNAex
+function decriptGene(strArr) {
+    let dic = {};
+
+    for (let str of strArr) {
+        if (str === "Stop!") {
+            var items = Object.keys(dic).map(function(key) {
+                return [key, dic[key]]
+            });
+
+            items.sort(function(first, second) {
+                return second[1] - first[1];
+            });
+
+            for (let item of items)
+                console.log(`${item[0]} has genome size of ${item[1]}`);
+        }
+
+        let regex = /^[!@#$?\w]+=\d+--\d+<<\w+$/gm;
+        if (str.match(regex)) {
+            let encriptedName = str.slice(0, str.indexOf("="));
+            let decriptedName = encriptedName.split("").filter(ch => "!@#$?".indexOf(ch) === -1).join("");
+            let decriptedNameLength = +str.slice(str.indexOf("=") + 1, str.indexOf("--"));
+            if (decriptedName.length !== decriptedNameLength)
+                return;
+            let geneCount = +str.slice(str.indexOf("--") + 2, str.indexOf("<<"));
+            let species = str.slice(str.indexOf("<<") + 2);
+            if (!dic.hasOwnProperty(species))
+                dic[species] = geneCount;
+            else
+                dic[species] += geneCount;
+        }
+    }   
+}
+
+// 4. F1 Championship
+function printF1List(strArr) {
+    let dic = new Map();
+
+    for (let str of strArr) {
+        let tokens = str.split(" -> ");
+        let teamName = tokens[0];
+        let pilotName = tokens[1];
+        let pilotPoints = +tokens[2];
+
+        if (!dic.has(teamName))
+            dic.set(teamName, new Map());
+
+        if(!dic.get(teamName).has(pilotName))
+            dic.get(teamName).set(pilotName, pilotPoints);
+        else
+            dic.get(teamName).set(pilotName, dic.get(teamName).get(pilotName) + pilotPoints);
+    }
+
+    let teamNames = dic.keys();
+    let teamPoints = [];
+    for (let team of teamNames) {
+        let points = dic.get(team).values();
+        teamPoints.push([team, [...points].reduce((acc, p) => acc + p)]);
+    }
+
+    teamPoints.sort((a, b) => b[1] - a[1]).splice(3);
+
+    for (teamPoint of teamPoints) {
+        console.log(`${teamPoint[0]}: ${teamPoint[1]}`);
+
+        let pilotPoints = [...dic.get(teamPoint[0])].sort((a, b) => b[1] - a[1]);
+        for (let kvp of pilotPoints)
+            console.log(`-- ${kvp[0]} -> ${kvp[1]}`);
+    }
+}

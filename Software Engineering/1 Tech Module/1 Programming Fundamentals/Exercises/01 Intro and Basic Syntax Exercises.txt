@@ -1,0 +1,121 @@
+//01. Debit Card Number
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int num1 = int.Parse(Console.ReadLine());
+            int num2 = int.Parse(Console.ReadLine());
+            int num3 = int.Parse(Console.ReadLine());
+            int num4 = int.Parse(Console.ReadLine());
+            Console.WriteLine($"{num1:D4} {num2:D4} {num3:D4} {num4:D4}");
+
+
+        }
+    }
+}
+
+//02. Rectangle Area
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double side1 = double.Parse(Console.ReadLine());
+            double side2 = double.Parse(Console.ReadLine());
+            double result = side1 * side2;
+            Console.WriteLine("{0:F2}",result);
+
+        }
+    }
+}
+
+//03. Miles to Kilometers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double miles = double.Parse(Console.ReadLine());
+            double kms = miles * 1.60934;
+            Console.WriteLine("{0:F2}",kms);
+
+        }
+    }
+}
+
+//04. Beverage Labels
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string name = Console.ReadLine();
+            int volume = int.Parse(Console.ReadLine());
+            int energy = int.Parse(Console.ReadLine());
+            double totalEnergy = volume * energy / 100.0;
+            int sugar = int.Parse(Console.ReadLine());
+            double totalSugar = volume * sugar / 100.0;
+            Console.WriteLine("{0}ml {1}:", volume, name);
+            Console.WriteLine("{0}kcal, {1}g sugars", totalEnergy, totalSugar);
+
+        }
+    }
+}
+
+//05. Character Stats
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp3
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string name = Console.ReadLine();
+            int currHealth = int.Parse(Console.ReadLine());
+            int maxHealth = int.Parse(Console.ReadLine());
+            int currEnergy = int.Parse(Console.ReadLine());
+            int maxEnergy = int.Parse(Console.ReadLine());
+            string health = new string('|', currHealth);
+            string missingHealth = new string('.', maxHealth - currHealth);
+            string energy = new string('|', currEnergy);
+            string missingEnergy = new string('.', maxEnergy - currEnergy);
+            Console.WriteLine($"Name: {name}");
+            Console.WriteLine("Health: |{0}{1}|", health, missingHealth);
+            Console.WriteLine("Energy: |{0}{1}|", energy, missingEnergy);
+        }
+    }
+}

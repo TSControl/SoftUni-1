@@ -1,0 +1,343 @@
+// 01. Sub Sum
+function subsum(numArr, startIndex, endIndex) {
+    let sum = 0;
+
+    if (!Array.isArray(numArr)) {
+        return NaN;
+    }
+
+    if (startIndex < 0) {
+        startIndex = 0;
+    }
+
+    if (endIndex > numArr.length - 1) {
+        endIndex = numArr.length - 1;
+    }
+
+    for (let i = startIndex; i <= endIndex; i++) {
+        if (Number.isNaN(numArr[i])) {
+            return NaN;
+        }
+
+        sum += Number(numArr[i]);
+    }
+
+    return sum;
+}
+
+// 02. Playing Cards
+function makeCard(cardFace, cardSuit) {
+    const cardFaces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+    const cardSuits = {
+        "S": "\u2660",
+        "H": "\u2665",
+        "D": "\u2666",
+        "C": "\u2663"
+    };
+
+    if (cardFaces.indexOf(cardFace) === -1) {
+        throw new Error("Wrong card face: " + cardFace);
+    }
+
+    if (Object.keys(cardSuits).indexOf(cardSuit) === -1) {
+        throw new Error("Wrong card suit: " + cardSuit);
+    }
+
+    let card = {
+        face: cardFace,
+        suit: cardSuits[cardSuit],
+        toString: () => card.face + card.suit
+    }
+
+    return card;
+}
+
+
+// 03. Deck of Cards
+function printDeckOfCards(cards) {
+    let cardsOutput = [];
+
+    for (let card of cards) {
+        try {
+            let newCard = makeCard(card.substring(0, card.length - 1), card[card.length - 1]);
+            cardsOutput.push(newCard);
+        } catch (Error) {
+            console.log(`Invalid card: ${card}`);
+            return;
+        }
+    }
+
+    console.log(cardsOutput.map(c => '' + c).join(' '));
+
+    function makeCard(cardFace, cardSuit) {
+        const cardFaces = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+        const cardSuits = {
+            "S": "\u2660",
+            "H": "\u2665",
+            "D": "\u2666",
+            "C": "\u2663"
+        };
+
+        if (cardFaces.indexOf(cardFace) === -1) {
+            throw new Error("Wrong card face: " + cardFace);
+        }
+
+        if (Object.keys(cardSuits).indexOf(cardSuit) === -1) {
+            throw new Error("Wrong card suit: " + cardSuit);
+        }
+
+        let card = {
+            face: cardFace,
+            suit: cardSuits[cardSuit],
+            toString: () => card.face + card.suit
+        }
+
+        return card;
+    }
+}
+
+// 04. Sum of Numbers
+describe("sum(arr)", function () {
+    it("should return 3 for [1, 2]", function () {
+        assert.equal(sum([1, 2]), 3);
+    });
+
+    it("should return 7 for [4, 3]", function () {
+        assert.equal(sum([4, 3]), 7);
+    });
+
+    it("should return 100 for [1, 99]", function () {
+        assert.equal(sum([1, 99]), 100);
+    });
+
+    it("should return 0 for [0, 0]", function () {
+        assert.equal(sum([0, 0]), 0);
+    });
+});
+
+// 05. Check for Symmetry
+describe("isSymmetric(arr)", function () {
+    it("should return false with string input", function () {
+        assert.equal(isSymmetric('blah blah'), false);
+    });
+
+    it("should return false with object input", function () {
+        assert.equal(isSymmetric({}), false);
+    });
+
+    it("should return false with arguments input", function () {
+        assert.equal(isSymmetric(5, 9, 3, 5, 9, 5), false);
+    });
+
+    it("should return false with number input", function () {
+        assert.equal(isSymmetric(3), false);
+    });
+
+    it("should return false with boolean input", function () {
+        assert.equal(isSymmetric(true), false);
+    });
+
+    it("should return true with correct input", function () {
+        assert.equal(isSymmetric([1, 2, 3, 4, 3, 2, 1]), true);
+    });
+
+    it("should return true with correct input", function () {
+        assert.equal(isSymmetric([7, 0, 7]), true);
+    });
+
+    it("should return true with incorrect input", function () {
+        assert.equal(isSymmetric([-7, 0, 7]), false);
+    });
+
+    it("should return true with correct input", function () {
+        assert.equal(isSymmetric([7, 5, 7]), true);
+    });
+
+    it("should return true with correct input", function () {
+        assert.equal(isSymmetric([7]), true);
+    });
+
+    it("should return true with correct input", function () {
+        assert.equal(isSymmetric([7, 9, 11, 11, 9, 7]), true);
+    });
+
+    it("should return false with incorrect input", function () {
+        assert.equal(isSymmetric([5, 4, 9, 11, 14, 3, 6]), false);
+    });
+
+    it("should return true with correct input", function () {
+        assert.equal(isSymmetric(['duh', {}, 'duh']), true);
+    });
+
+    it("should return true with correct input", function () {
+        assert.equal(isSymmetric([
+            [1, 4, 5], 'blah', 5
+        ]), false);
+    });
+
+    it("should return true for symmetryc array", function () {
+        expect(isSymmetric([5, 'hi', {
+            a: 5
+        }, new Date(), {
+            a: 5
+        }, 'hi', 5])).to.be.equal(true);
+    });
+
+    it("should return true for symmetryc array", function () {
+        expect(isSymmetric([5, 'hi', {
+            a: 5
+        }, new Date(), {
+            X: 5
+        }, 'hi', 5])).to.be.equal(false);
+    });
+});
+
+// 06. RGB to Hex
+describe("rgbToHexColor(r, g, b)", function () {
+    it("should return undefined for string, 0, 0", function () {
+        assert.equal(rgbToHexColor('blah blah', 50, 100), undefined);
+    });
+
+    it("should return undefined for string, 0, 0", function () {
+        assert.equal(rgbToHexColor('blah blah'), undefined);
+    });
+
+    it("should return undefined for string, 0, 0", function () {
+        assert.equal(rgbToHexColor('14', 50, 100), undefined);
+    });
+
+    it("should return undefined for string, 0, 0", function () {
+        assert.equal(rgbToHexColor(56, new Date(), 100), undefined);
+    });
+
+    it("should return undefined for string, 0, 0", function () {
+        assert.equal(rgbToHexColor(78, 50, {}), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(45.56, 3, 5), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(8, 5, 100.123), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(1, 50.324, 247), undefined);
+    });
+
+    it("should return undefined for string, 0, 0", function () {
+        assert.equal(rgbToHexColor([], new Date(), {
+            f: 5
+        }), undefined);
+    });
+
+    it("should return #000000 for value (0, 0 ,0)", function () {
+        expect(rgbToHexColor(0, 0, 0)).to.be.equal("#000000");
+    });
+
+    it("should return #FF9EAA for value (255, 158 ,170)", function () {
+        expect(rgbToHexColor(255, 158, 170)).to.be.equal("#FF9EAA");
+    });
+
+    it("should return #0C0D0E for value (12, 13, 14)", function () {
+        expect(rgbToHexColor(12, 13, 14)).to.be.equal("#0C0D0E");
+    });
+
+    it("should return #FFFFFF for value (255, 255, 255)", function () {
+        expect(rgbToHexColor(255, 255, 255)).to.be.equal("#FFFFFF");
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(14, 78, 300), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(14, 300, 2), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(300, 78, 0), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(14, 78, -50), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(14, -67, 2), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(-16, 78, 0), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(-400, 78, 255), undefined);
+    });
+
+    it("should return undefined for non integers", function () {
+        assert.equal(rgbToHexColor(-100, 23, 200), undefined);
+    });
+});
+
+// 07. Add / Subtract
+describe("createCalculator()", function () {
+    let calc = createCalculator();
+
+    beforeEach(function () {
+        calc = createCalculator();
+    });
+
+    it("should return 7 for add 4, add 3", function () {
+        calc.add(4);
+        calc.add(3);
+        let result = calc.get();
+
+        assert.equal(result, 7);
+    });
+
+    it("should return 0 for new calc", function () {
+        let result = calc.get();
+
+        assert.equal(result, 0);
+    });
+
+    it("should return -45 for substract 14, subtract 31", function () {
+        calc.subtract(14);
+        calc.subtract(31);
+        let result = calc.get();
+
+        assert.equal(result, -45);
+    });
+
+    it("should return 8 for add 36, subtract 24", function () {
+        calc.add(36);
+        calc.subtract(24);
+        let result = calc.get();
+
+        assert.equal(result, 12);
+    });
+
+    it("should return 1.2 for add 3.6, subtract 2.4", function () {
+        calc.add(3.6);
+        calc.subtract(2.4);
+        let result = calc.get();
+
+        assert.equal(result.toFixed(1), 1.2);
+    });
+
+    it("should return NaN for add 'str'", function () {
+        calc.add('str');
+        let result = calc.get();
+
+        assert.equal('' + result, '' + NaN);
+    });
+
+    it("should return NaN for add 'str'", function () {
+        calc.substract('str');
+        let result = calc.get();
+
+        assert.equal('' + result, '' + NaN);
+    });
+});

@@ -1,0 +1,350 @@
+//01. Convert from base-10 to base-N
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+
+namespace ConsoleApplication9
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split(' ').ToList();
+            var n = int.Parse(nums[0]);
+            var number = BigInteger.Parse(nums[1]);
+            BigInteger remainder;
+            string result = null;
+            while (number > 0)
+            {
+                remainder = number % n;
+                number /= n;
+                result = remainder.ToString() + result;
+            }
+            Console.WriteLine(result);
+        }
+    }
+	
+//02. Convert from base-N to base-10
+using System;
+//using System.Collections.Generic;
+using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+using System.Numerics;
+
+namespace ConsoleApplication9
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split(' ').ToList();
+            var n = int.Parse(nums[0]);
+            var number = BigInteger.Parse(nums[1]);
+            BigInteger result=0;
+            int i = 0;
+            BigInteger buffer = 1;
+                while (number != 0)
+                {
+                    result += number % 10 * buffer;
+                    number /= 10;
+                    i++;
+                buffer *= n;
+                }
+                Console.WriteLine(result);
+        }
+    }
+}
+
+//03. Unicode Characters
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+//using System.Text.RegularExpressions;
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            var charArr = input.ToCharArray();
+            foreach (var ch in charArr)
+            {
+                Console.Write(GetEscapeSequence(ch));
+            }
+            Console.WriteLine();
+        }
+        static string GetEscapeSequence(char c)
+        {
+            return "\\u" + ((int)c).ToString("X4").ToLower();
+        }
+    }
+}
+
+//04. Character Multiplier
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+//using System.Text.RegularExpressions;
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] input = Console.ReadLine().Split().ToArray();
+            long sum = 0;
+            var minLength = Math.Min(input[0].Length, input[1].Length);
+            for (int i = 0; i<minLength; i++)
+            {
+                sum += (int)input[0][i] * (int)input[1][i];
+            }
+            if (input[0].Length>input[1].Length)
+            {
+                for (int j = input[1].Length; j<input[0].Length; j++)
+                {
+                    sum += (int)input[0][j];
+                }
+            }
+            else
+            {
+                for (int j = input[0].Length; j < input[1].Length; j++)
+                {
+                    sum += (int)input[1][j];
+                }
+            }
+            Console.WriteLine(sum);
+        }
+    }
+}
+
+//05. Magic exchangeable words
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+//using System.Text.RegularExpressions;
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] input = Console.ReadLine().Split().ToArray();
+            input = input.OrderBy(p => p.Length).ToArray();
+            var str1 = input[0];
+            var str2 = input[1];
+            var dic = new Dictionary<char, char>();
+            
+            for (int i = 0; i<str1.Length; i++)
+            {
+                if (!dic.ContainsKey(str1[i]) && !dic.ContainsValue(str2[i]))
+                {
+                    dic[str1[i]] = str2[i];
+                }
+                else if (dic.ContainsKey(str1[i]) && dic[str1[i]] != str2[i])
+                {
+                        Console.WriteLine("false");
+                        return;  
+                } 
+                else if (dic.ContainsValue(str2[i]) && !dic.ContainsKey(str1[i]))
+                {
+                    Console.WriteLine("false");
+                    return;
+                }
+            }
+            if (str1.Length != str2.Length && dic.Keys.Count()<str2.Distinct().Count())
+            {
+                Console.WriteLine("false");
+                return;
+            }
+                Console.WriteLine("true");
+        }
+    }
+}
+
+//06. Sum big numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+//using System.IO;
+//using System.Text.RegularExpressions;
+//using Microsoft.Office.Interop.Excel;
+
+
+
+namespace DoNow
+{
+    class Program
+    {
+        static void Main()
+        {
+            var num1 = BigInteger.Parse(Console.ReadLine());
+            var num2 = BigInteger.Parse(Console.ReadLine());
+            Console.WriteLine(num1+num2);
+        }
+    }
+}
+
+//07. Multiply big number
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//using System.Numerics;
+
+namespace Task2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string bigNum = Console.ReadLine();
+            if (bigNum!="0")
+                bigNum=bigNum.TrimStart(new char[] { '0' });
+            var smallNumStr = Console.ReadLine();
+            var smallNum = 0;
+            if (smallNumStr!="0")
+                smallNum=int.Parse(smallNumStr.TrimStart(new char[] { '0' }));
+
+            
+            if (smallNum == 0)
+                Console.WriteLine(0);
+            else if (smallNum == 1)
+                Console.WriteLine(bigNum);
+            else
+            {
+                StringBuilder output = new StringBuilder();
+                var ostatak = 0;
+                for (int i = bigNum.Length-1; i > 0; i--)
+                {
+                    int sum = smallNum * int.Parse(bigNum[i].ToString())+ostatak;
+                    int toAdd = sum % 10;
+                    ostatak = sum / 10;
+                    output.Append(toAdd.ToString());
+                }
+                int lastSum = smallNum * int.Parse(bigNum[0].ToString()) + ostatak;
+                int leftN = lastSum / 10;
+                int rightN = lastSum % 10;
+                output.Append(rightN);
+                if (leftN!=0)
+                    output.Append(leftN);
+                var stringOutput = output.ToString();
+                var reversedOutput = stringOutput.Reverse().ToList();
+                Console.WriteLine(string.Join("", reversedOutput));
+            }
+        }
+    }
+}
+
+//08. Letters Change Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var tokens = Console.ReadLine().Split(" \t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+            double sum = 0;
+            for (int i = 0; i < tokens.Count(); i++)
+            {
+                var str = tokens[i];
+                var leftChar = str[0];
+                var rightChar = str[str.Length - 1];
+                var numStr = str.Substring(1).Remove(str.Length-2,1);
+                var num = double.Parse(numStr);
+                if (leftChar.ToString().ToUpper() == leftChar.ToString())
+                    num /= (int)leftChar - 64;
+                if (leftChar.ToString().ToLower() == leftChar.ToString())
+                    num *= (int)leftChar - 96;
+                if (rightChar.ToString().ToUpper() == rightChar.ToString())
+                    num -= (int)rightChar - 64;
+                if (rightChar.ToString().ToLower() == rightChar.ToString())
+                    num += (int)rightChar - 96;
+                sum += num;
+            }
+            Console.WriteLine("{0:F2}", sum);
+        }
+    }
+}
+
+//09. Melrah Shake
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine();
+            var pattern = Console.ReadLine();
+            while (pattern.Any())
+            {
+                if (input.Contains(pattern))
+                {
+                    var input1 = input.Remove(input.IndexOf(pattern), pattern.Length);
+                    if (input1.Contains(pattern))
+                    {
+                        var reversedCroppedOnce = string.Join("", input1.Reverse());
+                        //Console.WriteLine(reversedCroppedOnce);
+                        var reversedPattern = string.Join("", pattern.Reverse());
+                        //Console.WriteLine(reversedPattern);
+                        var reversedCroppedTwice = reversedCroppedOnce.Remove(reversedCroppedOnce.IndexOf(reversedPattern), pattern.Length);
+                        var croppedTwice = string.Join("", reversedCroppedTwice.Reverse());
+                        //Console.WriteLine(croppedTwice);
+                        input = croppedTwice;
+                        //Console.WriteLine(input);
+                        pattern = pattern.Remove(pattern.Length / 2, 1);
+                        //Console.WriteLine(pattern);
+                        Console.WriteLine("Shaked it.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No shake.");
+                        Console.WriteLine(input);
+                        return;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No shake.");
+                    Console.WriteLine(input);
+                    return;
+                }
+            }
+            Console.WriteLine("No shake.");
+            Console.WriteLine(input);
+        }
+    }
+}

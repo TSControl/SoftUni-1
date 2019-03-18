@@ -1,0 +1,182 @@
+//Problem 01 - Dog House
+import java.util.Scanner;
+
+public class DogHouse {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        double a = Double.parseDouble(console.nextLine());
+        double b = Double.parseDouble(console.nextLine());
+        double greenArea = a*(b/2+1.21*a);
+        double redArea = a*a;
+        System.out.printf("%.2f%n%.2f%n",greenArea/3,redArea/5);
+    }
+}
+
+//Problem 02 - Work hours
+import java.util.Scanner;
+
+public class WorkHours {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        int hours = Integer.parseInt(console.nextLine());
+        int workers = Integer.parseInt(console.nextLine());
+        int days = Integer.parseInt(console.nextLine());
+        int manHours = workers*days*8;
+        if (manHours>=hours){
+            System.out.printf("%d hours left%n",manHours-hours);
+        } else {
+            System.out.printf("%d overtime%nPenalties: %d%n", hours-manHours,(hours-manHours)*days);
+        }
+    }
+}
+
+//Problem 03 - Car To Go
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Temp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string output = null;
+            double budget = double.Parse(Console.ReadLine());
+            var season = Console.ReadLine();
+            if (budget<=100)
+            {
+                output += "Economy class\n";
+                if (season=="Summer")
+                {
+                    output += $"Cabrio - {0.35*budget:F2}\n";
+                }
+                if (season=="Winter")
+                {
+                    output += $"Jeep - {0.65 * budget:F2}\n";
+                }
+            }
+            else if (budget>100 && budget <=500)
+            {
+                output += "Compact class\n";
+                if (season == "Summer")
+                {
+                    output += $"Cabrio - {0.45 * budget:F2}\n";
+                }
+                if (season == "Winter")
+                {
+                    output += $"Jeep - {0.80 * budget:F2}\n";
+                }
+            }
+            else
+            {
+                output += "Luxury class\n";
+                    output += $"Jeep - {0.9 * budget:F2}\n";
+            }
+            Console.WriteLine(output);
+        }
+    }
+}
+
+//Problem 04 - Game Of Intervals
+import java.util.Scanner;
+
+public class GameOfIntervals {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        byte turns = Byte.parseByte(console.nextLine());
+        double sum = 0;
+        byte zero = 0;
+        byte one = 0;
+        byte two = 0;
+        byte three = 0;
+        byte four = 0;
+        byte invalid = 0;
+        for (byte i = 0; i < turns; i++) {
+            byte currNum = Byte.parseByte(console.nextLine());
+            if (currNum>=0 && currNum<10){
+                sum+=0.2*currNum;
+                zero++;
+            } else if (currNum>=10 && currNum<20){
+                sum+=0.3*currNum;
+                one++;
+            } else if (currNum>=20 && currNum<30) {
+                sum+=0.4*currNum;
+                two++;
+            } else if (currNum>=30 && currNum<40) {
+                sum+=50.0;
+                three++;
+            } else if (currNum>=40 && currNum<=50){
+                sum+=100.0;
+                four++;
+            } else {
+                sum/=2;
+                invalid++;
+            }
+        }
+        System.out.printf("%.2f%nFrom 0 to 9: %.2f%%%nFrom 10 to 19: %.2f%%%nFrom 20 to 29: %.2f%%%nFrom 30 to 39: %.2f%%%nFrom 40 to 50: %.2f%%%nInvalid numbers: %.2f%%%n", sum, zero*100.0/turns, one*100.0/turns, two*100.0/turns, three*100.0/turns, four*100.0/turns, invalid*100.0/turns);
+    }
+}
+
+//Problem 05 - SoftUni Logo
+import java.util.Scanner;
+
+public class SoftUniLogo {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        short n = Short.parseShort(console.nextLine());
+        for (int row = 1; row <=2*n ; row++) {
+            String topDots = repeatStr(".", 6*n-3*row);
+            String topDashes = repeatStr("#",6*row-5);
+            System.out.printf("%s%s%s%n",topDots,topDashes,topDots);
+        }
+        for (int row = 1; row <=n-2 ; row++) {
+            String midDots = repeatStr(".",3*row-1);
+            String midDashes = repeatStr("#",12*n-5-6*row);
+            System.out.printf("|%s%s%s.%n", midDots, midDashes, midDots);
+        }
+        String botDots = repeatStr(".",3*n-4);
+        String botDashes = repeatStr("#",6*n+1);
+
+        for (int row = 1; row <= n-1; row++) {
+            System.out.printf("|%s%s%s.%n",botDots,botDashes,botDots);
+        }
+        System.out.printf("@%s%s%s.%n",botDots,botDashes,botDots);
+    }
+    static String repeatStr(String strToRepeat, int count){
+        String text = "";
+        for (int i = 0; i < count ; i++) {
+            text += strToRepeat;
+        }
+        return text;
+    }
+}
+
+//Progblem 06 - Sum of Two Numbers
+import java.util.Scanner;
+
+public class SumOfTwoNumbers {
+    public static void main(String[] args) {
+        Scanner console = new Scanner (System.in);
+        int firstNum = Integer.parseInt(console.nextLine());
+        int secondNum = Integer.parseInt(console.nextLine());
+        int magicNum = Integer.parseInt(console.nextLine());
+        int iteration = 0;
+        for (int i = firstNum; i <= secondNum ; i++) {
+            for (int j = firstNum; j <=secondNum ; j++) {
+                if (i+j==magicNum){
+                    iteration++;
+                    System.out.printf("Combination N:%d (%d + %d = %d)%n", iteration, i, j, magicNum);
+                    return;
+                } else if (i==secondNum && j==secondNum && i+j!=magicNum){
+                    iteration++;
+                    System.out.printf("%d combinations - neither equals %d%n", iteration, magicNum);
+                } else {
+                    iteration++;
+                }
+            }
+        }
+    }
+}

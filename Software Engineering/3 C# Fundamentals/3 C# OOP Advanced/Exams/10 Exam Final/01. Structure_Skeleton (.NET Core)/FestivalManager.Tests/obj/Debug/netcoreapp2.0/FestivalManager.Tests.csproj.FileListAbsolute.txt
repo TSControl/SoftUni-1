@@ -1,0 +1,15 @@
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\bin\Debug\netcoreapp2.0\NUnit3.TestAdapter.dll
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\bin\Debug\netcoreapp2.0\NUnit3.TestAdapter.pdb
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\bin\Debug\netcoreapp2.0\nunit.engine.netstandard.dll
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\bin\Debug\netcoreapp2.0\Mono.Cecil.dll
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\bin\Debug\netcoreapp2.0\FestivalManager.Tests.deps.json
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\bin\Debug\netcoreapp2.0\FestivalManager.Tests.runtimeconfig.json
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\bin\Debug\netcoreapp2.0\FestivalManager.Tests.runtimeconfig.dev.json
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\bin\Debug\netcoreapp2.0\FestivalManager.Tests.dll
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\bin\Debug\netcoreapp2.0\FestivalManager.Tests.pdb
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\obj\Debug\netcoreapp2.0\FestivalManager.Tests.csprojResolveAssemblyReference.cache
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\obj\Debug\netcoreapp2.0\FestivalManager.Tests.csproj.CoreCompileInputs.cache
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\obj\Debug\netcoreapp2.0\FestivalManager.Tests.AssemblyInfoInputs.cache
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\obj\Debug\netcoreapp2.0\FestivalManager.Tests.AssemblyInfo.cs
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\obj\Debug\netcoreapp2.0\FestivalManager.Tests.dll
+D:\Downloads\07. C# OOP Advanced - март 2018\10. Final Exam\01. Structure_Skeleton (.NET Core)\FestivalManager.Tests\obj\Debug\netcoreapp2.0\FestivalManager.Tests.pdb

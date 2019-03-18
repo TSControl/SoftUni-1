@@ -1,0 +1,295 @@
+// 01. Regeh TO FINISH
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Homework
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine();
+            var pattern = @"(?:\[.*?<)(\d*)(?:REGEH)(\d*)(?:>.*?\])";
+            var regex = new Regex(pattern);
+            var nums = new List<int>();
+            var matches = regex.Matches(input);
+            foreach (Match match in matches)
+            {
+                var nums1 = int.Parse(match.Groups[1].Value);
+                nums.Add(nums1);
+                var nums2 = int.Parse(match.Groups[2].Value);
+                nums.Add(nums2);
+            }
+            //Console.WriteLine(string.Join(" - ", nums));
+            var indexes = new int[input.Length];
+            for (int i = 1; i < input.Length; i++)
+            {
+                indexes[i] = i;
+            }
+            //start building output
+            var output = new StringBuilder();
+            foreach (var num in nums)
+            {
+                for (int index = 0; index < input.Length; index++)
+                {
+
+                }
+            }
+        }
+    }
+}
+
+// 02. Knight Game TO FINISH
+using System;
+
+namespace Problem2
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var n = int.Parse(Console.ReadLine());
+            var matrix = new char[n, n];
+            //populate matrix
+            for (int row = 0; row < n; row++)
+            {
+                var line = Console.ReadLine();
+                for (int column = 0; column < n; column++)
+                {
+                    matrix[row, column] = line[column];
+                }
+            }
+
+            var output = 0; //min amount of knights to be removed
+
+            //calculate for 1 move only!!!
+            for (int row = 0; row < n; row++)
+            {
+                for (int column = 0; column < n; column++)
+                {
+                    bool isKnight = (matrix[row, column] == 'K');
+                    if (isKnight)
+                    {
+                        var aboveRightRowIndex = row - 2; //2 up 1 right
+                        var aboveRightColumnIndex = column + 1; //2 up 1 right
+                        if (aboveRightRowIndex >= 0 && aboveRightColumnIndex >= 0 && aboveRightRowIndex < n && aboveRightColumnIndex < n && matrix[aboveRightRowIndex, aboveRightColumnIndex] == 'K')
+                        {
+                            matrix[aboveRightRowIndex, aboveRightColumnIndex] = '0';
+                            output++;
+                        }
+
+                        var aboveLeftRowIndex = row - 2; //2 up 1 left
+                        var aboveLeftColumnIndex = column - 1; //2 up 1 left
+                        if (aboveLeftRowIndex >= 0 && aboveLeftColumnIndex >= 0 && aboveLeftRowIndex < n && aboveLeftColumnIndex < n && matrix[aboveLeftRowIndex, aboveLeftColumnIndex] == 'K')
+                        {
+                            matrix[aboveLeftRowIndex, aboveLeftColumnIndex] = '0';
+                            output++;
+                        }
+
+                        var belowRightRowIndex = row + 2; //2 down 1 right
+                        var belowRightColumnIndex = column + 1; //2 down 1 right
+                        if (belowRightRowIndex >= 0 && belowRightColumnIndex >= 0 && belowRightRowIndex < n && belowRightColumnIndex < n && matrix[belowRightRowIndex, belowRightColumnIndex] == 'K')
+                        {
+                            matrix[belowRightRowIndex, belowRightColumnIndex] = '0';
+                            output++;
+                        }
+
+                        var belowLeftRowIndex = row + 2; //2 down 1 left
+                        var belowLeftColumnIndex = column - 1; //2 down 1 left
+                        if (belowLeftRowIndex >= 0 && belowLeftColumnIndex >= 0 && belowLeftRowIndex < n && belowLeftColumnIndex < n && matrix[belowLeftRowIndex, belowLeftColumnIndex] == 'K')
+                        {
+                            matrix[belowLeftRowIndex, belowLeftColumnIndex] = '0';
+                            output++;
+                        }
+
+                        var rightAboveRowIndex = row - 1; //2 right 1 up
+                        var rightAboveColumnIndex = column + 2; //2 right 1 up
+                        if (rightAboveRowIndex >= 0 && rightAboveColumnIndex >= 0 && rightAboveRowIndex < n && rightAboveColumnIndex < n && matrix[rightAboveRowIndex, rightAboveColumnIndex] == 'K')
+                        {
+                            matrix[rightAboveRowIndex, rightAboveColumnIndex] = '0';
+                            output++;
+                        }
+
+                        var rightBelowRowIndex = row + 1; //2 right 1 down
+                        var rightBelowColumnIndex = column + 2; //2 right 1 down
+                        if (rightBelowRowIndex >= 0 && rightBelowColumnIndex >= 0 && rightBelowRowIndex < n && rightBelowColumnIndex < n && matrix[rightBelowRowIndex, rightBelowColumnIndex] == 'K')
+                        {
+                            matrix[rightBelowRowIndex, rightBelowColumnIndex] = '0';
+                            output++;
+                        }
+
+                        var leftAboveRowIndex = row - 1; //2 left 1 up
+                        var leftAboveColumnIndex = column - 2; //2 left 1 up
+                        if (leftAboveRowIndex >= 0 && leftAboveColumnIndex >= 0 && leftAboveRowIndex < n && leftAboveColumnIndex < n && matrix[leftAboveRowIndex, leftAboveColumnIndex] == 'K')
+                        {
+                            matrix[leftAboveRowIndex, leftAboveColumnIndex] = '0';
+                            output++;
+                        }
+
+                        var leftBelowRowIndex = row + 1; //2 left 1 up
+                        var leftBelowColumnIndex = column - 2; //2 left 1 up
+                        if (leftBelowRowIndex >= 0 && leftBelowColumnIndex >= 0 && leftBelowRowIndex < n && leftBelowColumnIndex < n && matrix[leftBelowRowIndex, leftBelowColumnIndex] == 'K')
+                        {
+                            matrix[leftBelowRowIndex, leftBelowColumnIndex] = '0';
+                            output++;
+                        }
+
+
+
+
+                    }
+                }
+            }
+
+            //print output
+            Console.WriteLine(output);
+        }
+    }
+}
+
+// 03. Number Wars TO FINISH
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem3
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var queue1 = new Queue<string>(Console.ReadLine().Split());
+            var queue2 = new Queue<string>(Console.ReadLine().Split());
+            var iteration = 0;
+
+            while (queue1.Count > 0 && queue2.Count > 0 && iteration < 1000000)
+            {
+                var card1 = queue1.Dequeue();
+                var num1 = int.Parse(card1.Substring(0, card1.Length - 1));
+
+                var card2 = queue2.Dequeue();
+                var num2 = int.Parse(card2.Substring(0, card2.Length - 1));
+
+                if (num1 > num2)
+                {
+                    queue1.Enqueue(card1);
+                    queue1.Enqueue(card2);
+                }
+                else if (num2 > num1)
+                {
+                    queue2.Enqueue(card2); //order?
+                    queue2.Enqueue(card1);
+                }
+                else if (queue1.Count > 2 && queue2.Count > 2)
+                {
+                    // USE OR NOT USE THE ALREADY DRAWN FUCKING CARD???
+                    var card11 = queue1.Dequeue();
+                    var num11 = int.Parse(card11.Substring(0, card11.Length - 1));
+
+                    var card12 = queue1.Dequeue();
+                    var num12 = int.Parse(card12.Substring(0, card12.Length - 1));
+
+                    var card13 = queue1.Dequeue();
+                    var num13 = int.Parse(card13.Substring(0, card13.Length - 1));
+
+                    var card21 = queue2.Dequeue();
+                    var num21 = int.Parse(card21.Substring(0, card21.Length - 1));
+
+                    var card22 = queue2.Dequeue();
+                    var num22 = int.Parse(card22.Substring(0, card22.Length - 1));
+
+                    var card23 = queue2.Dequeue();
+                    var num23 = int.Parse(card23.Substring(0, card23.Length - 1));
+
+                    var sum1 = (int)card11[card11.Length - 1] + (int)card12[card12.Length - 1] + (int)card13[card13.Length - 1];
+                    var sum2 = (int)card21[card21.Length - 1] + (int)card22[card22.Length - 1] + (int)card23[card23.Length - 1];
+
+                    //
+                    var sixCards = new List<string>() { card11, card12, card13, card21, card22, card23 };
+                    var orderedList = sixCards.OrderByDescending(str => int.Parse(str.Substring(0, str.Length - 1)) + (int)str[str.Length - 1]).ToList();
+
+                    if (sum1 > sum2)
+                    {
+                        foreach (var card in orderedList)
+                            queue1.Enqueue(card);
+
+                    }
+                    else if (sum2 > sum1)
+                    {
+                        foreach (var card in orderedList)
+                            queue2.Enqueue(card);
+                    }
+                    //?
+                    else
+                    {
+                        continue;
+                    }
+                }
+                //?
+                else
+                {
+                    iteration++;
+                    break;
+                }
+                iteration++;
+            }
+            if (queue1.Count == 0)
+                Console.WriteLine($"Second player wins after {iteration} turns");
+            else if (queue2.Count == 0)
+                Console.WriteLine($"First player wins after {iteration} turns");
+            else
+                Console.WriteLine($"Draw after {iteration} turns");
+        }
+    }
+}
+
+
+// 04. Hospital
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem4
+{
+    public class StartUp
+    {
+        static void Main(string[] args)
+        {
+            var allLines = new List<string[]>();
+            string line;
+            while ((line = Console.ReadLine().Trim()) != "Output")
+            {
+                var tokens = line.Split().ToArray();
+                allLines.Add(tokens);
+            }
+            //do shit after "Output"
+            while ((line = Console.ReadLine().Trim()) != "End")
+            {
+                if (allLines.Any(e => e[0] == line)) //Department
+                {
+                    allLines.Where(e => e[0] == line).ToList().ForEach(e => Console.WriteLine(e[3]));
+                }
+                else if (allLines.Any(e => e[1] + " " + e[2] == line))//Doctor
+                {
+                    allLines.Where(e => e[1] + " " + e[2] == line).OrderBy(e => e[3]).ToList().ForEach(e => Console.WriteLine(e[3]));
+                }
+                else //Department Room
+                {
+                    var tokens = line.Split().ToArray();
+                    var department = tokens[0];
+                    var room = int.Parse(tokens[1]);
+                    PrintPatients(department, room, allLines);
+                }
+            }
+        }
+
+        private static void PrintPatients(string department, int room, List<string[]> allLines)
+        {
+            var sortedLines = allLines.Where(e => e[0] == department).ToList();
+            sortedLines.Where(e => (sortedLines.IndexOf(e) / 3) + 1 == room).OrderBy(e => e[3]).ToList().ForEach(e => Console.WriteLine(e[3]));
+        }
+    }
+}

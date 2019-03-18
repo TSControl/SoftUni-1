@@ -1,0 +1,172 @@
+//01. Count Real Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double[] nums = Console.ReadLine().Trim().Split(' ').Select(double.Parse).ToArray();
+            var counts = new SortedDictionary<double, int>();
+            foreach (var num in nums)
+                if (counts.ContainsKey(num))
+                {
+                    counts[num]++;
+                }
+                else
+                {
+                    counts[num] = 1;
+                }
+            foreach (var num in counts.Keys)
+            {
+                Console.WriteLine($"{num} -> {counts[num]}");
+            }
+
+
+        }
+    }
+}
+
+//02. Odd Occurrences
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine().ToLower();
+            string[] words = input.Split(' ');
+            var counts = new Dictionary<string, int>();
+            foreach (var word in words)
+                if (counts.ContainsKey(word))
+                    counts[word]++;
+                else counts[word] = 1;
+            var results = new List<string>();
+            foreach (var pair in counts)
+                // TODO: add pair.Key to results if pair.Value is odd
+                if (pair.Value%2==1)
+                {
+                    results.Add(pair.Key);
+                }
+                Console.WriteLine(string.Join(", ", results));
+
+
+        }
+    }
+}
+
+//03. Min, Max, Sum, Average
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int[] nums = new int[n];
+            for (int i = 0; i < n; i++)
+                nums[i] = int.Parse(Console.ReadLine());
+            Console.WriteLine("Sum = {0}", nums.Sum());
+            Console.WriteLine("Min = {0}", nums.Min());
+            Console.WriteLine("Max = {0}", nums.Max());
+            Console.WriteLine("Average = {0}", nums.Average());
+
+        }
+    }
+}
+
+//04. Largest 3 Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Split().Select(int.Parse).ToList();
+            var sortedNums = nums.OrderByDescending(x => x);
+            var largest3Nums = sortedNums.Take(3);
+            Console.WriteLine(string.Join(" ", largest3Nums));
+        }
+    }
+}
+
+//05. Short Words Sorted
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+
+
+            char[] separators = new char[]
+{'.',',',':',';','(',')','[',']','\\','\"','\'','/','!','?',' '};
+            string sentence = Console.ReadLine().ToLower();
+            string[] words = sentence.Split(separators);
+            var result = words
+              .Where(w => w != "")
+              .Where(w => w.Length<5)
+              .OrderBy(w => w).Distinct();
+            Console.WriteLine(string.Join(", ", result));
+
+        }
+    }
+}
+
+//06. Fold and Sum
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] arr = Console.ReadLine()
+  .Split(' ').Select(int.Parse).ToArray();
+            int k = arr.Length / 4;
+            int[] row1left = arr.Take(k).Reverse().ToArray();
+            int[] row1right = arr.Reverse().Take(k).ToArray();
+            int[] row1 = row1left.Concat(row1right).ToArray();
+            int[] row2 = arr.Skip(k).Take(2 * k).ToArray();
+            var sumArr =
+              row1.Select((x, index) => x + row2[index]);
+            Console.WriteLine(string.Join(" ", sumArr));
+
+        }
+    }
+}

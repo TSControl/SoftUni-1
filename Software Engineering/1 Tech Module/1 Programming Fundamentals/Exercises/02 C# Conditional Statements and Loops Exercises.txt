@@ -1,0 +1,691 @@
+//01. Choose a Drink
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string prof = Console.ReadLine();
+            switch (prof)
+            {
+                case "Athlete": Console.WriteLine("Water"); 
+                    break;
+                case "Businessman":
+                case "Businesswoman": Console.WriteLine("Coffee");
+                    break;
+                case "SoftUni Student": Console.WriteLine("Beer");
+                    break;
+                    default: Console.WriteLine("Tea");
+                    break;
+            }
+        }
+    }
+}
+
+//02. Choose a Drink 2.0
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string prof = Console.ReadLine();
+            int quantity = int.Parse(Console.ReadLine());
+            switch (prof)
+            {
+                case "Athlete": Console.WriteLine("The Athlete has to pay {0:F2}.", quantity*0.70); 
+                    break;
+                case "Businessman": Console.WriteLine("The Businessman has to pay {0:F2}.", quantity);
+                    break;
+                case "Businesswoman": Console.WriteLine("The Businesswoman has to pay {0:F2}.", quantity);
+                    break;
+                case "SoftUni Student": Console.WriteLine("The SoftUni Student has to pay {0:F2}.", quantity*1.70);
+                    break;
+                    default: Console.WriteLine("The {0} has to pay {1:F2}.", prof, quantity*1.20);
+                    break;
+            }
+        }
+    }
+}
+
+//03. Restaurant Discount
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int people = int.Parse(Console.ReadLine());
+            string packadge = Console.ReadLine();
+            int hallPrice = 0;
+            if (people<=50)
+            {
+                Console.WriteLine("We can offer you the Small Hall");
+                hallPrice = 2500;
+                switch (packadge)
+                {
+                    case "Normal": Console.WriteLine("The price per person is {0:F2}$", (hallPrice+500)*0.95/people);
+                        break;
+                    case "Gold": Console.WriteLine("The price per person is {0:F2}$", (hallPrice + 750) * 0.90/people);
+                        break;
+                    case "Platinum": Console.WriteLine("The price per person is {0:F2}$", (hallPrice + 1000) * 0.85 / people);
+                        break;
+                }
+            }
+            else if (people > 50 && people<=100)
+            {
+                Console.WriteLine("We can offer you the Terrace");
+                hallPrice = 5000;
+                switch (packadge)
+                {
+                    case "Normal":
+                        Console.WriteLine("The price per person is {0:F2}$", (hallPrice + 500) * 0.95 / people);
+                        break;
+                    case "Gold":
+                        Console.WriteLine("The price per person is {0:F2}$", (hallPrice + 750) * 0.90 / people);
+                        break;
+                    case "Platinum":
+                        Console.WriteLine("The price per person is {0:F2}$", (hallPrice + 1000) * 0.85 / people);
+                        break;
+                }
+            }
+            else if (people > 100 && people <=120)
+            {
+                Console.WriteLine("We can offer you the Great Hall");
+                hallPrice = 7500;
+                switch (packadge)
+                {
+                    case "Normal":
+                        Console.WriteLine("The price per person is {0:F2}$", (hallPrice + 500) * 0.95 / people);
+                        break;
+                    case "Gold":
+                        Console.WriteLine("The price per person is {0:F2}$", (hallPrice + 750) * 0.90 / people);
+                        break;
+                    case "Platinum":
+                        Console.WriteLine("The price per person is {0:F2}$", (hallPrice + 1000) * 0.85 / people);
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("We do not have an appropriate hall.");
+            }
+        }
+    }
+}
+
+//04. Hotel
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string month = Console.ReadLine();
+            int nightCount = int.Parse(Console.ReadLine());
+
+            switch (month)
+            {
+                case "May":
+                    if (nightCount>7 && nightCount<14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 50*nightCount*0.95);
+                        Console.WriteLine("Double: {0:F2} lv.", 65*nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 75*nightCount);
+                    }
+                    else if (nightCount>14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 50 * nightCount * 0.95);
+                        Console.WriteLine("Double: {0:F2} lv.", 65 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 75 * nightCount);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 50 * nightCount);
+                        Console.WriteLine("Double: {0:F2} lv.", 65 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 75 * nightCount);
+                    }
+                    break;
+                case "October":
+                    if (nightCount > 7 && nightCount < 14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 50 * (nightCount-1) * 0.95);
+                        Console.WriteLine("Double: {0:F2} lv.", 65 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 75 * nightCount);
+                    }
+                    else if (nightCount > 14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 50 * (nightCount-1) * 0.95);
+                        Console.WriteLine("Double: {0:F2} lv.", 65 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 75 * nightCount);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 50 * nightCount);
+                        Console.WriteLine("Double: {0:F2} lv.", 65 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 75 * nightCount);
+                    }
+                    break;
+                case "June":
+                    if (nightCount > 7 && nightCount < 14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 60 * nightCount);
+                        Console.WriteLine("Double: {0:F2} lv.", 72 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 82 * nightCount);
+                    }
+                    else if (nightCount > 14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 60 * nightCount);
+                        Console.WriteLine("Double: {0:F2} lv.", 72 * nightCount*0.9);
+                        Console.WriteLine("Suite: {0:F2} lv.", 82 * nightCount);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 60 * nightCount);
+                        Console.WriteLine("Double: {0:F2} lv.", 72 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 82 * nightCount);
+                    }
+                    break;
+                case "September":
+                    if (nightCount > 7 && nightCount < 14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 60 * (nightCount-1));
+                        Console.WriteLine("Double: {0:F2} lv.", 72 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 82 * nightCount);
+                    }
+                    else if (nightCount > 14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 60 * (nightCount-1));
+                        Console.WriteLine("Double: {0:F2} lv.", 72 * nightCount * 0.9);
+                        Console.WriteLine("Suite: {0:F2} lv.", 82 * nightCount);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 60 * nightCount);
+                        Console.WriteLine("Double: {0:F2} lv.", 72 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 82 * nightCount);
+                    }
+                    break;
+                case "July":
+                    case "August":
+                case "December":
+                    if (nightCount > 7 && nightCount < 14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 68 * nightCount);
+                        Console.WriteLine("Double: {0:F2} lv.", 77 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 89 * nightCount);
+                    }
+                    else if (nightCount > 14)
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 68 * nightCount);
+                        Console.WriteLine("Double: {0:F2} lv.", 77 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 89 * nightCount*0.85);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Studio: {0:F2} lv.", 68 * nightCount);
+                        Console.WriteLine("Double: {0:F2} lv.", 77 * nightCount);
+                        Console.WriteLine("Suite: {0:F2} lv.", 89 * nightCount);
+                    }
+                    break;
+                default: Console.WriteLine();
+                    break;
+            }
+        }
+    }
+}
+
+//05. Word in Plural
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string word = Console.ReadLine();
+            if (word.EndsWith("y"))
+            {
+                int foundY = word.IndexOf("y");
+                Console.WriteLine("{0}ies", word.Remove(foundY,1));
+            }
+            else if (word.EndsWith("o") || word.EndsWith("ch") || word.EndsWith("s") || word.EndsWith("sh") || word.EndsWith("x") || word.EndsWith("z"))
+            {
+                Console.WriteLine("{0}es", word);
+            }
+            else
+            {
+                Console.WriteLine("{0}s", word);
+            }
+        }
+    }
+}
+
+//06. Interval of Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int num1 = int.Parse(Console.ReadLine());
+            int num2 = int.Parse(Console.ReadLine());
+            if (num1>num2)
+            {
+                for (int i = num2; i<=num1;i++)
+                {
+                    Console.WriteLine($"{i}");
+                }
+            }
+            else
+            {
+                for (int i = num1; i <= num2; i++)
+                {
+                    Console.WriteLine($"{i}");
+                }
+            }
+        }
+    }
+}
+
+//07. Cake Ingredients
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int ingredientsCount = 0;
+            for (int i=1; ;i++)
+            {
+                string product = Console.ReadLine();
+                if (product.Equals("Bake!"))
+                {
+                    Console.WriteLine("Preparing cake with {0} ingredients.", ingredientsCount);
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Adding ingredient {0}.", product);
+                    ingredientsCount++;
+                }
+            }
+        }
+    }
+}
+
+//08. Calories Counter
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int calories = 0;
+            for (int i = 1; i<=n; i++)
+            {
+                string ingredient = Console.ReadLine();
+                string input = ingredient.ToLower();
+                if (input.Equals("cheese"))
+                {
+                    calories += 500;
+                }
+                else if (input.Equals("tomato sauce"))
+                {
+                    calories += 150;
+                }
+                else if (input.Equals("salami"))
+                {
+                    calories += 600;
+                }
+                else if (input.Equals("pepper"))
+                {
+                    calories += 50;
+                }
+                else
+                {
+                    
+                }
+
+            }
+            Console.WriteLine("Total calories: {0}", calories);
+        }
+    }
+}
+
+//09. Count the Integers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 0;
+            for (int i = 1;; i++)
+            {
+                try
+                {
+                    int n = int.Parse(Console.ReadLine());
+                    count++;
+                    
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("{0}", count);
+                    return;
+                }
+            }
+        }
+    }
+}
+
+//10. Triangle of Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            for (int row = 1; row<=n; row++)
+            {
+                for (int i = 1; i<=row; i++)
+                {
+                    Console.Write("{0} ", row);
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
+
+//11. 5 Different Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int a = int.Parse(Console.ReadLine());
+            int b = int.Parse(Console.ReadLine());
+            int min = 0;
+            int max = 0;
+            int num1, num2, num3, num4, num5;
+            if (a<b)
+            {
+                min = a;
+                max = b;
+            }
+            else
+            {
+                min = b;
+                max = a;
+            }
+            if (max-min<5)
+            {
+                Console.WriteLine("No");
+                return;
+            }
+            for (int i = min; i<= max; i++)
+            {
+                num1 = i;
+                for (int j = num1; j<=max; j++)
+                {
+                    num2 = j;
+                    for (int k = num2; k<=max; k++)
+                    {
+                        num3 = k;
+                        for (int l = num3; l<=max; l++)
+                        {
+                            num4 = l;
+                            for (int m = num4; m<=max; m++)
+                            {
+                                num5 = m;
+                                if (max>= num5 && num5>num4 && num4>num3 && num3>num2 && num2>num1 && num1>=min)
+                                {
+                                    Console.WriteLine("{0} {1} {2} {3} {4}", num1, num2, num3, num4, num5);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//12. Test Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int m = int.Parse(Console.ReadLine());
+            int max = int.Parse(Console.ReadLine());
+            int sum = 0;
+            int combinations = 0;
+            for (int i = n; i >= 1; i--)
+            {
+                for (int j = 1; j<=m; j++)
+                {
+                    sum+=i*j*3;
+                    combinations++;
+                    if (sum>=max)
+                    {
+                        Console.WriteLine("{0} combinations", combinations);
+                        Console.WriteLine("Sum: {0} >= {1}", sum, max);
+                        return;
+                    }
+                    else if (i==1 && j==m && sum<max)
+                    {
+                        Console.WriteLine("{0} combinations", combinations);
+                        Console.WriteLine("Sum: {0}", sum);
+                    }
+                }
+            }
+        }
+    }
+}
+
+//13. Game of Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int m = int.Parse(Console.ReadLine());
+            int magic = int.Parse(Console.ReadLine());
+            int combinations = 0;
+            for (int i = m; i >= n; i--)
+            {
+                for (int j = m; j>=n; j--)
+                {
+                    combinations++;
+                    if (i+j==magic)
+                    {
+                        Console.WriteLine("Number found! {0} + {1} = {2}", i, j, magic);
+                        return;
+                    }
+                    else if (i==n && j==n && (2*n)!=magic)
+                    {
+                        Console.WriteLine("{0} combinations - neither equals {1}", combinations, magic);
+                        return;
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+//14. Magic Letter
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            char min = char.Parse(Console.ReadLine());
+            char max = char.Parse(Console.ReadLine());
+            char prohibited = char.Parse(Console.ReadLine());
+            for (char a = min; a<=max; a++)
+            {
+                for (char b = min; b<=max; b++)
+                {
+                    for (char c = min; c<=max; c++)
+                    {
+                        if (a!=prohibited && b!=prohibited && c!=prohibited)
+                        {
+                            Console.Write("{0}{1}{2} ", a, b, c);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//15. Neighbour Wars
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int peshoDmg = int.Parse(Console.ReadLine());
+            int goshoDmg = int.Parse(Console.ReadLine());
+            int goshoHealth = 100;
+            int peshoHealth = 100;
+            //int round = 0;
+            for (int i =1; ; i++)
+            {
+                if (i%2==1 || i==1)
+                {
+                    
+                    goshoHealth -= peshoDmg;
+                    if (goshoHealth <= 0)
+                    {
+                        Console.WriteLine("Pesho won in {0}th round.", i);
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Pesho used Roundhouse kick and reduced Gosho to {0} health.", goshoHealth);
+                    }
+                }
+                else
+                {
+                    peshoHealth -= goshoDmg;
+                    if (peshoHealth<=0)
+                    {
+                        Console.WriteLine("Gosho won in {0}th round.", i);
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Gosho used Thunderous fist and reduced Pesho to {0} health.", peshoHealth);
+                    }
+                }
+                if (i%3==0)
+                {
+                    goshoHealth += 10;
+                    peshoHealth += 10;
+                }
+            }
+        }
+    }
+}

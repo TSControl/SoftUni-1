@@ -1,0 +1,9 @@
+SELECT d.[Name] AS [Department Name], c.[Name] AS [Category Name], CEILING(ROUND(CONVERT(DECIMAL,COUNT(c.[Name])*100)
+/
+CONVERT(DECIMAL, SUM(COUNT(c.[Name])) OVER (PARTITION BY d.[Name])), 0))
+AS [Percentage]
+FROM Departments AS d
+JOIN Categories AS c ON c.DepartmentId = d.Id
+JOIN Reports AS r ON r.CategoryId = c.Id
+GROUP BY d.[Name], c.[Name]
+ORDER BY d.[Name], c.[Name]

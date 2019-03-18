@@ -1,0 +1,347 @@
+//01. Max Sequence of Equal Elements
+using System;
+using System.Collections.Generic;
+using System.Linq;
+class MaxSequenceOfEqualElements
+{
+    static void Main(string[] args)
+    {
+        List<int> originalNumbers = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+        List<int> resultList = new List<int>();
+        List<int> finalList = new List<int>();
+        int counter = 1;
+        int maxCounter = 1;
+        resultList.Add(originalNumbers[0]);
+        for (int i = 0; i < originalNumbers.Count - 1; i++)
+        {
+            if (originalNumbers[i] == originalNumbers[i+1])
+            {
+                counter++;
+                resultList.Add(originalNumbers[i + 1]);
+            }
+            else
+            {
+                counter = 1;
+                resultList.Clear();
+                resultList.Add(originalNumbers[i+1]);
+            }
+            if (counter > maxCounter)
+            {
+                finalList.Clear();
+                maxCounter = counter;
+                finalList.AddRange(resultList);
+            }
+        }
+        if (maxCounter == 1)
+        {
+            Console.WriteLine(originalNumbers[0]);
+            return;
+        }
+        Console.WriteLine(string.Join(" ", finalList));
+    }
+}
+
+//02. Change List
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            while (true)
+            {
+                string command = Console.ReadLine();
+
+                if (command.StartsWith("Delete"))
+                {
+                    List<string> commandLine = command.Trim().Split(' ').ToList();
+                    int element = int.Parse(commandLine[1]);
+                    for (int i = 0; i<nums.Count; i++)
+                    {
+                        if (nums[i]==element)
+                        {
+                            nums.RemoveAll(item => item == element);
+                        }
+                        
+                    }
+                    //Console.WriteLine(String.Join(" ", nums));
+                }
+                else if (command.StartsWith("Insert"))
+                {
+                    List<string> commandLine = command.Trim().Split(' ').ToList();
+                    int element = int.Parse(commandLine[1]);
+                    int position = int.Parse(commandLine[2]);
+                    nums.Insert(position, element);
+                    //Console.WriteLine(String.Join(" ", nums));
+                }
+                else if (command.Equals("Odd"))
+                {
+                    var oddNumbers = new List<int>();
+                    for (int i = 0; i<nums.Count; i++)
+                    {
+                        if (nums[i]%2==1)
+                        {
+                            oddNumbers.Add(nums[i]);
+                        }
+                        
+
+                    }
+                    Console.WriteLine(String.Join(" ", oddNumbers));
+                    return;
+                }
+                else if (command.Equals("Even"))
+                {
+                    var evenNumbers = new List<int>();
+                    for (int i = 0; i < nums.Count; i++)
+                    {
+                        if (nums[i] % 2 == 0)
+                        {
+                            evenNumbers.Add(nums[i]);
+                        }
+
+
+                    }
+                    Console.WriteLine(String.Join(" ", evenNumbers));
+                    return;
+                }
+
+            }
+        }
+        
+    }
+}
+
+//03. Search for a Number
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            int[] threeNums = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            for (int i = threeNums[0]; i<nums.Count ; i++)
+            {
+                nums.RemoveAt(i);
+            }
+            for (int i = 0; i < threeNums[1]; i++)
+            {
+                nums.RemoveAt(0);
+            }
+            if (nums.Contains(threeNums[2]))
+            {
+                Console.WriteLine("YES!");
+            }
+            else
+            {
+                Console.WriteLine("NO!");
+            }
+        }
+    }
+}
+
+//04. Longest Increasing Subsequence
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Homework
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var inputArr = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var longestIncreasingSubsequence = FindLongestIncreasingSubsequence(inputArr);
+            Console.WriteLine(string.Join(" ", longestIncreasingSubsequence));
+
+        }
+        static int[] FindLongestIncreasingSubsequence(int[] arr)
+        {
+            var lengths = new int[arr.Length];
+            var previous = new int[arr.Length];
+            var bestLength = 0;
+            var lastIndex = -1;
+            for (int anchor = 0; anchor<arr.Length; anchor++)
+            {
+                lengths[anchor] = 1;
+                previous[anchor] = -1;
+                var anchorNum = arr[anchor];
+                for (int i = 0; i<anchor; i++)
+                {
+                    var currentNum = arr[i];
+                    if (currentNum<anchorNum && lengths[i] + 1>lengths[anchor])
+                    {
+                        lengths[anchor] = lengths[i] + 1;
+                        previous[anchor] = i;
+                    }
+                }
+                if (lengths[anchor]>bestLength)
+                {
+                    bestLength = lengths[anchor];
+                    lastIndex = anchor;
+                }
+            }
+            var longestIncreasingSubsequence = new List<int>();
+            while (lastIndex!=-1)
+            {
+                longestIncreasingSubsequence.Add(arr[lastIndex]);
+                lastIndex = previous[lastIndex];
+            }
+            longestIncreasingSubsequence.Reverse();
+            return longestIncreasingSubsequence.ToArray();
+        }
+    }
+}
+
+//05. Array Manipulator
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var list = Console.ReadLine().Split().Select(int.Parse).ToList();
+            var line = Console.ReadLine();
+            while (line != "print")
+            {
+                var tokens = line.Split();
+                var command = tokens[0];
+                if (command == "add")
+                {
+                    var index = int.Parse(tokens[1]);
+                    var element = int.Parse(tokens[2]);
+                    list.Insert(index, element);
+                }
+                else if (command == "addMany")
+                {
+                    var index = int.Parse(tokens[1]);
+                    var elements = tokens.Skip(2).Select(int.Parse).ToArray();
+                    list.InsertRange(index, elements);
+                }
+                else if (command == "contains")
+                {
+                    var element = int.Parse(tokens[1]);
+                    var index = list.IndexOf(element);
+                    Console.WriteLine(index);
+                }
+                else if (command == "remove")
+                {
+                    var index = int.Parse(tokens[1]);
+                    list.RemoveAt(index);
+                }
+                else if (command == "shift")
+                {
+                    var count = int.Parse(tokens[1]) % list.Count;
+                    for (int i = 0; i < count; i++)
+                    {
+                        list.Add(list[0]);
+                        list.RemoveAt(0);
+                    }
+                }
+                else if (command == "sumPairs")
+                {
+                    var pairsSum = new List<int>();
+                    for (int i = 0; i<list.Count; i += 2)
+                    {
+                        var currentElement = list[i];
+                        var nextElement = 0;
+                        if (i<list.Count -1)
+                        {
+                            nextElement = list[i + 1];
+                        }
+                        var elementsSum = currentElement + nextElement;
+                        pairsSum.Add(elementsSum);
+                    }
+                    list = pairsSum;
+                }
+                line = Console.ReadLine();
+            }
+            Console.WriteLine("[" + string.Join(", ", list)+ "]");
+        }
+    }
+}
+
+//06. Sum Reversed Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> nums = Console.ReadLine().Trim().Split(' ').ToList();
+            int sum = 0;
+            for (int i = 0; i<nums.Count; i++)
+            {
+                char[] inputarray = nums[i].ToCharArray();
+                Array.Reverse(inputarray);
+                string output = new string(inputarray);
+                sum += int.Parse(output);
+            }
+            Console.WriteLine(sum);
+        }
+    }
+}
+
+//07. Bomb Numbers
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            List <int> bombs = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            decimal sum = 0;
+            var bigList = new List<int>();
+            for (int i = 0; i<1000; i++)
+            {
+                bigList.Add(0);
+            }
+            for (int i = 1000; i<1000+nums.Count; i++)
+            {
+                bigList.Add(nums[i-1000]);
+            }
+            for (int i = 1000+nums.Count; i<2000+nums.Count; i++)
+            {
+                bigList.Add(0);
+            }
+            for (int i = 0; i<bigList.Count; i++)
+            {
+                if (bigList[i]==bombs[0])
+                {
+                    bigList.RemoveRange(i - bombs[1], 2 * bombs[1] + 1);
+                    i -= bombs[1] + 1;
+                }
+            }
+            for (int i = 0; i < bigList.Count; i++)
+            {
+                sum += bigList[i];
+            }
+            Console.WriteLine(sum);
+        }
+    }
+}

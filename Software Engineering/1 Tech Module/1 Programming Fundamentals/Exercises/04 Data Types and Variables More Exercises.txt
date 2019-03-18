@@ -1,0 +1,633 @@
+//01. Type Boundaries
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str = Console.ReadLine();
+            switch (str)
+            {
+                case "int":
+                    Console.WriteLine(int.MaxValue);
+                    Console.WriteLine(int.MinValue);
+                    break;
+                case "uint":
+                    Console.WriteLine(uint.MaxValue);
+                    Console.WriteLine(uint.MinValue);
+                    break;
+                case "long":
+                    Console.WriteLine(long.MaxValue);
+                    Console.WriteLine(long.MinValue);
+                    break;
+                case "byte":
+                    Console.WriteLine(byte.MaxValue);
+                    Console.WriteLine(byte.MinValue);
+                    break;
+                case "sbyte":
+                    Console.WriteLine(sbyte.MaxValue);
+                    Console.WriteLine(sbyte.MinValue);
+                    break;
+            }
+        }
+    }
+}
+
+//02. Number Checker
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str = Console.ReadLine();
+            try
+            {
+                long num = long.Parse(str);
+                Console.WriteLine("integer");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("floating-point");
+            }
+            }
+    }
+}
+
+//03. Water Overflow
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int totalVol = 0;
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 1; i<n+1; i++)
+            {
+                int input = int.Parse(Console.ReadLine());
+                if (totalVol+input>255)
+                {
+                    Console.WriteLine("Insufficient capacity!");
+                    //break;
+                }
+                else
+                {
+                    totalVol += input;
+                }
+            }
+            Console.WriteLine(totalVol);
+        }
+    }
+}
+
+//04. Tourist Information
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str = Console.ReadLine();
+            double num = double.Parse(Console.ReadLine());
+            switch (str)
+            {
+                case ("miles"):
+                    Console.WriteLine("{0} miles = {1:F2} kilometers", num, num*1.6);
+                    break;
+                case ("inches"):
+                    Console.WriteLine("{0} inches = {1:F2} centimeters", num, num * 2.54);
+                    break;
+                case ("feet"):
+                    Console.WriteLine("{0} feet = {1:F2} centimeters", num, num * 30);
+                    break;
+                case ("yards"):
+                    Console.WriteLine("{0} yards = {1:F2} meters", num, num * 0.91);
+                    break;
+                case ("gallons"):
+                    Console.WriteLine("{0} gallons = {1:F2} liters", num, num * 3.8);
+                    break;
+            }
+        }
+    }
+}
+
+//05. Weather Forecast
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string str = Console.ReadLine();
+            try
+            {
+                sbyte num = sbyte.Parse(str);
+                Console.WriteLine("Sunny");
+                return;
+            }
+            catch (Exception)
+            {
+
+            }
+            try
+            {
+                int num = int.Parse(str);
+                Console.WriteLine("Cloudy");
+                return;
+            }
+            catch (Exception)
+            {
+
+            }
+            try
+            {
+                long num = long.Parse(str);
+                Console.WriteLine("Windy");
+                return;
+            }
+            catch (Exception)
+            {
+
+            }
+            try
+            {
+                double num = double.Parse(str);
+                Console.WriteLine("Rainy");
+                return;
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+    }
+}
+
+//06. Catch the Thief
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string id = Console.ReadLine();
+            int n = int.Parse(Console.ReadLine());
+            if (id.Equals("sbyte"))
+            {
+                sbyte finalnum = sbyte.MinValue;
+                for (int i = 1; i < n + 1; i++)
+                {
+                    try
+                    {
+                        sbyte num = sbyte.Parse(Console.ReadLine());
+                        if (num > finalnum && num<=sbyte.MaxValue)
+                        {
+                            finalnum = num;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                }
+                Console.WriteLine(finalnum);
+            }
+            else if (id.Equals("int"))
+            {
+                int finalnum = int.MinValue;
+                for (int i = 1; i < n + 1; i++)
+                {
+                    try
+                    {
+                        int num = int.Parse(Console.ReadLine());
+                        if (num > finalnum && num <= int.MaxValue)
+                        {
+                            finalnum = num;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                }
+                Console.WriteLine(finalnum);
+            }
+            else if (id.Equals("long"))
+            {
+                long finalnum = long.MinValue;
+                for (int i = 1; i < n + 1; i++)
+                {
+                    try
+                    {
+                        long num = long.Parse(Console.ReadLine());
+                        if (num > finalnum && num <= long.MaxValue)
+                        {
+                            finalnum = num;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                }
+                Console.WriteLine(finalnum);
+            }
+        }
+    }
+}
+
+//07. Sentence the Thief
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string id = Console.ReadLine();
+            int n = int.Parse(Console.ReadLine());
+            if (id.Equals("sbyte"))
+            {
+                sbyte finalnum = sbyte.MinValue;
+                for (int i = 1; i < n + 1; i++)
+                {
+                    try
+                    {
+                        sbyte num = sbyte.Parse(Console.ReadLine());
+                        if (num > finalnum && num <= sbyte.MaxValue)
+                        {
+                            finalnum = num;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                }
+                Console.WriteLine("Prisoner with id {0} is sentenced to 1 year", finalnum);
+            }
+            else if (id.Equals("int"))
+            {
+                int finalnum = int.MinValue;
+                for (int i = 1; i < n + 1; i++)
+                {
+                    try
+                    {
+                        int num = int.Parse(Console.ReadLine());
+                        if (num > finalnum && num <= int.MaxValue)
+                        {
+                            finalnum = num;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                }
+                if (finalnum > 0)
+                {
+                    int years = (int)Math.Ceiling(Math.Abs(finalnum) / 127.0);
+                    if (years == 1)
+                    {
+                        Console.WriteLine("Prisoner with id {0} is sentenced to 1 year", finalnum);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Prisoner with id {0} is sentenced to {1} years", finalnum, years);
+                    }
+
+                }
+                else
+                {
+                    int years = (int)Math.Ceiling(Math.Abs(finalnum) / 128.0);
+                    if (years == 1)
+                    {
+                        Console.WriteLine("Prisoner with id {0} is sentenced to 1 year", finalnum);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Prisoner with id {0} is sentenced to {1} years", finalnum, years);
+                    }
+                }
+
+
+            }
+            else if (id.Equals("long"))
+            {
+                long finalnum = long.MinValue;
+                for (int i = 1; i < n + 1; i++)
+                {
+                    try
+                    {
+                        long num = long.Parse(Console.ReadLine());
+                        if (num > finalnum && num <= long.MaxValue)
+                        {
+                            finalnum = num;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                }
+                if (finalnum > 0)
+                {
+                    long years = (long)Math.Ceiling(Math.Abs(finalnum) / 127.0);
+                    if (years == 1)
+                    {
+                        Console.WriteLine("Prisoner with id {0} is sentenced to 1 year", finalnum);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Prisoner with id {0} is sentenced to {1} years", finalnum, years);
+                    }
+                }
+                else
+                {
+                    long years = (long)Math.Ceiling(Math.Abs(finalnum) / 128.0);
+                    if (years == 1)
+                    {
+                        Console.WriteLine("Prisoner with id {0} is sentenced to 1 year", finalnum);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Prisoner with id {0} is sentenced to {1} years", finalnum, years);
+                    }
+                }
+            }
+        }
+    }
+}
+
+//08. House Builder
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ulong a = ulong.Parse(Console.ReadLine());
+            ulong b = ulong.Parse(Console.ReadLine());
+            
+            if (a > b)
+            {
+                var sum = 4 * b + 10 * a;
+                Console.WriteLine(sum);
+            }
+            else
+            {
+                var sum = 4 * a + 10 * b;
+                Console.WriteLine(sum);
+            }
+        }
+    }
+}
+
+//09. Make a Word
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            string str = null;
+            for (int i = 1; i<n+1; i++)
+            {
+                str += Console.ReadLine();
+            }
+            Console.WriteLine($"The word is: {str}");
+        }
+    }
+}
+
+//10. Sum of Chars
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int sum = 0;
+            for (int i = 1; i<n+1; i++)
+            {
+                sum += (int)char.Parse(Console.ReadLine());
+            }
+            Console.WriteLine($"The sum equals: {sum}");
+        }
+    }
+}
+
+//11. String Concatenation
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            char delimiter = char.Parse(Console.ReadLine());
+            bool isEven = "even".Equals(Console.ReadLine());
+            int n = int.Parse(Console.ReadLine());
+            string result = null;
+            for (int i=1; i<n+1; i++)
+            {
+                string toAttach = Console.ReadLine();
+                if (i%2==0 && isEven)
+                {
+                    result += toAttach + delimiter;
+                }
+                else if (i%2==1 && !isEven)
+                {
+                    result += toAttach + delimiter;
+                }
+            }
+            Console.WriteLine(result.Remove(result.Length-1));
+        }
+    }
+}
+
+//12. Beer Kegs
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            string biggestKeg = null;
+            double biggestVol = 0;
+            for (int i =1; i<=n; i++)
+            {
+                string model = Console.ReadLine();
+                float r = float.Parse(Console.ReadLine());
+                int h = int.Parse(Console.ReadLine());
+                double vol = Math.PI * r * r * h;
+                if (vol>biggestVol)
+                {
+                    biggestVol = vol;
+                    biggestKeg = model;
+                }
+            }
+            Console.WriteLine(biggestKeg);
+        }
+    }
+}
+
+//13. Decrypting Message
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int key = int.Parse(Console.ReadLine());
+            int n = int.Parse(Console.ReadLine());
+            string message = null;
+            for (int i=1; i<n+1; i++)
+            {
+                message += (char)((int)char.Parse(Console.ReadLine()) + key);
+            }
+            Console.WriteLine(message);
+        }
+    }
+}
+
+//14. Boat Simulator
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            char char1 = char.Parse(Console.ReadLine());
+            char char2 = char.Parse(Console.ReadLine());
+            int num1 = (int)char1;
+            int num2 = (int)char2;
+            int length1 = 0;
+            int length2 = 0;
+            int n = int.Parse(Console.ReadLine());
+            for (int i =1; i<n+1; i++)
+            {
+                string input = Console.ReadLine();
+                if (input.Equals("UPGRADE"))
+                    {
+                    num1 += 3;
+                    num2 += 3;
+                    char1 = (char)num1;
+                    char2 = (char)num2;
+                }
+                else if (i%2==1)
+                {
+                    length1 += input.Length;
+                    if (length1>=50)
+                    {
+                        Console.WriteLine(char1);
+                        return;
+                    }
+                }
+                else
+                {
+                    length2 += input.Length;
+                    if (length2 >= 50)
+                    {
+                        Console.WriteLine(char2);
+                        return;
+                    }
+                }
+            }
+            if (length1>length2)
+            {
+                Console.WriteLine(char1);
+            }
+            else
+            {
+                Console.WriteLine(char2);
+            }
+        }
+    }
+}
+
+//15. Balanced Brackets
+using System;
+
+namespace Problem_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            string str = null;
+            int isBalanced = 1;
+            for (int i =1; i<n+1; i++)
+            {
+                string input = Console.ReadLine();
+                if (input.Equals("("))
+                {
+                    str+= input;
+                }
+                else if (input.Equals(")"))
+                {
+                    str += input;
+                }
+            }
+            for (int i = 0; i < str.Length; i += 2)
+            {
+                if (str[i].Equals(')'))
+                {
+                    Console.WriteLine("UNBALANCED");
+                    return;
+                }
+            }
+            for (int i = 1; i < str.Length; i += 2)
+            {
+                if (str[i].Equals('('))
+                {
+                    Console.WriteLine("UNBALANCED");
+                    return;
+                }
+            }
+            if (str[str.Length-1].Equals('('))
+            {
+                Console.WriteLine("UNBALANCED");
+                return;
+            }
+                Console.WriteLine("BALANCED");
+        }
+    }
+}

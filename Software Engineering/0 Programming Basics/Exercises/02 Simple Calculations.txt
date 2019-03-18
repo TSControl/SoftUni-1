@@ -1,0 +1,218 @@
+//01. Square Area
+import java.util.Scanner;
+
+public class p01_SquareArea {
+    public static void main (String[] args){
+        Scanner console = new Scanner(System.in);
+        System.out.println("a = ");
+        int a = Integer.parseInt(console.nextLine());
+        int area = a * a;
+        System.out.println("Square = " + area);
+
+
+    }
+}
+
+//02. Inches to Centimeters
+import java.util.Scanner;
+
+public class p02_InchesToCentimeters {
+    public static void main(String[] args){
+        Scanner console = new Scanner(System.in);
+        System.out.println("inches = ");
+        double inches = Double.parseDouble(console.nextLine());
+        double centimeters = inches * 2.54;
+        System.out.println("centimeters = " + centimeters);
+    }
+}
+
+//03. Greeting by Name
+import java.util.Scanner;
+
+public class Greeting {
+    public static void main (String[] args){
+        Scanner console = new Scanner(System.in);
+        //System.out.println("Enter your name: ");
+        String name = console.nextLine();
+        System.out.printf("Hello, %s!", name);
+    }
+}
+
+//04. Concatenate Data
+import java.util.Scanner;
+
+public class ConcatenateData {
+    public static void main (String[] args){
+        Scanner console = new Scanner(System.in);
+        String firstName = console.nextLine();
+        String lastName = console.nextLine();
+        int age = Integer.parseInt(console.nextLine());
+        String town = console.nextLine();
+        System.out.printf("You are %s %s, a %s-years old person from %s.", firstName, lastName, age, town);
+    }
+}
+
+//05. Trapeziod Area
+import java.util.Scanner;
+
+public class TrapezoidArea {
+    public static void main(String[] args){
+        Scanner console = new Scanner(System.in);
+        double b1 = Double.parseDouble(console.nextLine());
+        double b2 = Double.parseDouble(console.nextLine());
+        double h = Double.parseDouble(console.nextLine());
+        double area = (b1+b2)*h/2;
+        System.out.println("Trapezoid area = " + area);
+    }
+}
+
+//06. Circle Area and Perimeter
+import java.util.Scanner;
+public class CircleAreaAndPerimeter {
+    public static void main (String[] args){
+        Scanner console = new Scanner(System.in);
+        double r = Double.parseDouble(console.nextLine());
+        double area = Math.PI * r * r;
+        double perimeter = 2 * Math.PI * r;
+        System.out.println("Area is " + area);
+        System.out.println("Perimeter is " + perimeter);
+    }
+}
+
+//07. 2D Rectangle Area
+import java.util.Scanner;
+
+public class RectangleArea {
+    public static void main (String[] args){
+    Scanner console = new Scanner(System.in);
+        double x1 = Double.parseDouble(console.nextLine());
+        double y1 = Double.parseDouble(console.nextLine());
+        double x2 = Double.parseDouble(console.nextLine());
+        double y2 = Double.parseDouble(console.nextLine());
+        double area = Math.abs((x2-x1)*(y2-y1));
+        double perimeter = 2*(Math.abs(x2-x1)+Math.abs(y2-y1));
+        System.out.println(area);
+        System.out.println(perimeter);
+
+
+    }
+}
+
+//08. Triangle Area
+import java.util.Scanner;
+public class TriangleArea {
+    public static void main(String[] abs){
+        Scanner console = new Scanner(System.in);
+        double a = Double.parseDouble(console.nextLine());
+        double h = Double.parseDouble(console.nextLine());
+        double area = a*h/2;
+        System.out.printf("Triangle area = %.2f", area);
+    }
+}
+
+//09. Celsius to Fahrenheit
+import java.util.Scanner;
+public class CelsiusToFahrenheit {
+    public static void main (String[] args){
+        Scanner console = new Scanner(System.in);
+        double celsius = Double.parseDouble(console.nextLine());
+        double fahrenheit = celsius*1.8+32;
+        System.out.printf("%.2f", fahrenheit);
+    }
+}
+
+//10. Radians to Degrees
+import java.util.Scanner;
+public class RadiansToDegrees {
+    public static void main (String[] args){
+        Scanner console = new Scanner(System.in);
+        double rad = Double.parseDouble(console.nextLine());
+        double deg = rad*180/Math.PI;
+        System.out.printf("%.0f", deg);
+    }
+}
+
+//11. USD to BGN
+import java.util.Scanner;
+public class UsdToBgn {
+    public static void main ( String[] args){
+        Scanner console = new Scanner(System.in);
+        double usd = Double.parseDouble(console.nextLine());
+        double bgn = usd*1.79549;
+        System.out.printf("%.2f", bgn);
+    }
+}
+
+//12. Currency Converter
+import java.util.Scanner;
+
+public class CurrencyConverter {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        double sum = Double.parseDouble(console.nextLine());
+        String a = console.nextLine();
+        String b = console.nextLine();
+        if (a.equals("BGN")) {
+            if (b.equals("USD")) {
+                double result = sum / 1.79549;
+                System.out.println(result + " USD");
+            } else if (b.equals("EUR")) {
+                double result = sum / 1.95583;
+                System.out.println((result + " EUR"));
+            } else if (b.equals("GBP")) {
+                double result = sum / 2.53405;
+                System.out.println((result + " GBP"));
+            }
+        } else if (a.equals("USD")) {
+            if (b.equals("BGN")) {
+                double result = sum * 1.79549;
+                System.out.println(result + " BGN");
+            } else if (b.equals("EUR")) {
+                double result = sum * 0.91802;
+                System.out.println((result + " EUR"));
+            } else if (b.equals("GBP")) {
+                double result = sum * 1.29564;
+                System.out.println((result + " GBP"));
+            }
+        } else if (a.equals("EUR")) {
+            if (b == "USD") {
+                double result = sum / 0.91802;
+                System.out.println(result + " USD");
+            } else if (b.equals("BGN")) {
+                double result = sum * 1.95583;
+                System.out.println((result + " BGN"));
+            } else if (b.equals("GBP")) {
+                double result = sum * 0.77182;
+                System.out.println((result + " GBP"));
+            }
+        } else if (a.equals("GBP")) {
+            if (b.equals("USD")) {
+                double result = sum / 0.70855;
+                System.out.println(result + " USD");
+            } else if (b.equals("EUR")) {
+                double result = sum * 1.26967;
+                System.out.println((result + " EUR"));
+            } else if (b.equals("BGN")) {
+                double result = sum * 2.53405;
+                System.out.println((result + " BGN"));
+            }
+        }
+    }
+}
+
+//13. 1000 Days After Birth
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class DaysAfterBirth {
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        String date = console.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate localDate = LocalDate.parse(date, formatter);
+        LocalDate newDate = localDate.plusDays(999);
+        System.out.println(formatter.format(newDate));
+    }
+}
+

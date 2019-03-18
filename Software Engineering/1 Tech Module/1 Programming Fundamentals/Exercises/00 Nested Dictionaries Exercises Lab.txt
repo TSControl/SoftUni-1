@@ -1,0 +1,133 @@
+//01. Average Student Grades
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var dic = new Dictionary<string, List<float>>();
+            var n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                var tokens = Console.ReadLine().Split().ToArray();
+                var name = tokens[0];
+                var grade = float.Parse(tokens[1]);
+                if (!dic.ContainsKey(name))
+                    dic.Add(name, new List<float>());
+                dic[name].Add(grade);
+            }
+            foreach (var kvp in dic)
+            {
+                Console.Write("{0} -> ", kvp.Key);
+                foreach (var grade in kvp.Value)
+                    Console.Write("{0:F2} ", grade);
+                Console.WriteLine("(avg: {0:F2})", kvp.Value.Average());
+            }
+        }
+    }
+}
+
+//02. Cities by Continent and Country
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var dic = new Dictionary<string, Dictionary<string, List<string>>>();
+            var n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                var tokens = Console.ReadLine().Split().ToArray();
+                var continent = tokens[0];
+                var country = tokens[1];
+                var city = tokens[2];
+                if (!dic.ContainsKey(continent))
+                    dic.Add(continent, new Dictionary<string, List<string>>());
+                if (!dic[continent].ContainsKey(country))
+                    dic[continent][country] = new List<string>();
+                dic[continent][country].Add(city);
+
+            }
+            foreach (var continent in dic)
+            {
+                Console.WriteLine($"{continent.Key}:");
+                foreach (var kvp in continent.Value)
+                    Console.WriteLine($"{kvp.Key} -> {string.Join(", ", kvp.Value)}");
+            }
+        }
+    }
+}
+
+//03. Record Unique Names
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var n = int.Parse(Console.ReadLine());
+            var list = new HashSet<string>();
+            for (int i = 0; i < n; i++)
+                list.Add(Console.ReadLine());
+            foreach (var str in list.Distinct())
+                Console.WriteLine(str);
+        }
+    }
+}
+
+//04. Group Continents, Countries and Cities
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var dic = new SortedDictionary<string, SortedDictionary<string, SortedSet<string>>>();
+            var n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                var tokens = Console.ReadLine().Split().ToArray();
+                var continent = tokens[0];
+                var country = tokens[1];
+                var city = tokens[2];
+                if (!dic.ContainsKey(continent))
+                    dic.Add(continent, new SortedDictionary<string, SortedSet<string>>());
+                if (!dic[continent].ContainsKey(country))
+                    dic[continent][country] = new SortedSet<string>();
+                dic[continent][country].Add(city);
+
+            }
+            foreach (var continent in dic)
+            {
+                Console.WriteLine($"{continent.Key}:");
+                foreach (var kvp in continent.Value)
+                    Console.WriteLine($"{kvp.Key} -> {string.Join(", ", kvp.Value)}");
+            }
+        }
+    }
+}

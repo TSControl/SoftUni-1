@@ -1,0 +1,411 @@
+//01. Largest Common End
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string>  arr1 = Console.ReadLine().Trim().Split(' ').ToList();
+            List<string>  arr2 = Console.ReadLine().Trim().Split(' ').ToList();
+            var counter1 = 0;
+            var counter2 = 0;
+            for (int i = 0; i<Math.Min(arr1.Count, arr2.Count); i++)
+            {
+                if (arr1[i].Equals(arr2[i]))
+                {
+                    counter1++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            arr1.Reverse();
+            arr2.Reverse();
+            for (int i = 0; i < Math.Min(arr1.Count, arr2.Count); i++)
+            {
+                if (arr1[i].Equals(arr2[i]))
+                {
+                    counter2++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Console.WriteLine(Math.Max(counter1, counter2));
+        }
+    }
+}
+
+//02. Rotate and Sum
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] nums = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            int k = int.Parse(Console.ReadLine());
+            int[] sum = new int[nums.Length];
+            for (int r = 1; r<=k; r++)
+            {
+                int[] rotatedArr = new int[nums.Length];
+                for (int i = 0; i<nums.Length; i++)
+                {
+                    rotatedArr[(i + r) % nums.Length] = nums[i];
+                }
+                for (int i = 0; i<nums.Length; i++)
+                {
+                    sum[i] += rotatedArr[i];
+                }
+            }
+            Console.WriteLine(String.Join(" ", sum));
+        }
+    }
+}
+
+//03. Fold and Sum
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            var firstRow = new List<int>();
+            var secondRow = new List<int>();
+            var sumRow = new List<int>();
+
+            for (int i = nums.Count / 4-1; i>-1; i--)
+            {
+                firstRow.Add(nums[i]);
+            }
+            for (int i = nums.Count - 1; i >= nums.Count*3/4; i--)
+            {
+                firstRow.Add(nums[i]);
+            }
+            for (int i = nums.Count/4; i < nums.Count * 3 / 4; i++)
+            {
+                secondRow.Add(nums[i]);
+            }
+            for (int i = 0; i<nums.Count/2; i++)
+            {
+               sumRow.Add(firstRow[i] + secondRow[i]);
+            }
+            Console.WriteLine(String.Join(" ", sumRow));
+        }
+    }
+}
+
+//04. Sieve of Eratosthenes
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            long n = long.Parse(Console.ReadLine());
+            List<bool> primesList = new List<bool>();
+            for (int i = 0; i < n + 1; i++)
+            {
+                primesList.Add(true);
+            }
+            primesList[0] = primesList[1] = false;
+            for (int i = 2; i < n + 1; i++)
+            {
+                if (primesList[i] == true)
+                {
+                    Console.Write($"{i} ");
+                    for (int j = 2; j * i < n+1; j++)
+                    {
+                        primesList[j * i] = false;
+                    }
+                }
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+//05. Compare Char Arrays
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> list1 = Console.ReadLine().Trim().Split(' ').ToList();
+            List<string> list2 = Console.ReadLine().Trim().Split(' ').ToList();
+            string str1 = null;
+            string str2 = null;
+            for (int i = 0; i<list1.Count; i++)
+            {
+                str1 += list1[i];
+            }
+            for (int i = 0; i < list2.Count; i++)
+            {
+                str2 += list2[i];
+            }
+            var output = new List<string>();
+            output.Add(str1);
+            output.Add(str2);
+            output.Sort();
+            Console.WriteLine(String.Join("\n", output));
+        }
+    }
+}
+
+//06. Max Sequence of Equal Elements
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            int start = 0;
+            int bestStart = start;
+            int len = 1;
+            int bestLen = len;
+            int n = nums.Count;
+            for (int pos = 1; pos<n; pos++)
+            {
+                if (nums[pos]==nums[pos-1])
+                {
+                    len++;
+                }
+                else
+                {
+                    start = pos;
+                    len = 1;
+                }
+                if (len>bestLen)
+                {
+                    bestLen = len;
+                    bestStart = start;
+                }
+                
+            }
+            for (int i = bestStart; i<bestStart+bestLen; i++)
+            {
+                Console.Write($"{nums[i]} ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+//07. Max Sequence of Increasing Elements
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            int start = 0;
+            int bestStart = start;
+            int len = 1;
+            int bestLen = len;
+            int n = nums.Count;
+            for (int pos = 1; pos<n; pos++)
+            {
+                if (nums[pos]>nums[pos-1])
+                {
+                    len++;
+                }
+                else
+                {
+                    start = pos;
+                    len = 1;
+                }
+                if (len>bestLen)
+                {
+                    bestLen = len;
+                    bestStart = start;
+                }
+                
+            }
+            for (int i = bestStart; i<bestStart+bestLen; i++)
+            {
+                Console.Write($"{nums[i]} ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+//08. Most Frequent Number
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToList();
+            int maxCounter = 1;
+            int maxElement = nums[0];
+            for (int j = 0; j < nums.Count; j++)
+            {
+                int element = nums[j]; 
+                int counter = 0;
+                for (int i = 0; i<nums.Count; i++)
+                {
+                    if (nums[i]==element)
+                    {
+                        counter++;
+                    }
+                }
+                if (counter>maxCounter)
+                {
+                    maxCounter = counter;
+                    maxElement = element;
+                }
+            }
+            Console.WriteLine(maxElement);
+        }
+    }
+}
+
+//09. Index of Letters
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            char[] chArr = Console.ReadLine().ToCharArray();
+            for (int i = 0; i<chArr.Length; i++)
+            {
+                Console.WriteLine("{0} -> {1}", chArr[i], (int)chArr[i]-97);
+            }
+        }
+    }
+}
+
+//10. Pairs by Difference
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] nums = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+            int diff = int.Parse(Console.ReadLine());
+            int count = 0;
+            for (int i = 0; i<nums.Length; i++)
+            {
+                for (int j = i+1; j<nums.Length; j++)
+                {
+                    if (Math.Abs(nums[i]-nums[j])==diff)
+                    {
+                        count++;
+                    }
+                }
+            }
+            Console.WriteLine(count);
+        }
+    }
+}
+
+//11. Equal Sums
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lecture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var nums = Console.ReadLine().Split(' ').Select(int.Parse).ToList();
+            nums.Insert(0, 0);
+            nums.Add(0);
+
+            for (int i = 0; i < nums.Count; i++)
+            {
+                int leftSum = 0;
+                int rightSum = 0;
+                for (int j = 0; j <= i - 1; j++)
+                {
+                    leftSum += nums[j];
+                }
+                for (int k = i + 1; k < nums.Count; k++)
+                {
+                    rightSum += nums[k];
+                }
+                if (leftSum == rightSum)
+                {
+                    Console.WriteLine(i-1);
+                    return;
+                }
+            }
+            Console.WriteLine("no");
+
+        }
+    }
+}

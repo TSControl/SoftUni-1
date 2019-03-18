@@ -1,0 +1,640 @@
+//01. Phonebook
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var phonebook = new Dictionary<string, string>();
+            while (true)
+            {
+                List<string> nums = Console.ReadLine().Trim().Split(' ').ToList();
+                if (nums[0].Equals("END"))
+                {
+                    return;
+                }
+                else if (nums[0].Equals("A"))
+                {
+                    if (!phonebook.ContainsKey(nums[1]))
+                    {
+                        phonebook.Add(nums[1], nums[2]);
+                    }
+                    else
+                    {
+                        phonebook.Remove(nums[1]);
+                        phonebook.Add(nums[1], nums[2]);
+                    }
+                }
+                else if (nums[0].Equals("S"))
+                {
+                    if (phonebook.ContainsKey(nums[1]))
+                    {
+                        Console.WriteLine("{0} -> {1}", nums[1], phonebook[nums[1]]);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Contact {nums[1]} does not exist.");
+                    }
+                }
+            }
+        }
+    }
+}
+
+//02. Phonebook Upgrade
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var phonebook = new SortedDictionary<string, string>();
+            while (true)
+            {
+                List<string> nums = Console.ReadLine().Trim().Split(' ').ToList();
+                if (nums[0].Equals("END"))
+                {
+                    return;
+                }
+                else if (nums[0].Equals("A"))
+                {
+                    if (!phonebook.ContainsKey(nums[1]))
+                    {
+                        phonebook.Add(nums[1], nums[2]);
+                    }
+                    else
+                    {
+                        phonebook.Remove(nums[1]);
+                        phonebook.Add(nums[1], nums[2]);
+                    }
+                }
+                else if (nums[0].Equals("S"))
+                {
+                    if (phonebook.ContainsKey(nums[1]))
+                    {
+                        Console.WriteLine("{0} -> {1}", nums[1], phonebook[nums[1]]);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Contact {nums[1]} does not exist.");
+                    }
+                }
+                else if (nums[0].Equals("ListAll"))
+                {
+                    foreach (var pair in phonebook)
+                        Console.WriteLine("{0} -> {1}", pair.Key, pair.Value);
+                }
+            }
+        }
+    }
+}
+
+//03. A Miner Task
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var resourseBook = new Dictionary<string, int>();
+            while (true)
+            {
+                string material = Console.ReadLine();
+                if (material.Equals("stop"))
+                {
+                    foreach (var pair in resourseBook)
+                        Console.WriteLine("{0} -> {1}", pair.Key, pair.Value);
+                    return;
+                }
+                else
+                {
+                    if (!resourseBook.ContainsKey(material))
+                    {
+                        resourseBook.Add(material, int.Parse(Console.ReadLine()));
+                    }
+                    else
+                    {
+                        resourseBook[material] += int.Parse(Console.ReadLine());
+                    }
+                }
+                
+                
+            }
+        }
+    }
+}
+
+//04. Fix Emails
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var emailBook = new Dictionary<string, string>();
+            while (true)
+            {
+                string key = Console.ReadLine();
+                if (key.Equals("stop"))
+                {
+                    foreach (var pair in emailBook)
+                        Console.WriteLine("{0} -> {1}", pair.Key, pair.Value);
+                    return;
+                }
+                else
+                {
+                    if (!emailBook.ContainsKey(key))
+                    {
+                        string value = Console.ReadLine();
+                        if (!(value.EndsWith("us") || value.EndsWith("uk")))
+                        {
+                            emailBook.Add(key, value);
+                        }
+                        //else - break ?
+                    }
+                    //else - duplicate mails
+                }
+                
+            }
+        }
+    }
+}
+
+//05. Hands of Cards
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var dic = new Dictionary<string, List<string>>();
+
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                List<string> line = input.Trim().Split(' ', ',').ToList();
+                line.RemoveAll(string.IsNullOrWhiteSpace);
+              
+                var line1 = input.Trim().Split(':').ToList();
+                string key = line1[0];
+                if (key.Equals("JOKER"))
+                {
+                    foreach (var pair in dic)
+                        Console.WriteLine("{0}: {1}", pair.Key, Numerate(pair.Value));
+                    return;
+                }
+                else
+                {
+                    if (!dic.ContainsKey(key)) //Add
+                    {
+                        dic.Add(key, new List<string>());
+                        for (int i = 1; i < line.Count; i++)
+                        {
+                            dic[key].Add(line[i]);
+                        }
+                    }
+                    else //dic contains key - only summing
+                    {
+                        for (int i = 1; i < line.Count; i++)
+                        {
+                            dic[key].Add(line[i]);
+                        }
+                    }
+                }
+
+            }
+        }
+        static long Numerate(List<string> list)
+        {
+            List<string> noDupes = list.Distinct().ToList();
+            list.Clear();
+            for (int j = 0; j < noDupes.Count; j++)
+            {
+                list.Add(noDupes[j]);
+            }
+            long result = 0;
+            var num1 = new Dictionary<string, int>();
+            num1.Add("2", 2);
+            num1.Add("3", 3);
+            num1.Add("4", 4);
+            num1.Add("5", 5);
+            num1.Add("6", 6);
+            num1.Add("7", 7);
+            num1.Add("8", 8);
+            num1.Add("9", 9);
+            num1.Add("10", 10);
+            num1.Add("J", 11);
+            num1.Add("Q", 12);
+            num1.Add("K", 13);
+            num1.Add("A", 14);
+            var num2 = new Dictionary<string, int>();
+            num2.Add("S", 4);
+            num2.Add("H", 3);
+            num2.Add("D", 2);
+            num2.Add("C", 1);
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].Length == 2)
+                {
+                    result += num1[list[i][0].ToString()] * num2[list[i][1].ToString()];
+                }
+                else if (list[i].Length == 3)
+                {
+                    result += num1[(list[i][0].ToString() + list[i][1].ToString())] * num2[list[i][2].ToString()];
+                }
+                else if (list[i] == null)
+                {
+                    return result;
+                }
+
+            }
+            return result;
+        }
+    }
+}
+
+//06. User Logs
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var input = Console.ReadLine();
+            var dict = new SortedDictionary<string, List<string>>(); //user, list of IPs
+            while (input!="end")
+            {
+                var listOfCommands = input.Split().ToList();
+                var ip = string.Join("", listOfCommands[0].Skip(3));
+                var user = string.Join("", listOfCommands[2].Skip(5));
+                //Console.WriteLine(ip);
+                //Console.WriteLine(user);
+                if (!dict.ContainsKey(user))
+                {
+                    dict[user] = new List<string>();
+                    dict[user].Add(ip);
+                }
+                else
+                {
+                    dict[user].Add(ip);
+                }
+
+                input = Console.ReadLine();
+            }
+            //do shit in case of end
+            foreach (var element in dict)
+            {
+                Console.WriteLine($"{element.Key}:");
+                var dictIpCount = new Dictionary<string, int>(); //IP, IP count
+                foreach (var w in element.Value) //dictIpCount[everyIP]=0;
+                    dictIpCount[w] = 0;
+                for (int i = 0; i<element.Value.Count(); i++) //IP count
+                {
+                    dictIpCount[element.Value[i]]++;
+                }
+                var output = new List<string>();
+                foreach (var w in dictIpCount)
+                {
+                    output.Add($"{w.Key} => {w.Value}");
+                }
+                Console.Write(string.Join(", ", output)+ ".\n");
+            }
+        }
+    }
+}
+
+//07. Population Counter
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PopulationCounter
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var populations = new Dictionary<string, Dictionary<string, long>>();
+            string input = Console.ReadLine();
+            while (input!="report")
+            {
+                var commands = input.Split('|').ToArray();
+                var city = commands[0];
+                var country = commands[1];
+                var population = long.Parse(commands[2]);
+                if (!populations.ContainsKey(country))
+                {
+                    populations.Add(country, new Dictionary<string, long>());
+                }
+                if (!populations[country].ContainsKey(city))
+                {
+                    populations[country].Add(city, 0);
+                }
+                populations[country][city] += population;
+                input = Console.ReadLine();
+            }
+            foreach (var item in populations.OrderByDescending(c => c.Value.Values.Sum()))
+            {
+                Console.WriteLine($"{item.Key} (total population: {item.Value.Values.Sum()})");
+                foreach (var cities in item.Value.OrderByDescending(c => c.Value))
+                {
+                    Console.WriteLine($"=>{cities.Key}: {cities.Value}");
+                }
+            }
+        }
+    }
+}
+
+//08. Logs Aggregator
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var dic = new SortedDictionary<string, SortedDictionary<string, int>>();
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i<n; i++)
+            {
+                var tokens = Console.ReadLine().Split().ToArray();
+                var ip = tokens[0];
+                var name = tokens[1];
+                var duration = int.Parse(tokens[2]);
+                if (!dic.ContainsKey(name))
+                {
+                    dic[name] = new SortedDictionary<string, int>();
+                    //dic[name][ip] = 0;
+                }
+                if (!dic[name].ContainsKey(ip))
+                {
+                    dic[name][ip] = 0;
+                }
+                    dic[name][ip] += duration;
+
+                
+            }
+            foreach (var item in dic)
+            {
+                Console.Write(item.Key + ": " + item.Value.Values.Sum() + " [");
+                Console.Write(string.Join(", ", item.Value.Keys));
+                Console.WriteLine("]");
+            }
+        }
+    }
+}
+
+//09. Legendary Farming
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //string input = Console.ReadLine();
+            
+            var dicKeyMaterials = new Dictionary<string, long>();
+            var dic = new SortedDictionary<string, long>();
+            dicKeyMaterials["shards"] = 0;
+            dicKeyMaterials["fragments"] = 0;
+            dicKeyMaterials["motes"] = 0;
+            while (true)
+            {
+                var tokens = Console.ReadLine().Split().ToList();
+                for (int i = 0; i<tokens.Count-1; i+=2)
+                {
+                    var count = long.Parse(tokens[i]);
+                    var material = tokens[i + 1].ToLower();
+                    if (material != "shards" && material != "fragments" && material != "motes")
+                    {
+                        if (!dic.ContainsKey(material))
+                        {
+                            dic[material] = 0;
+                        }
+                        dic[material] += count;
+                    }
+                    else
+                    {
+                        dicKeyMaterials[material] += count;
+                    }
+                    if (dicKeyMaterials["shards"] >= 250)
+                    {
+                        Console.WriteLine("Shadowmourne obtained!");
+                        dicKeyMaterials["shards"] -= 250;
+                        foreach (var item in dicKeyMaterials.OrderByDescending(item => item.Value).ThenBy(item => item.Key))
+                        {
+                            Console.WriteLine("{0}: {1}", item.Key, item.Value);
+                        }
+                        foreach (var junk in dic)
+                        {
+                            Console.WriteLine("{0}: {1}", junk.Key, junk.Value);
+                        }
+                        return;
+                    }
+                    if (dicKeyMaterials["fragments"] >= 250)
+                    {
+                        Console.WriteLine("Valanyr obtained!");
+                        dicKeyMaterials["fragments"] -= 250;
+                        foreach (var item in dicKeyMaterials.OrderByDescending(item => item.Value).ThenBy(item => item.Key))
+                        {
+                            Console.WriteLine("{0}: {1}", item.Key, item.Value);
+                        }
+                        foreach (var junk in dic)
+                        {
+                            Console.WriteLine("{0}: {1}", junk.Key, junk.Value);
+                        }
+                        return;
+                    }
+                    if (dicKeyMaterials["motes"] >= 250)
+                    {
+                        Console.WriteLine("Dragonwrath obtained!");
+                        dicKeyMaterials["motes"] -= 250;
+                        foreach (var item in dicKeyMaterials.OrderByDescending(item => item.Value).ThenBy(item => item.Key))
+                        {
+                            Console.WriteLine("{0}: {1}", item.Key, item.Value);
+                        }
+                        foreach (var junk in dic)
+                        {
+                            Console.WriteLine("{0}: {1}", junk.Key, junk.Value);
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//10. Сръбско Unleashed
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ToDelete
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Here:
+            string input = Console.ReadLine();
+            var dic = new Dictionary<string, Dictionary<string, long>>();
+            
+            while (input != "End")
+            {
+                try
+                {
+                    var tokens1 = input.Split('@').ToArray();
+                    string name = tokens1[0]; //name
+                    if (name == name.Trim())
+                        goto Here;
+                    var tokens2 = tokens1[1].Split().ToArray();
+                    var ticketCount = int.Parse(tokens2[tokens2.Length - 1]);
+                    var ticketPrice = int.Parse(tokens2[tokens2.Length - 2]);
+                    var placeNameList = tokens2.Take(tokens2.Length - 2).ToArray();//place name list
+                                                                                   //turn placeNameList into placeName string
+                    var placeName = string.Join(" ", placeNameList);
+                    //
+                    if (!dic.ContainsKey(placeName))
+                        dic[placeName] = new Dictionary<string, long>();
+                    if (!dic[placeName].ContainsKey(name))
+                        dic[placeName][name] = 0;
+                    dic[placeName][name] += ticketCount * ticketPrice;
+                    Here:
+                    input = Console.ReadLine();
+                }
+                catch
+                {
+                    input = Console.ReadLine();
+                }
+                
+            }
+            //do shit in case of End
+            foreach (var item in dic)
+            {
+                Console.WriteLine(item.Key);
+                var sortedDic = item.Value.OrderByDescending(stuff => stuff.Value).ToDictionary(k => k.Key, k=>k.Value);
+                foreach (var kvp in sortedDic)
+                {
+                    Console.WriteLine("#  {0}-> {1}", kvp.Key, kvp.Value);
+
+                }
+            }
+            //REMOVE INVALID INPUT
+        }
+    }
+}
+
+//11. Dragon Army
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Problem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            var dic = new Dictionary<string, SortedDictionary<string, List<double>>>();
+
+            for (int i = 0; i < n; i++)
+            {
+                var dmg = 45d;
+                var health = 250d;
+                var armor = 10d;
+                var tokens = Console.ReadLine().Split().ToArray();
+                var type = tokens[0];
+                var name = tokens[1];
+                if (tokens[2] != "null")
+                {
+                    dmg = double.Parse(tokens[2]);
+                }
+                if (tokens[3] != "null")
+                {
+                    health = double.Parse(tokens[3]);
+                }
+                if (tokens[4] != "null")
+                {
+                    armor = double.Parse(tokens[4]);
+                }
+                if (!dic.ContainsKey(type))
+                    dic[type] = new SortedDictionary<string, List<double>>();
+                if (!dic[type].ContainsKey(name))
+                    dic[type][name] = new List<double>();
+                if (dic.ContainsKey(type) && dic[type].ContainsKey(name))
+                    dic[type][name].Clear();
+                dic[type][name].Add(dmg);
+                dic[type][name].Add(health);
+                dic[type][name].Add(armor);
+            }
+            //do shit after input
+            foreach (var item in dic)
+            {
+                var averageDmg = 0d;
+                var averageHealth = 0d;
+                var averageArmor = 0d;
+                foreach (var kvp in item.Value)
+                {
+                    averageDmg += kvp.Value[0];
+                    averageHealth += kvp.Value[1];
+                    averageArmor += kvp.Value[2];
+                }
+                averageDmg /= item.Value.Keys.Count();
+                averageHealth /= item.Value.Keys.Count();
+                averageArmor /= item.Value.Keys.Count();
+                Console.WriteLine("{0}::({1:F2}/{2:F2}/{3:F2})", item.Key, averageDmg, averageHealth, averageArmor);
+                foreach (var stuff in item.Value)
+                {
+                    Console.WriteLine("-{0} -> damage: {1}, health: {2}, armor: {3}", stuff.Key, stuff.Value[0], stuff.Value[1], stuff.Value[2]);
+                }
+            }
+        }
+    }
+}
